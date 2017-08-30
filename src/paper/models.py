@@ -47,7 +47,6 @@ class Mapping(models.Model):
 	map_id = models.AutoField("Paper ID", db_column = 'map_id', primary_key = True)
 	question_id = models.ForeignKey(Question, db_column = 'question_id', on_delete = models.CASCADE)
 	paper_id = models.ForeignKey(Paper, db_column = 'paper_id', on_delete = models.CASCADE)
-	mapping_count = models.IntegerField("No of Mappings", default = 0)
 
 	class Meta:
 		db_table = 'mapping'
