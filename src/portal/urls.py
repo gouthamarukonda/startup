@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^userprofile/', include('userprofile.urls')),
     url(r'^institute/', include('institute.urls')),
     url(r'^paper/', include('paper.urls')),
+    url(r'^chapter/', include('chapter.urls')),
 ]
