@@ -4,16 +4,16 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.utils.dateparse import parse_datetime
 from datetime import datetime
 
 from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT
+from userprofile.decorators import admin_required
 
 @csrf_exempt
-@staff_member_required
+@admin_required
 def user_approve(request):
 	if request.method == 'POST':
 		try:
@@ -36,7 +36,7 @@ def user_approve(request):
 
 
 @csrf_exempt
-@staff_member_required
+@admin_required
 def user_disapprove(request):
 	if request.method == 'POST':
 		try:
@@ -78,12 +78,13 @@ def user_login(request):
 						if user.userprofile.role == ROLE_TEACHER:
 							return JsonResponse({"status": True , "msg": "teacher login"})
 					else:
-						
 						return JsonResponse({"status": False, "msg": "Credentials don't match"})
 				else:
 					return JsonResponse({"status": False, "msg": "User Doesn't exist"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+
 
 @login_required(login_url='/login/')
 @csrf_exempt
