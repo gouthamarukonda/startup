@@ -10,7 +10,7 @@ class Institute(models.Model):
 	address = models.CharField("Institute Address", max_length = 5000, null = True, blank = True)
 	city = models.CharField("Institute City", max_length = 500, null = True, blank = True)
 	state = models.CharField("Institute State", max_length = 500, null = True, blank = True)
-	phone_no = models.IntegerField("Institute Phone_No", null = True, blank = True)
+	phone_no = models.CharField("Institute Phone_No", max_length = 15, null = True, blank = True)
 	manager_name = models.CharField("Institute Manager name", max_length = 500, null = True, blank = True)
 
 
