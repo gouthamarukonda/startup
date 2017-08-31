@@ -1,7 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
 from .models import StudentProfile
 
+class StudentProfileAdmin(admin.ModelAdmin):
+	list_display = ( 'user', 'standard' , 'boe')
+	fields = ( 'user', 'standard', 'boe')
 
-admin.site.register(StudentProfile)
+admin.site.register(StudentProfile, StudentProfileAdmin)

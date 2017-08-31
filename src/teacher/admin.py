@@ -1,7 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
 from .models import TeacherProfile
 
+class TeacherProfileAdmin(admin.ModelAdmin):
+	list_display = ( 'user', 'experience')
+	fields = ( 'user', 'experience')
 
-admin.site.register(TeacherProfile)
+admin.site.register(TeacherProfile, TeacherProfileAdmin)
