@@ -24,3 +24,8 @@ login / logout
 
 decorators for access control
 
+
+Working hours:
+30 Aug: 6hrs
+31 Aug: 10.5hrs
+1 Sep: 7.5hrs
