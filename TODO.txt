@@ -1,0 +1,26 @@
+parse datetime in userprofile
+
+email unique
+
+handle register when fields missing in request.POST
+
+users active/inactive logic
+
+// user.userprofile.teacher for student?
+
+remove csrf_exempt if csrf token used
+
+password validation
+
+@login_required - login_url
+
+ALLOWED_HOSTS = [*]
+
+. vs __
+
+-----------------------------------------------------
+
+login / logout
+
+decorators for access control
+

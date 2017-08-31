@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from django.utils.dateparse import parse_datetime
 from datetime import datetime
 
-
 from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT
 
 @csrf_exempt
