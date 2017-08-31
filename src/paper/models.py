@@ -5,25 +5,26 @@ from teacher.models import TeacherProfile
 from question.models import Question
 # Create your models here.
 
+
+PM_NO = '0'
+PM_YES = '1'
+
+
+PM_CHOICES = (
+	(PM_YES, 'Yes'),
+	(PM_NO, 'No')
+)
+
+PAPER_DPP = '0'
+PAPER_EXAM = '1'
+
+
+PAPER_CHOICES = (
+	(PAPER_DPP, 'Dpp'),
+	(PAPER_EXAM, 'Exam')
+)
+
 class Paper(models.Model):
-
-	PM_NO = '0'
-	PM_YES = '1'
-
-
-	PM_CHOICES = (
-		(PM_YES, 'Yes'),
-		(PM_NO, 'No')
-	)
-
-	PAPER_DPP = '0'
-	PAPER_EXAM = '1'
-
-
-	PAPER_CHOICES = (
-		(PAPER_DPP, 'Dpp'),
-		(PAPER_EXAM, 'Exam')
-	)
 
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
 	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)

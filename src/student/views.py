@@ -6,7 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.utils.dateparse import parse_datetime
-
 from datetime import datetime
 
 from student.models import StudentProfile, STD_CHOICES
