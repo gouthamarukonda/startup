@@ -3,34 +3,34 @@ from django.http import JsonResponse
 
 from userprofile.models import ROLE_STUDENT, ROLE_TEACHER
 
-@login_required(login_url='/login/')
 def admin_required(func):
+	@login_required(login_url='/login/')
 	def authorize(request, *args, **kwargs):
 		if request.user.is_superuser:
 			return func(request, *args, **kwargs)
-		return JsonResponse({"status": False})
+		return JsonResponse({"status": "Not-Authorized"})
 	return authorize
 
-@login_required(login_url='/login/')
 def admin_teacher_required(func):
+	@login_required(login_url='/login/')
 	def authorize(request, *args, **kwargs):
 		if request.user.is_superuser or request.user.userprofile.role == ROLE_TEACHER:
 			return func(request, *args, **kwargs)
-		return JsonResponse({"status": False})
+		return JsonResponse({"status": "Not-Authorized"})
 	return authorize
 
-@login_required(login_url='/login/')
 def teacher_required(func):
+	@login_required(login_url='/login/')
 	def authorize(request, *args, **kwargs):
 		if request.user.userprofile.role == ROLE_TEACHER:
 			return func(request, *args, **kwargs)
-		return JsonResponse({"status": False})
+		return JsonResponse({"status": "Not-Authorized"})
 	return authorize
 
-@login_required(login_url='/login/')
 def student_required(func):
+	@login_required(login_url='/login/')
 	def authorize(request, *args, **kwargs):
 		if request.user.userprofile.role == ROLE_STUDENT:
 			return func(request, *args, **kwargs)
-		return JsonResponse({"status": False})
+		return JsonResponse({"status": "Not-Authorized"})
 	return authorize

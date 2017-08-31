@@ -10,12 +10,14 @@ from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 
 from paper.models import Paper, PM_CHOICES, PAPER_CHOICES
+from userprofile.decorators import teacher_required
 
-@csrf_exempt	
+@csrf_exempt
+@teacher_required
 def paper_create(request):
 	if request.method == 'POST':
 
-		# try:
+		try:
 			if not request.POST.get("paper_name"):
 				return JsonResponse({"status": False, "msg": "Institute Name shouldn't be empty"})
 			
@@ -37,7 +39,7 @@ def paper_create(request):
 				paper.save()
 				return JsonResponse({"status": True, "msg": "Paper Registered Successfully"})
 			except:
-				return JsonResponse({"status": False, "msg": "Internal Server Error 2"})
+				return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
-		# except:
-		# 	return JsonResponse({"status": False, "msg": "Internal Server Error"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
