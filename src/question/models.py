@@ -38,21 +38,20 @@ COMPLEXITY_CHOICES = (
 
 
 
-# Create your models here.
 class Question(models.Model):
 	question_id = models.AutoField("Question ID", db_column = 'question_id', primary_key = True)
-	chapter_id = models.ForeignKey(Chapter, db_column = 'chapter_id', on_delete = models.CASCADE)
+	chapter = models.ForeignKey(Chapter, db_column = 'chapter_id', on_delete = models.CASCADE)
 	question_type = models.CharField("Question Type", max_length = 1, choices = QUESTION_CHOICES, default = Q_SINGLE)
-	question = models.TextField("Question", blank = True, default = '')
-	question_image = models.TextField("Question Image", blank = True, default = '')
+	question = models.TextField("Question", blank = True, null = True)
+	question_image = models.TextField("Question Image", blank = True, null = True)
 	marks_positive = models.IntegerField("Positive Marks", default = 3)
 	marks_negative = models.IntegerField("Negative Marks", default = -1)
-	options = ArrayField(ArrayField(models.TextField()),size=3)
-	int_answer = models.IntegerField("Integer Answer", blank = True, null = True, default = None)
-	solution = models.TextField("Solution", db_column = 'solution', blank = True, default = '')
-	solution_image = models.TextField("Solution Image", blank = True, default = '')
+	options = ArrayField(ArrayField(models.TextField(), size = 3), blank = True, null = True)
+	int_answer = models.IntegerField("Integer Answer", blank = True, null = True)
+	solution = models.TextField("Solution", db_column = 'solution', blank = True, null = True)
+	solution_image = models.TextField("Solution Image", blank = True, null = True)
 	complexity = models.CharField("Question Complexity", max_length = 1, choices = COMPLEXITY_CHOICES, default = C_EASY)
-	teacher_id = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
+	teacher = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
 	time_stamp = models.DateTimeField(auto_now = True, blank = True, null = True)
 
 

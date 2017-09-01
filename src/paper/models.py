@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.db import models
 from teacher.models import TeacherProfile
 from question.models import Question
-# Create your models here.
 
 
 PM_NO = '0'

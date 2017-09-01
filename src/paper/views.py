@@ -17,13 +17,13 @@ def paper_create(request):
 
 		try:
 			if not request.POST.get("paper_name"):
-				return JsonResponse({"status": False, "msg": "Institute Name shouldn't be empty"})
+				return JsonResponse({"status": False, "msg": "Paper Name shouldn't be empty"})
 			
 			if request.POST.get("paper_type") not in [choice[0] for choice in PAPER_CHOICES]: 
-				return JsonResponse({"status": False, "msg": "Invalid Standard Value"})
+				return JsonResponse({"status": False, "msg": "Invalid Paper Type"})
 
 			if request.POST.get("partial_marking") not in [choice[0] for choice in PM_CHOICES]: 
-				return JsonResponse({"status": False, "msg": "Invalid Standard Value"})
+				return JsonResponse({"status": False, "msg": "Invalid Partial Marking Scheme"})
 			
 			paper = Paper()
 			paper.paper_name = request.POST.get("paper_name")
