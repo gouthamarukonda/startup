@@ -19,7 +19,7 @@ from teacher.models import TeacherProfile
 def question_create(request):
 	if request.method == 'POST':
 
-		# try:
+		try:
 			if not Chapter.objects.filter(chapter_id = request.POST.get("chapter_id")).exists():
 				return JsonResponse({"status": False, "msg": "Chapter ID doesn't exist"})
 
@@ -52,11 +52,11 @@ def question_create(request):
 			else:
 				question.options = json.loads(request.POST.get("options"))["options"]
 
-			# try:
-			question.save()
-			return JsonResponse({"status": True, "msg": "Question Registered Successfully"})
-			# except:
-			# 	return JsonResponse({"status": False, "msg": "Internal Server Error"})
+			try:
+				question.save()
+				return JsonResponse({"status": True, "msg": "Question Registered Successfully"})
+			except:
+				return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
-		# except:
-		# 	return JsonResponse({"status": False, "msg": "Internal Server Error"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
