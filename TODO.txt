@@ -1,10 +1,10 @@
 parse datetime in userprofile
 
-email unique
+// email unique
 
 handle register when fields missing in request.POST
 
-users active/inactive logic
+// users active/inactive logic
 
 // user.userprofile.teacher for student?
 
@@ -19,11 +19,6 @@ ALLOWED_HOSTS = [*]
 . vs __
 
 -----------------------------------------------------
-
-login / logout
-
-decorators for access control
-
 
 Working hours:
 30 Aug: 6hrs

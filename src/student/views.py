@@ -22,6 +22,8 @@ def student_register(request):
 				return JsonResponse({"status": False, "msg": "Username shouldn't be empty"})
 			if User.objects.filter(username = request.POST.get("username")).exists():
 				return JsonResponse({"status": False, "msg": "Given Username already in use"})
+			if User.objects.filter(email = request.POST.get("email")).exists():
+				return JsonResponse({"status": False, "msg": "Given email already in use"})
 
 			if not request.POST.get("password"):
 				return JsonResponse({"status": False, "msg": "Password cannot be empty"})
