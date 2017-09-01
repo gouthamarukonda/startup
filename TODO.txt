@@ -1,5 +1,7 @@
 parse datetime in userprofile
 
+update decorators:superuser has no userprofile
+
 // email unique
 
 handle register when fields missing in request.POST

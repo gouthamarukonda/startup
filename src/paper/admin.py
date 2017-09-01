@@ -8,8 +8,8 @@ class PaperAdmin(admin.ModelAdmin):
 	fields = ('paper_name', 'paper_type', 'teacher_id', 'start_time', 'end_time' , 'partial_marking')
 
 class MappingAdmin(admin.ModelAdmin):
-	list_display = ('map_id', 'question_id', 'paper_id')
-	fields = ('question_id', 'paper_id')
+	list_display = ('map_id', 'question', 'paper')
+	fields = ('question', 'paper')
 
 admin.site.register(Paper, PaperAdmin)
 admin.site.register(Mapping, MappingAdmin)

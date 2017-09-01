@@ -13,6 +13,7 @@ from userprofile.decorators import teacher_required
 from question.models import Question, COMPLEXITY_CHOICES, QUESTION_CHOICES, Q_INTEGER
 from chapter.models import Chapter
 from teacher.models import TeacherProfile
+from paper.models import Paper, Mapping
 
 @csrf_exempt
 @teacher_required
@@ -20,6 +21,9 @@ def question_create(request):
 	if request.method == 'POST':
 
 		try:
+			if not Paper.objects.filter(paper_id = request.POST.get("paper_id")).exists():
+				return JsonResponse({"status": False, "msg": "Paper ID doesn't exist"})
+
 			if not Chapter.objects.filter(chapter_id = request.POST.get("chapter_id")).exists():
 				return JsonResponse({"status": False, "msg": "Chapter ID doesn't exist"})
 
@@ -46,17 +50,21 @@ def question_create(request):
 			question.solution_image = request.POST.get("solution_image")
 			question.complexity = request.POST.get("complexity")
 			question.teacher = request.user.userprofile.teacherprofile
-
 			if question.question_type == Q_INTEGER:
 				question.int_answer = request.POST.get("int_answer")
 			else:
 				question.options = json.loads(request.POST.get("options"))["options"]
+			question.save()
+
+			mapping = Mapping()
+			mapping.paper = Paper.objects.get(paper_id = request.POST.get("paper_id"))
+			mapping.question = question
 
 			try:
-				question.save()
-				return JsonResponse({"status": True, "msg": "Question Registered Successfully"})
+				mapping.save()
+				return JsonResponse({"status": True, "msg": "Question Registered Successfully and Added to Paper"})
 			except:
-				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+				return JsonResponse({"status": False, "msg": "Question Registered but unable to add to paper"})
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})

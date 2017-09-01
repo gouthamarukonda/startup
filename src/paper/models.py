@@ -4,10 +4,8 @@ from django.db import models
 from teacher.models import TeacherProfile
 from question.models import Question
 
-
 PM_NO = '0'
 PM_YES = '1'
-
 
 PM_CHOICES = (
 	(PM_YES, 'Yes'),
@@ -16,7 +14,6 @@ PM_CHOICES = (
 
 PAPER_DPP = '0'
 PAPER_EXAM = '1'
-
 
 PAPER_CHOICES = (
 	(PAPER_DPP, 'Dpp'),
@@ -40,17 +37,14 @@ class Paper(models.Model):
 	def __unicode__(self):
 		return unicode(self.paper_name)
 
-
-
 class Mapping(models.Model):
 
-	map_id = models.AutoField("Paper ID", db_column = 'map_id', primary_key = True)
-	question_id = models.ForeignKey(Question, db_column = 'question_id', on_delete = models.CASCADE)
-	paper_id = models.ForeignKey(Paper, db_column = 'paper_id', on_delete = models.CASCADE)
+	map_id = models.AutoField("Map ID", db_column = 'map_id', primary_key = True)
+	question = models.ForeignKey(Question, db_column = 'question_id', on_delete = models.CASCADE)
+	paper = models.ForeignKey(Paper, db_column = 'paper_id', on_delete = models.CASCADE)
 
 	class Meta:
 		db_table = 'mapping'
 
 	def __unicode__(self):
 		return unicode(self.map_id)
-

@@ -7,7 +7,8 @@ from django.utils.dateparse import parse_datetime
 from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 
-from paper.models import Paper, PM_CHOICES, PAPER_CHOICES
+from question.models import Question
+from paper.models import Paper, Mapping, PM_CHOICES, PAPER_CHOICES
 from userprofile.decorators import teacher_required
 
 @csrf_exempt
@@ -38,6 +39,26 @@ def paper_create(request):
 				return JsonResponse({"status": True, "msg": "Paper Registered Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+@teacher_required
+def mapping_create(request):
+	if request.method == 'POST':
+
+		try:
+			if not Paper.objects.filter(paper_id = request.POST.get("paper_id")).exists():
+				return JsonResponse({"status": False, "msg": "Paper ID doesn't exist"})
+			if not Question.objects.filter(question_id = request.POST.get("question_id")).exists():
+				return JsonResponse({"status": False, "msg": "Question ID doesn't exist"})
+
+			mapping = Mapping()
+			mapping.paper = Paper.objects.get(paper_id = request.POST.get("paper_id"))
+			mapping.question = Question.objects.get(question_id = request.POST.get("question_id"))
+			mapping.save()
+			return JsonResponse({"status": True, "msg": "Question Successfully added to Paper"})
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})

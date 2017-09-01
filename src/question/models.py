@@ -5,7 +5,6 @@ from chapter.models import Chapter
 from teacher.models import TeacherProfile
 from django.contrib.postgres.fields import ArrayField
 
-
 Q_MULTIPLE = '0'
 Q_SINGLE = '1'
 Q_MATRIX = '2'
@@ -18,13 +17,11 @@ QUESTION_CHOICES = (
 	(Q_INTEGER, 'integer')
 )
 
-
 C_VERYEASY = '0'
 C_EASY = '1'
 C_MEDIUM = '2'
 C_HARD = '3'
 C_VERYHARD = '4'
-
 
 COMPLEXITY_CHOICES = (
 	(C_VERYEASY, 'Very Easy'),
@@ -33,10 +30,6 @@ COMPLEXITY_CHOICES = (
 	(C_HARD, 'Hard'),
 	(C_VERYHARD, 'Very Hard')
 )
-
-
-
-
 
 class Question(models.Model):
 	question_id = models.AutoField("Question ID", db_column = 'question_id', primary_key = True)
@@ -53,8 +46,6 @@ class Question(models.Model):
 	complexity = models.CharField("Question Complexity", max_length = 1, choices = COMPLEXITY_CHOICES, default = C_EASY)
 	teacher = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
 	time_stamp = models.DateTimeField(auto_now = True, blank = True, null = True)
-
-
 
 	class Meta:
 		db_table = 'question'
