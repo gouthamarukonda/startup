@@ -22,11 +22,11 @@ ALLOWED_HOSTS = [*]
 
 remove unused imports
 
+atleast one correct option for question
+
 answer clear case
 
 institute in Paper
-
-marks: int -> decimal
 
 -----------------------------------------------------
 
