@@ -13,8 +13,8 @@ class Answer(models.Model):
 	mapping = models.ForeignKey(Mapping, db_column = 'map_id', on_delete = models.CASCADE)
 	answer_array = ArrayField(models.CharField(max_length = 2), blank = True, null = True)
 	int_answer = models.IntegerField("Integer Answer", blank = True, null = True)
-	marks_obtained = models.IntegerField("Marks Obtained", default = 0)
-	time_taken = models.IntegerField("Time Taken", default = 0)
+	marks_obtained = models.FloatField("Marks Obtained", default = 0)
+	time_taken = models.IntegerField("Time Taken", default = 0.0)
 	time_stamp = models.DateTimeField(auto_now = True)
 
 	class Meta:

@@ -11,7 +11,7 @@ def evaluate_answer(paper, question, answer):
 
 	else:
 		submitted_answer = answer.answer_array
-		actual_answer = [option[0] for option in options if option[1] == '1']
+		actual_answer = [option[0] for option in question.options if option[1] == '1']
 		num_correct = 0
 		num_wrong = 0
 		for option in submitted_answer:
@@ -23,6 +23,8 @@ def evaluate_answer(paper, question, answer):
 		if num_wrong > 0:
 			return question.marks_negative
 		elif paper.partial_marking == PM_YES:
-			return question.marks_positive * (num_correct / len(actual_answer))
+			return question.marks_positive * num_correct * 1.0 / len(actual_answer)
+		elif num_correct == len(actual_answer):
+			return question.marks_positive
 		else:
-			return question.marks_positive * (num_correct == len(actual_answer))
+			return question.marks_negative

@@ -26,7 +26,7 @@ C_VERYHARD = '4'
 COMPLEXITY_CHOICES = (
 	(C_VERYEASY, 'Very Easy'),
 	(C_EASY, 'Easy'),
-	(C_MEDIUM, 'Matrix'),
+	(C_MEDIUM, 'Medium'),
 	(C_HARD, 'Hard'),
 	(C_VERYHARD, 'Very Hard')
 )

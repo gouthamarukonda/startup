@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^paper/', include('paper.urls')),
     url(r'^chapter/', include('chapter.urls')),
     url(r'^question/', include('question.urls')),
+    url(r'^answer/', include('answer.urls')),
 ]

@@ -22,6 +22,12 @@ ALLOWED_HOSTS = [*]
 
 remove unused imports
 
+answer clear case
+
+institute in Paper
+
+marks: int -> decimal
+
 -----------------------------------------------------
 
 Working hours:

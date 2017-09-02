@@ -35,7 +35,7 @@ class Paper(models.Model):
 		db_table = 'paper'
 
 	def __unicode__(self):
-		return unicode(self.paper_name)
+		return unicode(self.paper_id)
 
 class Mapping(models.Model):
 

@@ -28,15 +28,16 @@ def submit_answer(request):
 				answer = Answer(user = request.user, mapping = mapping)
 
 			if mapping.question.question_type == Q_INTEGER:
-				answer.int_answer = request.POST.get("int_answer")
+				answer.int_answer = int(request.POST.get("int_answer"))
 			else:
 				answer.answer_array = json.loads(request.POST.get("answer_array"))["answer_array"]
 
 			if request.POST.get("time_taken"):
-				answer.time_taken += request.POST.get("time_taken")
+				answer.time_taken += int(request.POST.get("time_taken"))
 
 			answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
 			answer.save()
+			return JsonResponse({"status": True, "msg": "Answer Saved"})
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
