@@ -1,32 +1,57 @@
-parse datetime in userprofile
+RETHINK SCHEMA:
 
-update decorators:superuser has no userprofile
+approval, approval_type tables
 
-// email unique
+institute_admin table: models, role-decorator
 
-handle register when fields missing in request.POST
+subject table: update usages of subject
 
-// users active/inactive logic
+program
 
-// user.userprofile.teacher for student?
+program in paper
 
-remove csrf_exempt if csrf token used
+institute in Paper
+
+Remove mapping table: use many-to-many field
+
+attempt table
+
+answer table: answer_status
+
+-----------------------------------------------------
+
+users active/inactive logic, approve/disapprove logic while registration, programme
+
+username, email unique: validation apis for ajax
 
 password validation
 
-@login_required - login_url
+parse datetime in userprofile: remove datetime.now
+
+update decorators: superuser has no userprofile
+
+atleast one correct option for question
+
+clear answer in frontend case
+
+-----------------------------------------------------
+
+handle register when fields missing in request.POST
+
+remove csrf_exempt if csrf token used
+
+remove unused imports
 
 ALLOWED_HOSTS = [*]
 
 . vs __
 
-remove unused imports
+-----------------------------------------------------
 
-atleast one correct option for question
+Future Urls:
 
-answer clear case
-
-institute in Paper
+/user/home/
+@login_required - login_url
 
 -----------------------------------------------------
 
@@ -35,3 +60,4 @@ Working hours:
 31 Aug: 10.5hrs
 1 Sep: 7.5hrs
 2 Sep: 3.5hrs
+3 Sep: 10hrs
