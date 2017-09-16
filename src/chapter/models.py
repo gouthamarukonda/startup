@@ -12,11 +12,23 @@ SUBJECT_CHOICES = (
 	(SUBJECT_CHEMISTRY, 'chemistry'),
 )
 
+class Subject(models.Model):
+
+	subject_id = models.AutoField("Subject ID", db_column = 'subject_id', primary_key = True)
+	subject_name = models.CharField("Subject Name", max_length = 500)
+
+	class Meta:
+		db_table = 'subject'
+
+	def __unicode__(self):
+		return unicode(self.subject_name)
+
+
 class Chapter(models.Model):
 
 	chapter_id = models.AutoField("Chapter ID", db_column = 'chapter_id', primary_key = True)
 	chapter_name = models.CharField("Chapter Name", max_length = 500)
-	subject = models.CharField("Subject", choices = SUBJECT_CHOICES, max_length = 1)
+	subject = models.ForeignKey(Subject, db_column = 'subject', on_delete = models.CASCADE)
 
 	class Meta:
 		db_table = 'chapter'
