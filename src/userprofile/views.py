@@ -33,8 +33,6 @@ def user_approve(request):
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 
-
-
 @csrf_exempt
 @admin_required
 def user_disapprove(request):
@@ -84,7 +82,11 @@ def user_login(request):
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
-
+def get_login_page(request):
+	if request.method == 'GET':
+		if request.user.is_authenticated():
+			return HttpResponseRedirect('/user/home/')
+		return render(request, 'userprofile/login.html')
 
 @login_required(login_url='/login/')
 @csrf_exempt
