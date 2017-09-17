@@ -34,6 +34,9 @@
 
 	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/form_validation.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/components_notifications_pnotify.js' %}"></script>
 	<!-- /theme JS files -->
 
 </head>
@@ -41,7 +44,7 @@
 <body class="navbar-bottom login-container">
 
 	<!-- Main navbar -->
-	<div class="navbar navbar-inverse">
+	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="index.html"><img src="{% static 'assets/images/logo_light.png' %}" alt=""></a>
 
@@ -57,13 +60,11 @@
 						<i class="icon-display4"></i> <span class="visible-xs-inline-block position-right"> Go to website</span>
 					</a>
 				</li>
-
 				<li>
 					<a href="login_advanced.html#">
 						<i class="icon-user-tie"></i> <span class="visible-xs-inline-block position-right"> Contact admin</span>
 					</a>
 				</li>
-
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-cog3"></i>
@@ -89,7 +90,7 @@
 				<form enctype='application/json' method="POST" action="" id="form1" class="form-validate-jquery">
 					<div class="panel panel-body login-form">
 						<div class="text-center">
-							<div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
+							<div class="icon-object border-success text-success"><i class="icon-reading"></i></div>
 							<h5 class="content-group">Login to your account <small class="display-block">Your credentials</small></h5>
 						</div>
 
@@ -116,7 +117,7 @@
 						</div>
 
 						<div class="form-group">
-							<button id="msg" type="submit" class="btn bg-blue btn-block">Login <i class="icon-arrow-right14 position-right"></i></button>
+							<button id="msg" type="submit" class="btn bg-blue btn-block">Login <i class="icon-paperplane position-right"></i></button>
 						</div>
 
 						<div class="content-divider text-muted form-group"><span>or sign in with</span></div>
@@ -143,7 +144,7 @@
 	</div>
 	<!-- /page container -->
 
-
+	
 	<!-- Footer -->
 	<div class="navbar navbar-default navbar-fixed-bottom footer">
 		<ul class="nav navbar-nav visible-xs-block">
@@ -171,8 +172,7 @@
 	    $('#form1').submit(function(e)
 	    {
 	    	e.preventDefault();
-	    	console.log($("#form1").validate().numberOfInvalids());
-	    	if($("#form1").validate().numberOfInvalids() == 0) {
+	    	if($("#form1").validate().form()) {
 		        $('#msg').html('Waiting For Response . . . <i class="icon-arrow-right14 position-right"></i>');
 		        $('#msg').addClass('bg-warning').removeClass('bg-blue');
 		        $.ajax({
@@ -182,18 +182,36 @@
 		            success: function(response) {
 			            if(response.status === true)
 		                {
-		                	$('#msg').html('Login Successful! Wait ...<i class="icon-arrow-right14 position-right"></i>');
-		                	// $('#msg').toggleClass('bg-blue bg-green');
-		                    // window.location.href = '/user/home/';
+		                	$('#msg').html('Login Successful, Wait . . . <i class="icon-check position-right"></i>');
+		                	$('#msg').addClass('bg-success').removeClass('bg-warning');
+		                	new PNotify({
+					            title: 'Right icon',
+					            text: response.msg,
+					            addclass: 'alert alert-success alert-styled-right',
+					            type: 'success'
+					        });
+		                    window.location.href = '/user/home/';
 		                }
 		                else{
-		                	$('#msg').html('Login Failed! <i class="icon-arrow-right14 position-right"></i>');
+		                	$('#msg').html('Login Failed, Try Again ! <i class="icon-alert position-right"></i>');
+		                	$('#msg').addClass('bg-danger').removeClass('bg-warning');
+		                	new PNotify({
+					            title: 'Right icon',
+					            text: response.msg,
+					            addclass: 'alert alert-danger alert-styled-right',
+					            type: 'error'
+					        });
 		                }
 		            }
 		        });
 		    }
 		    else{
-		    	console.log("hello");
+		    	new PNotify({
+		            title: 'Right icon',
+		            text: 'Check me out! I\'m a notice.',
+		            addclass: 'alert alert-warning alert-styled-right',
+		            type: 'warning'
+		        });
 		    }
 	    });
     </script>

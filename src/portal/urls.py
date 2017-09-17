@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', userprofile_views.get_login_page),    
     url(r'^logout/$', userprofile_views.user_logout),    
+    url(r'^register/$', userprofile_views.register),    
     url(r'^user/', include('userprofile.urls')),
     url(r'^student/', include('student.urls')),
     url(r'^teacher/', include('teacher.urls')),

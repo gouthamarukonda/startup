@@ -121,8 +121,62 @@ $(function() {
             }
         },
         rules: {
+            password: {
+                minlength: 5
+            },
+            repeat_password: {
+                equalTo: "#password"
+            },
             email: {
                 email: true
+            },
+            repeat_email: {
+                equalTo: "#email"
+            },
+            minimum_characters: {
+                minlength: 10
+            },
+            maximum_characters: {
+                maxlength: 10
+            },
+            minimum_number: {
+                min: 10
+            },
+            maximum_number: {
+                max: 10
+            },
+            number_range: {
+                range: [10, 20]
+            },
+            url: {
+                url: true
+            },
+            date: {
+                date: true
+            },
+            date_iso: {
+                dateISO: true
+            },
+            numbers: {
+                number: true
+            },
+            digits: {
+                digits: true
+            },
+            creditcard: {
+                creditcard: true
+            },
+            basic_checkbox: {
+                minlength: 2
+            },
+            styled_checkbox: {
+                minlength: 2
+            },
+            switchery_group: {
+                minlength: 2
+            },
+            switch_group: {
+                minlength: 2
             }
         }
     }

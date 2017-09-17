@@ -1,0 +1,424 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
+
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="{% static 'assets/css/icons/icomoon/styles.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'assets/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'assets/css/core.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'assets/css/components.css' %}" rel="stylesheet" type="text/css">
+	<link href="{% static 'assets/css/colors.css' %}" rel="stylesheet" type="text/css">
+	<!-- /global stylesheets -->
+
+	<!-- Core JS files -->
+	<script type="text/javascript" src="{% static 'assets/js/plugins/loaders/pace.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/libraries/jquery.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/libraries/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/loaders/blockui.min.js' %}"></script>
+	<!-- /core JS files -->
+
+	<!-- Theme JS files -->
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/stepy.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/libraries/jasny_bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/validation/validate.min.js' %}"></script>
+
+	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/wizard_stepy.js' %}"></script>
+	<!-- /theme JS files -->
+
+</head>
+
+<body class="navbar-bottom">
+
+		<!-- Main navbar -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="index.html"><img src="{% static 'assets/images/logo_light.png' %}" alt=""></a>
+
+			<ul class="nav navbar-nav pull-right visible-xs-block">
+				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+			</ul>
+		</div>
+
+		<div class="navbar-collapse collapse" id="navbar-mobile">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a href="login_advanced.html#">
+						<i class="icon-display4"></i> <span class="visible-xs-inline-block position-right"> Go to website</span>
+					</a>
+				</li>
+				<li>
+					<a href="login_advanced.html#">
+						<i class="icon-user-tie"></i> <span class="visible-xs-inline-block position-right"> Contact admin</span>
+					</a>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown">
+						<i class="icon-cog3"></i>
+						<span class="visible-xs-inline-block position-right"> Options</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /main navbar -->
+
+
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<!-- Page content -->
+		<div class="page-content">
+
+			<!-- Main content -->
+			<div class="content-wrapper">
+				<div class="col-lg-8 col-xs-12 col-lg-offset-2" style="margin-top:100px;">
+		            <!-- Wizard with validation -->
+		            <div class="panel panel-white">
+						<div class="panel-heading">
+							<h6 class="panel-title">Registration</h6>
+						</div>
+
+	                	<form class="stepy-validation" action="#" id="form1">
+							<fieldset title="1">
+								<legend class="text-semibold">Personal data</legend>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Select location: <span class="text-danger">*</span></label>
+											<select name="location" data-placeholder="Select position" class="select required">
+												<option></option>
+												<optgroup label="North America">
+													<option value="1">United States</option>
+													<option value="2">Canada</option>
+												</optgroup>
+
+												<optgroup label="Latin America">
+													<option value="3">Chile</option>
+													<option value="4">Argentina</option>
+													<option value="5">Colombia</option>
+													<option value="6">Peru</option>
+												</optgroup>
+
+												<optgroup label="Europe">
+													<option value="8">Croatia</option>
+													<option value="9">Hungary</option>
+													<option value="10">Ukraine</option>
+													<option value="11">Greece</option>
+												</optgroup>
+
+												<optgroup label="Middle East &amp; Africa">
+													<option value="21">Egypt</option>
+													<option value="22">Israel</option>
+													<option value="23">Nigeria</option>
+													<option value="24">United Arab Emirates</option>
+												</optgroup>
+
+												<optgroup label="Asia Pacific">
+													<option value="26">Australia</option>
+													<option value="27">China</option>
+													<option value="28">India</option>
+													<option value="29">Singapore</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Select position: <span class="text-danger">*</span></label>
+											<select name="position" data-placeholder="Select position" class="select required">
+												<option></option>
+												<optgroup label="Developer Relations">
+													<option value="1">Sales Engineer</option>
+													<option value="2">Ads Solutions Consultant</option>
+													<option value="3">Technical Solutions Consultant</option>
+													<option value="4">Business Intern</option>
+												</optgroup>
+
+												<optgroup label="Engineering &amp; Design">
+													<option value="5">Interaction Designer</option>
+													<option value="6">Technical Program Manager</option>
+													<option value="7">Software Engineer</option>
+													<option value="8">Information Security Engineer</option>
+													<option value="9">Security Engineer</option>
+												</optgroup>
+
+												<optgroup label="Marketing &amp; Communications">
+													<option value="13">Media Outreach Manager</option>
+													<option value="14">Research Manager</option>
+													<option value="15">Marketing Intern</option>
+													<option value="16">Business Intern</option>
+												</optgroup>
+
+												<optgroup label="Sales Operations">
+													<option value="17">Sales Operations Analyst</option>
+													<option value="18">Technology Product Manager</option>
+													<option value="19">Product Expert</option>
+													<option value="20">Sales Insights Analyst</option>
+													<option value="21">Customer Operations Analyst</option>
+												</optgroup>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Applicant name: <span class="text-danger">*</span></label>
+											<input type="text" name="name" class="form-control required" placeholder="John Doe">
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Email address: <span class="text-danger">*</span></label>
+											<input type="email" name="email" class="form-control required" placeholder="your@email.com">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Password field <span class="text-danger">*</span></label>
+											<input type="password" name="password" id="password" class="form-control" required="required" placeholder="Minimum 5 characters allowed">
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Repeat password <span class="text-danger">*</span></label>
+											<input type="password" name="repeat_password" class="form-control" required="required" placeholder="Try different password">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Phone #:</label>
+											<input type="text" name="tel" class="form-control" placeholder="+99-9999999999" data-mask="+99-9999999999">
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<label>Date of birth:</label>
+										<div class="row">
+											<div class="col-md-4">
+												<div class="form-group">
+													<select name="birth-month" data-placeholder="Month" class="select">
+														<option></option>
+														<option value="1">January</option>
+														<option value="2">February</option>
+														<option value="3">March</option>
+														<option value="4">April</option>
+														<option value="5">May</option>
+														<option value="6">June</option>
+														<option value="7">July</option>
+														<option value="8">August</option>
+														<option value="9">September</option>
+														<option value="10">October</option>
+														<option value="11">November</option>
+														<option value="12">December</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div class="form-group">
+													<select name="birth-day" data-placeholder="Day" class="select">
+														<option></option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+														<option value="5">5</option>
+														<option value="6">6</option>
+														<option value="7">7</option>
+														<option value="8">8</option>
+														<option value="9">9</option>
+														<option value="...">...</option>
+														<option value="31">31</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div class="form-group">
+													<select name="birth-year" data-placeholder="Year" class="select">
+														<option></option>
+														<option value="1">1980</option>
+														<option value="2">1981</option>
+														<option value="3">1982</option>
+														<option value="4">1983</option>
+														<option value="5">1984</option>
+														<option value="6">1985</option>
+														<option value="7">1986</option>
+														<option value="8">1987</option>
+														<option value="9">1988</option>
+														<option value="10">1989</option>
+														<option value="11">1990</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset title="2">
+								<legend class="text-semibold">Your education</legend>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>University: <span class="text-danger">*</span></label>
+			                                <input type="text" name="university" placeholder="University name" class="form-control required">
+		                                </div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Country:</label>
+		                                    <select name="university-country" data-placeholder="Choose a Country..." class="select">
+		                                        <option></option> 
+		                                        <option value="1">United States</option> 
+		                                        <option value="2">France</option> 
+		                                        <option value="3">Germany</option> 
+		                                        <option value="4">Spain</option> 
+		                                    </select>
+	                                    </div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Degree level: <span class="text-danger">*</span></label>
+			                                <input type="text" name="degree-level" placeholder="Bachelor, Master etc." class="form-control required">
+		                                </div>
+
+										<div class="form-group">
+											<label>Specialization:</label>
+			                                <input type="text" name="specialization" placeholder="Design, Development etc." class="form-control">
+		                                </div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-6">
+												<label>From:</label>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+						                                    <select name="education-from-month" data-placeholder="Month" class="select">
+						                                    	<option></option>
+						                                        <option value="January">January</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="December">December</option> 
+						                                    </select>
+					                                    </div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="form-group">
+						                                    <select name="education-from-year" data-placeholder="Year" class="select">
+						                                        <option></option> 
+						                                        <option value="1995">1995</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="1980">1980</option> 
+						                                    </select>
+					                                    </div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<label>To:</label>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+						                                    <select name="education-to-month" data-placeholder="Month" class="select">
+						                                    	<option></option>
+						                                        <option value="January">January</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="December">December</option> 
+						                                    </select>
+					                                    </div>
+													</div>
+
+													<div class="col-md-6">
+														<div class="form-group">
+						                                    <select name="education-to-year" data-placeholder="Year" class="select">
+						                                        <option></option> 
+						                                        <option value="1995">1995</option> 
+						                                        <option value="...">...</option> 
+						                                        <option value="1980">1980</option> 
+						                                    </select>
+					                                    </div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label>Language of education:</label>
+			                                <input type="text" name="education-language" placeholder="English, German etc." class="form-control">
+		                                </div>
+									</div>
+								</div>
+							</fieldset>
+
+
+							<button type="submit" class="btn btn-primary stepy-finish">Submit <i class="icon-check position-right"></i></button>
+						</form>
+		            </div>
+		            <!-- /wizard with validation -->
+		        </div>
+
+			</div>
+			<!-- /main content -->
+
+		</div>
+		<!-- /page content -->
+
+	</div>
+	<!-- /page container -->
+
+
+	<!-- Footer -->
+	<div class="navbar navbar-default navbar-fixed-bottom footer">
+		<ul class="nav navbar-nav visible-xs-block">
+			<li><a class="text-center collapsed" data-toggle="collapse" data-target="#footer"><i class="icon-circle-up2"></i></a></li>
+		</ul>
+
+		<div class="navbar-collapse collapse" id="footer">
+			<div class="navbar-text">
+				&copy; 2015. <a href="#" class="navbar-link">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" class="navbar-link" target="_blank">Eugene Kopyov</a>
+			</div>
+
+			<div class="navbar-right">
+				<ul class="nav navbar-nav">
+					<li><a href="#">About</a></li>
+					<li><a href="#">Terms</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- /footer -->
+
+</body>
+</html>

@@ -85,13 +85,20 @@ def get_login_page(request):
 		if request.user.is_authenticated():
 			return HttpResponseRedirect('/user/home/')
 		return render(request, 'login.html')
-	else:
-		return HttpResponse('helo')
+
+
+def register(request):
+	if request.method == 'GET':
+		if request.user.is_authenticated():
+			logout(request)
+		return render(request, 'register.html')
+
 
 @login_required(login_url='/login/')
 def get_user_home_page(request):
 	if request.method == 'GET':
 		return render(request, 'user/index.html')
+
 
 @login_required(login_url='/login/')
 @csrf_exempt
