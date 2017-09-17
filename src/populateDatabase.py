@@ -9,7 +9,7 @@ import numpy as np
 from datetime import datetime
 from django.contrib.auth.models import User
 from answer.models import Answer
-from chapter.models import Chapter, SUBJECT_CHOICES
+from chapter.models import Chapter, SUBJECT_CHOICES, Subject
 from institute.models import Institute
 from paper.models import Paper, Mapping
 from question.models import Question
@@ -91,14 +91,25 @@ for cid in sample_teacher_ids:
 	teacherprofile.save()
 
 
+#create subjects
+
+subjects = ['maths', 'physics', 'chemistry', 'zoology', 'botany', 'GK']
+
+for sub in subjects:
+	new_sub = Subject()
+	new_sub.subject_name = sub
+	new_sub.save()
+
+
 # create chapters
 
 sample_chapter_maths = ['limits', 'differentiation', 'continuity', 'coordinate geometry', 'integration']
 sample_chapter_physics = ['electricity', 'magnetism', 'light', 'Force', 'units and measurement']
 sample_chapter_chemistry = ['acids and bases', 'stochiometry', 'organic', 'inorganic', 'periodic elements']
-subjects = ['0','1','2']
+subjects = ['1', '2', '3', '4', '5', '6']
 
 for cid in subjects:
+	temp = sample_chapter_maths
 	if cid == '0':
 		temp = sample_chapter_maths
 	if cid == '1':
@@ -108,7 +119,7 @@ for cid in subjects:
 	for i in range(5):
 		chapter = Chapter()
 		chapter.chapter_name = temp[i]
-		chapter.subject = cid
+		chapter.subject = Subject.objects.get(subject_id = int(cid))
 		chapter.save()
 
 
@@ -136,10 +147,10 @@ Q_type = ['0', '1', '2', '3']
 complexity = ['0', '1', '2', '3', '4']
 sample_question = ['if A=90 deg , then sinA= ?', 'if A=90 deg , then cosA= ?', 'if A=90 deg , then tanA= ?', 'if A=90 deg , then cotA= ?', 'if A=90 deg , then secA= ?']
 sample_solution = [0,1,2,3,4]
-count = 0
+count = 1
 for i in sample_question:
 	question = Question()
-	question.chapter = Chapter.objects.get(chapter_name = sample_chapter_maths[count % 5])
+	question.chapter = Chapter.objects.get(chapter_id = count)
 	question.question_type = Q_type[count % 4]
 	question.question = i
 	question.solution = sample_solution[count % 4]
