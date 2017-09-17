@@ -151,6 +151,7 @@ for name in Paper_name:
 	paper.partial_marking = PM[count % 2]
 	count = count + 1
 	paper.save()
+	paper.institutes.add(Institute.objects.get(institute_id = (count % 3) + 1))
 
 
 # create question
