@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from institute.models import Institute
+from program.models import Program
 
 ROLE_STUDENT = '0'
 ROLE_TEACHER = '1'
@@ -39,6 +40,7 @@ class UserProfile(models.Model):
 	mobile = models.CharField("Mobile Number", db_column = 'mobile', max_length = 15, blank = True)
 	institute = models.ForeignKey(Institute, db_column = 'institute', on_delete = models.CASCADE)
 	dob = models.DateTimeField("Date of Birth", db_column = 'dob', blank = True)
+	programs = models.ManyToManyField(Program, db_column = 'programs')
 	status = models.CharField("Registration Status", db_column = 'status', choices = STATUS_CHOICES, max_length = 1, default = STATUS_UNAPPROVED)
 
 	class Meta:
@@ -46,3 +48,6 @@ class UserProfile(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.user)
+
+	def PROGRAMS(self):
+		return ", ".join([str(p.program_name) for p in self.programs.all()])

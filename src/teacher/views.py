@@ -66,6 +66,7 @@ def teacher_register(request):
 
 			try:
 				userprofile.save()
+				userprofile.programs.add(request.POST.get("program_id"))
 				teacherprofile.save()
 			except:
 				user.delete()

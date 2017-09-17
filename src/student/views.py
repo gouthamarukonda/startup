@@ -70,6 +70,7 @@ def student_register(request):
 
 			try:
 				userprofile.save()
+				userprofile.programs.add(request.POST.get("program_id"))
 				studentprofile.save()
 			except:
 				user.delete()
