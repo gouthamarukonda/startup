@@ -26,7 +26,8 @@ class Paper(models.Model):
 
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
 	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.PROTECT)
-	institutes = models.ManyToManyField(Institute, db_column = 'institute_id', related_name = 'PaperSetBy')
+	institutes = models.ManyToManyField(Institute, db_column = 'institute_ids')
+	questions = models.ManyToManyField(Question, db_column = 'question_ids')
 	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
 	paper_type = models.CharField("Paper Type", max_length = 1, choices = PAPER_CHOICES, default = PAPER_DPP)
 	teacher_id = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
@@ -43,16 +44,7 @@ class Paper(models.Model):
 		return unicode(self.paper_id)
 
 	def INSTITUTES(self):
-		return ",".join([p.institute_name for p in self.institutes.all()])
+		return ", ".join([str(p.institute_id) for p in self.institutes.all()])
 
-class Mapping(models.Model):
-
-	map_id = models.AutoField("Map ID", db_column = 'map_id', primary_key = True)
-	question = models.ForeignKey(Question, db_column = 'question_id', on_delete = models.CASCADE)
-	paper = models.ForeignKey(Paper, db_column = 'paper_id', on_delete = models.CASCADE)
-
-	class Meta:
-		db_table = 'mapping'
-
-	def __unicode__(self):
-		return unicode(self.map_id)
+	def QUESTIONS(self):
+		return ", ".join([str(p.question_id) for p in self.questions.all()])

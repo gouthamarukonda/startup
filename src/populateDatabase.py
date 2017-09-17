@@ -11,7 +11,8 @@ from django.contrib.auth.models import User
 from answer.models import Answer
 from chapter.models import Chapter, SUBJECT_CHOICES, Subject
 from institute.models import Institute
-from paper.models import Paper, Mapping
+from paper.models import Paper
+# , Mapping
 from question.models import Question
 from student.models import StudentProfile, STD_CHOICES
 from teacher.models import TeacherProfile
@@ -179,10 +180,10 @@ for i in sample_question:
 	else:
 		question.options =  [["A", "0", "0"], ["B", "0", "1"], ["C", "1", "2"], ["D", "0", "3"]]
 	question.save()
-	mapping = Mapping()
-	mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-	mapping.question = question
-	mapping.save()
+	# mapping = Mapping()
+	# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
+	# mapping.question = question
+	# mapping.save()
 
 for i in sample_question:
 	question = Question()
@@ -202,10 +203,10 @@ for i in sample_question:
 	else:
 		question.options =  [["A", "0", "0"], ["B", "0", "1"], ["C", "1", "2"], ["D", "0", "3"]]
 	question.save()
-	mapping = Mapping()
-	mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-	mapping.question = question
-	mapping.save()
+	# mapping = Mapping()
+	# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
+	# mapping.question = question
+	# mapping.save()
 
 for i in sample_question:
 	question = Question()
@@ -225,24 +226,24 @@ for i in sample_question:
 	else:
 		question.options =  [["A", "0", "0"], ["B", "1", "1"], ["C", "0", "2"], ["D", "0", "3"]]
 	question.save()
-	mapping = Mapping()
-	mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-	mapping.question = question
-	mapping.save()
+	# mapping = Mapping()
+	# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
+	# mapping.question = question
+	# mapping.save()
 
 # create answer
 
-for i in range(1,16):
-	mapping = Mapping.objects.get(map_id = i)
-	answer = Answer(user = User.objects.get(username = sample_student_ids[count % 5]), mapping = mapping)
+# for i in range(1,16):
+# 	mapping = Mapping.objects.get(map_id = i)
+# 	answer = Answer(user = User.objects.get(username = sample_student_ids[count % 5]), mapping = mapping)
 
-	if mapping.question.question_type == '3':
-		answer.int_answer = sample_solution[count % 5]
-	elif mapping.question.question_type == '0':
-		answer.answer_array = ['C']
-	else:
-		answer.answer_array = ['C']
-	answer.time_taken += int(count)
-	answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
-	answer.save()
-	count = count + 1
+# 	if mapping.question.question_type == '3':
+# 		answer.int_answer = sample_solution[count % 5]
+# 	elif mapping.question.question_type == '0':
+# 		answer.answer_array = ['C']
+# 	else:
+# 		answer.answer_array = ['C']
+# 	answer.time_taken += int(count)
+# 	answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
+# 	answer.save()
+# 	count = count + 1
