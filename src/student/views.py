@@ -57,6 +57,7 @@ def student_register(request):
 			userprofile = UserProfile()
 			userprofile.user = user
 			userprofile.role = ROLE_STUDENT
+			userprofile.gender = request.POST.get("gender")
 			userprofile.mobile = request.POST.get("mobile")
 			userprofile.institute = institute
 			userprofile.dob = datetime.now()
@@ -66,6 +67,7 @@ def student_register(request):
 			studentprofile.user = userprofile
 			studentprofile.boe = request.POST.get("boe")
 			studentprofile.standard = request.POST.get("standard")
+			studentprofile.roll_number = request.POST.get("roll_number")
 
 			try:
 				userprofile.save()

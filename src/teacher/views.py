@@ -55,6 +55,7 @@ def teacher_register(request):
 			userprofile = UserProfile()
 			userprofile.user = user
 			userprofile.role = ROLE_TEACHER
+			userprofile.gender = request.POST.get("gender")
 			userprofile.mobile = request.POST.get("mobile")
 			userprofile.institute = institute
 			userprofile.dob = datetime.now()
