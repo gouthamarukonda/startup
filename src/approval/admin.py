@@ -5,7 +5,7 @@ from django.contrib import admin
 from .models import ApprovalRequest
 
 class ApprovalRequestAdmin(admin.ModelAdmin):
-	list_display = ('approval_request_id', 'approval_type', 'user', 'status', 'data')
-	fields = ('approval_type', 'user', 'status', 'data')
+	list_display = ('approval_request_id', 'approval_type', 'user', 'status', 'data', 'comment')
+	fields = ('approval_type', 'user', 'status', 'data', 'comment')
 
 admin.site.register(ApprovalRequest, ApprovalRequestAdmin)

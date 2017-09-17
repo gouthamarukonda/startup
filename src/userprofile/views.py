@@ -14,26 +14,6 @@ from userprofile.decorators import admin_required
 
 @csrf_exempt
 @admin_required
-def user_approve(request):
-	if request.method == 'POST':
-		try:
-			if not request.POST.get("username"):
-				return JsonResponse({"status": False, "msg": "User ID shouldn't be empty"})
-			else:
-				if User.objects.filter(username = request.POST.get("username")).exists():
-					user = User.objects.get(username = request.POST.get("username"))
-					user.userprofile.status = STATUS_APPROVED
-					user.userprofile.save()
-					user.save()
-					return JsonResponse({"status": True, "msg": "User Approved Sucessfully"})
-				else:
-					return JsonResponse({"status": False, "msg": "User Doesn't exist"})
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-
-@csrf_exempt
-@admin_required
 def user_disapprove(request):
 	if request.method == 'POST':
 		try:
@@ -86,19 +66,16 @@ def get_login_page(request):
 			return HttpResponseRedirect('/user/home/')
 		return render(request, 'login.html')
 
-
 def register(request):
 	if request.method == 'GET':
 		if request.user.is_authenticated():
 			logout(request)
 		return render(request, 'register.html')
 
-
 @login_required(login_url='/login/')
 def get_user_home_page(request):
 	if request.method == 'GET':
 		return render(request, 'user/index.html')
-
 
 @login_required(login_url='/login/')
 @csrf_exempt
