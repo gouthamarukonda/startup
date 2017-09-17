@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'question',
     'paper',
     'answer',
-    'approval'
+    'approval',
+    'attempt'
 ]
 
 MIDDLEWARE = [
