@@ -12,6 +12,8 @@ from datetime import datetime
 from teacher.models import TeacherProfile
 from userprofile.models import UserProfile, ROLE_TEACHER, STATUS_UNAPPROVED
 from institute.models import Institute
+from approval.models import ApprovalRequest
+from approval.approvalTypes import APPROVAL_TEACHER_REGISTRATION
 
 @csrf_exempt
 def teacher_register(request):
@@ -71,6 +73,9 @@ def teacher_register(request):
 			except:
 				user.delete()
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+			registration_approval_request = ApprovalRequest(approval_type = APPROVAL_TEACHER_REGISTRATION, user = user)
+			registration_approval_request.save()
 
 			return JsonResponse({"status": True, "msg": "Registered Successfully"})
 

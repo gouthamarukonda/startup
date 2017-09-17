@@ -9,6 +9,7 @@ class InstituteModelAdmin(admin.ModelAdmin):
 
 class InstituteAdminModelAdmin(admin.ModelAdmin):
 	list_display = ('user',)
+	fields = ('user', 'institutes')
 
 admin.site.register(Institute, InstituteModelAdmin)
 admin.site.register(InstituteAdmin, InstituteAdminModelAdmin)

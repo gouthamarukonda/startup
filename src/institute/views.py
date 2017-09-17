@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 
 from django.shortcuts import render
@@ -10,7 +12,7 @@ from datetime import datetime
 
 from .models import Institute
 from .models2 import InstituteAdmin
-from userprofile.models import UserProfile, ROLE_INSTITUTE_ADMIN
+from userprofile.models import UserProfile, ROLE_INSTITUTE_ADMIN, STATUS_APPROVED
 from userprofile.decorators import admin_required
 
 @csrf_exempt
@@ -90,17 +92,15 @@ def register_admin(request):
 			userprofile.mobile = request.POST.get("mobile")
 			userprofile.institute = institute
 			userprofile.dob = datetime.now()
-			userprofile.status = STATUS_UNAPPROVED
+			userprofile.status = STATUS_APPROVED
 
 			instituteAdmin = InstituteAdmin()
 			instituteAdmin.user = userprofile
-			institutes_list = json.loads(request.POST.get("institute_list"))["institute_list"]
 
 			try:
 				userprofile.save()
 				instituteAdmin.save()
-				for i in range(len(institutes_list)):
-					instituteAdmin.institutes.add(institutes_list[i])
+				instituteAdmin.institutes.add(*map(int, json.loads(request.POST.get("institute_list"))["institute_list"]))
 			except:
 				user.delete()
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})

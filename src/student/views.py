@@ -11,6 +11,8 @@ from datetime import datetime
 from student.models import StudentProfile, STD_CHOICES
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED
 from institute.models import Institute
+from approval.models import ApprovalRequest
+from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION
 
 @csrf_exempt
 def student_register(request):
@@ -75,6 +77,9 @@ def student_register(request):
 			except:
 				user.delete()
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+			registration_approval_request = ApprovalRequest(approval_type = APPROVAL_STUDENT_REGISTRATION, user = user)
+			registration_approval_request.save()
 
 			return JsonResponse({"status": True, "msg": "Registered Successfully"})
 
