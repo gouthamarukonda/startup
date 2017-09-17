@@ -27,7 +27,7 @@ def submit_answer(request):
 			attempt = Attempt.objects.get(attempt_id = request.POST.get("attempt_id"))
 			answer = None
 			if Answer.objects.filter(question = question, attempt = attempt).exists():
-				answer = Answer.objects.get(user = request.user, question = question, attempt = attempt)
+				answer = Answer.objects.get(question = question, attempt = attempt)
 			else:
 				answer = Answer(question = question, attempt = attempt)
 
@@ -39,7 +39,8 @@ def submit_answer(request):
 			if request.POST.get("time_taken"):
 				answer.time_taken += int(request.POST.get("time_taken"))
 
-			answer.status = request.POST.get("status")
+			if request.POST.get("status"):
+				answer.status = request.POST.get("status")
 			answer.marks_obtained = evaluate_answer(attempt.paper, question, answer)
 			answer.save()
 			return JsonResponse({"status": True, "msg": "Answer Saved"})

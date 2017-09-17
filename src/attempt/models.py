@@ -23,3 +23,9 @@ class Attempt(models.Model):
 	status = models.CharField("Attempt Status", choices = STATUS_CHOICES, max_length = 1, default = STATUS_NOT_STARTED)
 	start_time = models.DateTimeField(auto_now = False, blank = True, null = True)
 	end_time = models.DateTimeField(auto_now = False, blank = True, null = True)
+
+	class Meta:
+		db_table = 'attempt'
+
+	def __unicode__(self):
+		return unicode(self.attempt_id)

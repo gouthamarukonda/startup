@@ -1,11 +1,15 @@
+from datetime import datetime
+
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from userprofile.decorators import teacher_required
+from userprofile.decorators import student_required
 
 from .models import Attempt
+from paper.models import Paper
 
 @csrf_exempt
-@teacher_required
+@student_required
 def register_attempt(request):
 	if request.method == 'POST':
 

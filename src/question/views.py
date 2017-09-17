@@ -14,7 +14,6 @@ from question.models import Question, COMPLEXITY_CHOICES, QUESTION_CHOICES, Q_IN
 from chapter.models import Chapter
 from teacher.models import TeacherProfile
 from paper.models import Paper
-# , Mapping
 
 @csrf_exempt
 @teacher_required

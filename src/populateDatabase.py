@@ -9,10 +9,9 @@ import numpy as np
 from datetime import datetime
 from django.contrib.auth.models import User
 from answer.models import Answer
-from chapter.models import Chapter, SUBJECT_CHOICES, Subject
+from chapter.models import Chapter, Subject
 from institute.models import Institute
 from paper.models import Paper
-# , Mapping
 from question.models import Question
 from student.models import StudentProfile, STD_CHOICES
 from teacher.models import TeacherProfile
