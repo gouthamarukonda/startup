@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from teacher.models import TeacherProfile
 from question.models import Question
+from program.models import Program
 
 PM_NO = '0'
 PM_YES = '1'
@@ -23,6 +24,7 @@ PAPER_CHOICES = (
 class Paper(models.Model):
 
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
+	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.PROTECT)
 	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
 	paper_type = models.CharField("Paper Type", max_length = 1, choices = PAPER_CHOICES, default = PAPER_DPP)
 	teacher_id = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)

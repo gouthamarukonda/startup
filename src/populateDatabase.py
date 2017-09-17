@@ -17,6 +17,8 @@ from student.models import StudentProfile, STD_CHOICES
 from teacher.models import TeacherProfile
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_APPROVED, ROLE_TEACHER
 from answer.tools  import evaluate_answer
+from program.models import Program
+
 # Create superuser
 
 superuser = User(username = "admin")
@@ -25,6 +27,15 @@ superuser.is_superuser = True
 superuser.is_staff = True
 superuser.is_active = True
 superuser.save()
+
+#create programs
+
+programs = ['JEE ADV', 'JEE MAINS', 'AIIMS', 'NEET']
+
+for p in programs:
+	program = Program()
+	program.program_name = p
+	program.save()
 
 
 #create institutes
@@ -131,6 +142,7 @@ Paper_name = ['DPP1', 'DPP2', 'Exam1', 'Exam2', 'Exam3']
 count = 0
 for name in Paper_name:
 	paper = Paper()
+	paper.program = Program.objects.get(program_id = (count % 4) + 1)
 	paper.paper_name = name
 	paper.paper_type = Paper_type[count % 2]
 	paper.teacher_id = TeacherProfile.objects.get(user__user__username = sample_teacher_ids[count % 5])
