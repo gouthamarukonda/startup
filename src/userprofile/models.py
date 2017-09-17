@@ -6,6 +6,7 @@ from institute.models import Institute
 
 ROLE_STUDENT = '0'
 ROLE_TEACHER = '1'
+ROLE_INSTITUTE_ADMIN = '2'
 
 ROLE_CHOICES = (
 	(ROLE_STUDENT, 'student'),
