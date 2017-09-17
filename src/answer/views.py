@@ -35,6 +35,7 @@ def submit_answer(request):
 			if request.POST.get("time_taken"):
 				answer.time_taken += int(request.POST.get("time_taken"))
 
+			answer.status = request.POST.get("status")
 			answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
 			answer.save()
 			return JsonResponse({"status": True, "msg": "Answer Saved"})
