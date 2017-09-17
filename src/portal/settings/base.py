@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'userprofile',
     'question',
     'paper',
-    'answer'
+    'answer',
+    'approval'
 ]
 
 MIDDLEWARE = [

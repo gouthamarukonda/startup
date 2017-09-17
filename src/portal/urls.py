@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^chapter/', include('chapter.urls')),
     url(r'^question/', include('question.urls')),
     url(r'^answer/', include('answer.urls')),
+    url(r'^approval/', include('approval.urls')),
 ]
 
 if settings.DEBUG:
