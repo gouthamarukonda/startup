@@ -13,7 +13,8 @@ from userprofile.decorators import teacher_required
 from question.models import Question, COMPLEXITY_CHOICES, QUESTION_CHOICES, Q_INTEGER
 from chapter.models import Chapter
 from teacher.models import TeacherProfile
-from paper.models import Paper, Mapping
+from paper.models import Paper
+# , Mapping
 
 @csrf_exempt
 @teacher_required
@@ -56,12 +57,12 @@ def question_create(request):
 				question.options = json.loads(request.POST.get("options"))["options"]
 			question.save()
 
-			mapping = Mapping()
-			mapping.paper = Paper.objects.get(paper_id = request.POST.get("paper_id"))
-			mapping.question = question
+			# mapping = Mapping()
+			# mapping.paper = Paper.objects.get(paper_id = request.POST.get("paper_id"))
+			# mapping.question = question
 
 			try:
-				mapping.save()
+				# mapping.save()
 				return JsonResponse({"status": True, "msg": "Question Registered Successfully and Added to Paper"})
 			except:
 				return JsonResponse({"status": False, "msg": "Question Registered but unable to add to paper"})

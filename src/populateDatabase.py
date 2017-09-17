@@ -9,14 +9,17 @@ import numpy as np
 from datetime import datetime
 from django.contrib.auth.models import User
 from answer.models import Answer
-from chapter.models import Chapter, SUBJECT_CHOICES
+from chapter.models import Chapter, SUBJECT_CHOICES, Subject
 from institute.models import Institute
-from paper.models import Paper, Mapping
+from paper.models import Paper
+# , Mapping
 from question.models import Question
 from student.models import StudentProfile, STD_CHOICES
 from teacher.models import TeacherProfile
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_APPROVED, ROLE_TEACHER
 from answer.tools  import evaluate_answer
+from program.models import Program
+
 # Create superuser
 
 superuser = User(username = "admin")
@@ -25,6 +28,15 @@ superuser.is_superuser = True
 superuser.is_staff = True
 superuser.is_active = True
 superuser.save()
+
+#create programs
+
+programs = ['JEE ADV', 'JEE MAINS', 'AIIMS', 'NEET']
+
+for p in programs:
+	program = Program()
+	program.program_name = p
+	program.save()
 
 
 #create institutes
@@ -91,14 +103,25 @@ for cid in sample_teacher_ids:
 	teacherprofile.save()
 
 
+#create subjects
+
+subjects = ['maths', 'physics', 'chemistry', 'zoology', 'botany', 'GK']
+
+for sub in subjects:
+	new_sub = Subject()
+	new_sub.subject_name = sub
+	new_sub.save()
+
+
 # create chapters
 
 sample_chapter_maths = ['limits', 'differentiation', 'continuity', 'coordinate geometry', 'integration']
 sample_chapter_physics = ['electricity', 'magnetism', 'light', 'Force', 'units and measurement']
 sample_chapter_chemistry = ['acids and bases', 'stochiometry', 'organic', 'inorganic', 'periodic elements']
-subjects = ['0','1','2']
+subjects = ['1', '2', '3', '4', '5', '6']
 
 for cid in subjects:
+	temp = sample_chapter_maths
 	if cid == '0':
 		temp = sample_chapter_maths
 	if cid == '1':
@@ -108,7 +131,7 @@ for cid in subjects:
 	for i in range(5):
 		chapter = Chapter()
 		chapter.chapter_name = temp[i]
-		chapter.subject = cid
+		chapter.subject = Subject.objects.get(subject_id = int(cid))
 		chapter.save()
 
 
@@ -120,6 +143,7 @@ Paper_name = ['DPP1', 'DPP2', 'Exam1', 'Exam2', 'Exam3']
 count = 0
 for name in Paper_name:
 	paper = Paper()
+	paper.program = Program.objects.get(program_id = (count % 4) + 1)
 	paper.paper_name = name
 	paper.paper_type = Paper_type[count % 2]
 	paper.teacher_id = TeacherProfile.objects.get(user__user__username = sample_teacher_ids[count % 5])
@@ -128,6 +152,7 @@ for name in Paper_name:
 	paper.partial_marking = PM[count % 2]
 	count = count + 1
 	paper.save()
+	paper.institutes.add(Institute.objects.get(institute_id = (count % 3) + 1))
 
 
 # create question
@@ -136,10 +161,10 @@ Q_type = ['0', '1', '2', '3']
 complexity = ['0', '1', '2', '3', '4']
 sample_question = ['if A=90 deg , then sinA= ?', 'if A=90 deg , then cosA= ?', 'if A=90 deg , then tanA= ?', 'if A=90 deg , then cotA= ?', 'if A=90 deg , then secA= ?']
 sample_solution = [0,1,2,3,4]
-count = 0
+count = 1
 for i in sample_question:
 	question = Question()
-	question.chapter = Chapter.objects.get(chapter_name = sample_chapter_maths[count % 5])
+	question.chapter = Chapter.objects.get(chapter_id = count)
 	question.question_type = Q_type[count % 4]
 	question.question = i
 	question.solution = sample_solution[count % 4]
@@ -155,10 +180,10 @@ for i in sample_question:
 	else:
 		question.options =  [["A", "0", "0"], ["B", "0", "1"], ["C", "1", "2"], ["D", "0", "3"]]
 	question.save()
-	mapping = Mapping()
-	mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-	mapping.question = question
-	mapping.save()
+	# mapping = Mapping()
+	# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
+	# mapping.question = question
+	# mapping.save()
 
 for i in sample_question:
 	question = Question()
@@ -178,10 +203,10 @@ for i in sample_question:
 	else:
 		question.options =  [["A", "0", "0"], ["B", "0", "1"], ["C", "1", "2"], ["D", "0", "3"]]
 	question.save()
-	mapping = Mapping()
-	mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-	mapping.question = question
-	mapping.save()
+	# mapping = Mapping()
+	# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
+	# mapping.question = question
+	# mapping.save()
 
 for i in sample_question:
 	question = Question()
@@ -201,24 +226,24 @@ for i in sample_question:
 	else:
 		question.options =  [["A", "0", "0"], ["B", "1", "1"], ["C", "0", "2"], ["D", "0", "3"]]
 	question.save()
-	mapping = Mapping()
-	mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-	mapping.question = question
-	mapping.save()
+	# mapping = Mapping()
+	# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
+	# mapping.question = question
+	# mapping.save()
 
 # create answer
 
-for i in range(1,16):
-	mapping = Mapping.objects.get(map_id = i)
-	answer = Answer(user = User.objects.get(username = sample_student_ids[count % 5]), mapping = mapping)
+# for i in range(1,16):
+# 	mapping = Mapping.objects.get(map_id = i)
+# 	answer = Answer(user = User.objects.get(username = sample_student_ids[count % 5]), mapping = mapping)
 
-	if mapping.question.question_type == '3':
-		answer.int_answer = sample_solution[count % 5]
-	elif mapping.question.question_type == '0':
-		answer.answer_array = ['C']
-	else:
-		answer.answer_array = ['C']
-	answer.time_taken += int(count)
-	answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
-	answer.save()
-	count = count + 1
+# 	if mapping.question.question_type == '3':
+# 		answer.int_answer = sample_solution[count % 5]
+# 	elif mapping.question.question_type == '0':
+# 		answer.answer_array = ['C']
+# 	else:
+# 		answer.answer_array = ['C']
+# 	answer.time_taken += int(count)
+# 	answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
+# 	answer.save()
+# 	count = count + 1

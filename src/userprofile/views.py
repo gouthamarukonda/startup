@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -86,11 +86,17 @@ def get_login_page(request):
 	if request.method == 'GET':
 		if request.user.is_authenticated():
 			return HttpResponseRedirect('/user/home/')
-		return render(request, 'userprofile/login.html')
+		return render(request, 'login.html')
+	else:
+		return HttpResponse('helo')
+
+@login_required(login_url='/login/')
+def get_user_home_page(request):
+	if request.method == 'GET':
+		return render(request, 'user/index.html')
 
 @login_required(login_url='/login/')
 @csrf_exempt
 def user_logout(request):
 	logout(request)
-	return JsonResponse({"status": True , "msg": "logged out successfully"})
-	# return HttpResponseRedirect('/login/')
+	return HttpResponseRedirect('/login/')

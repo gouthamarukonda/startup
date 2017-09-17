@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
 	url(r'^create/$', views.paper_create),
-	url(r'^createmapping/$', views.mapping_create),
+	url(r'^add_question/$', views.add_question),
 ]

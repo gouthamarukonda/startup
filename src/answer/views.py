@@ -7,7 +7,7 @@ from datetime import datetime
 
 from userprofile.decorators import student_required
 from question.models import Question, Q_INTEGER
-from paper.models import Mapping
+from attempt.models import Attempt
 from .models import Answer
 from .tools import evaluate_answer
 
@@ -17,17 +17,21 @@ def submit_answer(request):
 	if request.method == 'POST':
 
 		try:
-			if not Mapping.objects.filter(map_id = request.POST.get("map_id")).exists():
-				return JsonResponse({"status": False, "msg": "Paper-Question Mapping doesn't exist"})
+			if not Question.objects.filter(question_id = request.POST.get("question_id")).exists():
+				return JsonResponse({"status": False, "msg": "Question doesn't exist"})
 
-			mapping = Mapping.objects.get(map_id = request.POST.get("map_id"))
+			if not Attempt.objects.filter(attempt_id = request.POST.get("attempt_id")).exists():
+				return JsonResponse({"status": False, "msg": "Attempt doesn't exist"})
+
+			question = Mapping.objects.get(question_id = request.POST.get("question_id"))
+			attempt = Attempt.objects.get(attempt_id = request.POST.get("attempt_id"))
 			answer = None
-			if Answer.objects.filter(user = request.user, mapping = mapping).exists():
-				answer = Answer.objects.get(user = request.user, mapping = mapping)
+			if Answer.objects.filter(question = question, attempt = attempt).exists():
+				answer = Answer.objects.get(user = request.user, question = question, attempt = attempt)
 			else:
-				answer = Answer(user = request.user, mapping = mapping)
+				answer = Answer(question = question, attempt = attempt)
 
-			if mapping.question.question_type == Q_INTEGER:
+			if question.question_type == Q_INTEGER:
 				answer.int_answer = int(request.POST.get("int_answer"))
 			else:
 				answer.answer_array = json.loads(request.POST.get("answer_array"))["answer_array"]
@@ -36,7 +40,7 @@ def submit_answer(request):
 				answer.time_taken += int(request.POST.get("time_taken"))
 
 			answer.status = request.POST.get("status")
-			answer.marks_obtained = evaluate_answer(mapping.paper, mapping.question, answer)
+			answer.marks_obtained = evaluate_answer(attempt.paper, question, answer)
 			answer.save()
 			return JsonResponse({"status": True, "msg": "Answer Saved"})
 

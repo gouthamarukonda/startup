@@ -22,7 +22,8 @@ from userprofile import views as userprofile_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^login/$', userprofile_views.get_login_page),
+    url(r'^login/$', userprofile_views.get_login_page),    
+    url(r'^logout/$', userprofile_views.user_logout),    
     url(r'^user/', include('userprofile.urls')),
     url(r'^student/', include('student.urls')),
     url(r'^teacher/', include('teacher.urls')),
@@ -33,6 +34,7 @@ urlpatterns = [
     url(r'^answer/', include('answer.urls')),
     url(r'^approval/', include('approval.urls')),
     url(r'^attempt/', include('attempt.urls')),
+    url(r'^program/', include('program.urls')),
 ]
 
 if settings.DEBUG:
