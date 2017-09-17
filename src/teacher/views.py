@@ -45,7 +45,6 @@ def teacher_register(request):
 			user.last_name = request.POST.get("lastname")
 			user.email = request.POST.get("email")
 			user.set_password(request.POST.get("password"))
-			user.is_active = False
 
 			try:
 				user.save()

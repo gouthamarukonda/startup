@@ -22,7 +22,6 @@ def user_approve(request):
 			else:
 				if User.objects.filter(username = request.POST.get("username")).exists():
 					user = User.objects.get(username = request.POST.get("username"))
-					user.is_active = True
 					user.userprofile.status = STATUS_APPROVED
 					user.userprofile.save()
 					user.save()
@@ -43,7 +42,6 @@ def user_disapprove(request):
 			else:
 				if User.objects.filter(username = request.POST.get("username")).exists():
 					user = User.objects.get(username = request.POST.get("username"))
-					user.is_active = False
 					user.userprofile.status = STATUS_UNAPPROVED
 					user.userprofile.save()
 					user.save()

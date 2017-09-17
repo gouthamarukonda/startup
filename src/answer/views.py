@@ -23,7 +23,7 @@ def submit_answer(request):
 			if not Attempt.objects.filter(attempt_id = request.POST.get("attempt_id")).exists():
 				return JsonResponse({"status": False, "msg": "Attempt doesn't exist"})
 
-			question = Mapping.objects.get(question_id = request.POST.get("question_id"))
+			question = Question.objects.get(question_id = request.POST.get("question_id"))
 			attempt = Attempt.objects.get(attempt_id = request.POST.get("attempt_id"))
 			answer = None
 			if Answer.objects.filter(question = question, attempt = attempt).exists():
