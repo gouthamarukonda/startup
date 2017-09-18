@@ -1,19 +1,16 @@
-from django.shortcuts import render
-
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.utils.dateparse import parse_datetime
 from datetime import datetime
 
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION
+from approval.models import ApprovalRequest
+from institute.models import Institute
+from program.models import Standard
 from student.models import StudentProfile
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED, GENDER_CHOICES
-from institute.models import Institute
-from approval.models import ApprovalRequest
-from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION
-from program.models import Standard
+
 
 @csrf_exempt
 def student_register(request):
@@ -38,7 +35,6 @@ def student_register(request):
 			if request.POST.get("gender") not in [choice[0] for choice in GENDER_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Gender Value"})
 
-			institute = None
 			try:
 				institute = Institute.objects.get(institute_id = request.POST.get("institute"))
 			except:

@@ -7,4 +7,5 @@ urlpatterns = [
 	url(r'^home/$', views.get_user_home_page),
 	url(r'^usernameverification/$', views.username_verification),
 	url(r'^emailverification/$', views.email_verification),
+	url(r'^validatepassword/$', views.password_validation),
 ]

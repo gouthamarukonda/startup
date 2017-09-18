@@ -1,17 +1,15 @@
-from django.shortcuts import render
-
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.utils.dateparse import parse_datetime
-from datetime import datetime
+from django.contrib.auth.password_validation import get_default_password_validators
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
-from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT
 from userprofile.decorators import admin_required
-from institute.models import Institute
+from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT
+
 
 @csrf_exempt
 @admin_required
@@ -107,5 +105,37 @@ def email_verification(request):
 				return JsonResponse({"status": True, "msg": "Email ID does not exists"})
 			else:
 				return JsonResponse({"status": False, "msg": "Email ID already exists"})	
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+def password_validation(request):
+	if request.method == 'POST':
+
+		try:
+			if not request.POST.get("password"):
+				return JsonResponse({"status": False, "msg": "Password shouldn't be empty"})
+
+			user = None
+			if request.POST.get("username"):
+				user = User(username = request.POST.get("username"))
+				user.first_name = request.POST.get("first_name")
+				user.last_name = request.POST.get("last_name")
+
+			password = request.POST.get("password")
+			password_validators = get_default_password_validators()
+			passed, failed = [], []
+
+			for validator in password_validators:
+				try:
+					validator.validate(password, user)
+					passed.append(validator.get_help_text())
+				except ValidationError:
+					failed.append(validator.get_help_text())
+
+			if len(failed) == 0:
+				return JsonResponse({"status": True, "passed": passed})
+			else:
+				return JsonResponse({"status": False, "passed": passed, "failed": failed})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
