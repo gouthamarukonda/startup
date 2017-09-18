@@ -83,3 +83,33 @@ def get_user_home_page(request):
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/login/')
+
+@csrf_exempt
+def username_verification(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("username"):
+				return JsonResponse({"status": False, "msg": "User ID shouldn't be empty"})
+
+			if not User.objects.filter(username = request.POST.get("username")).exists():
+				return JsonResponse({"status": True, "msg": "User ID does not exists"})
+			else:
+				return JsonResponse({"status": False, "msg": "User ID already exists"})
+
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+def email_verification(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("email"):
+				return JsonResponse({"status": False, "msg": "Email ID shouldn't be empty"})
+
+			if not User.objects.filter(email = request.POST.get("email")).exists():
+				return JsonResponse({"status": True, "msg": "Email ID does not exists"})
+			else:
+				return JsonResponse({"status": False, "msg": "Email ID already exists"})
+				
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
