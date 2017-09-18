@@ -38,6 +38,7 @@ class UserProfile(models.Model):
 	role = models.CharField("Role", db_column = 'role', choices = ROLE_CHOICES, max_length = 1, default = ROLE_STUDENT)
 	gender = models.CharField("Gender", db_column = 'gender', choices = GENDER_CHOICES, max_length = 1, default = GENDER_MALE)
 	mobile = models.CharField("Mobile Number", db_column = 'mobile', max_length = 15, blank = True)
+	address = models.CharField("Address", max_length = 1000, blank = True)
 	institute = models.ForeignKey(Institute, db_column = 'institute', on_delete = models.CASCADE)
 	dob = models.DateTimeField("Date of Birth", db_column = 'dob', blank = True)
 	programs = models.ManyToManyField(Program, db_column = 'programs')

@@ -129,14 +129,16 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Username: <span class="text-danger">*</span></label>
-											<input type="text" name="username" class="form-control required" placeholder="John Doe">
+											<input type="text" onblur="myfunc1()" id="username" name="username" class="form-control required" placeholder="John Doe">
+											<label id="usernameavaliable" class="validation-error-label"></label>
 										</div>
 									</div>
 
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Email address: <span class="text-danger">*</span></label>
-											<input type="email" name="email" class="form-control required" placeholder="your@email.com">
+											<input type="email" onblur="myfunc2()" id="email" name="email" class="form-control required" placeholder="your@email.com">
+											<label id="emailavaliable" class="validation-error-label"></label>
 										</div>
 									</div>
 								</div>
@@ -325,11 +327,11 @@
 										</div>
 									</div>
 								</div>
-								<div class="row studentonly">
+								<div class="row">
 									<div class="col-md-6" >
 										<div class="form-group">
 											<label>Program: <span class="text-danger">*</span></label>
-											<select id="programs" name="program_id" data-placeholder="Select Program" class="select required studentonly1">
+											<select id="programs" name="program_id" data-placeholder="Select Program" class="select required">
 											</select>
 										</div>
 									</div>
@@ -337,7 +339,7 @@
 									<div class="col-md-6" >
 										<div class="form-group">
 											<label>Address: <span class="text-danger">*</span></label>
-											<input type="text" name="address" class="form-control required studentonly1">
+											<input type="text" name="address" class="form-control required">
 										</div>
 									</div>
 								</div>
@@ -418,6 +420,74 @@
 		    }
 		});
 
+		function myfunc1(){
+			document.getElementById('usernameavaliable').textContent = "";
+			$.ajax({
+		        type: 'POST',
+		        url: '/user/usernameverification/',
+		        data:{
+		        	username : document.getElementById("username").value 
+		        },
+		        success: function(response) {
+		          // alert(response.status);
+		          	if(response.status){
+		          		$("#usernameavaliable").addClass('validation-valid-label').removeClass('validation-error-label');
+		          		document.getElementById('usernameavaliable').textContent = "Username Avaliable";
+			        	new PNotify({
+				            title: 'Username Avaliable',
+				            text: 'Please continue to the next page',
+				            addclass: 'alert alert-success alert-styled-right',
+				            type: 'success'
+				        });				       
+					}
+					else{
+						$("#usernameavaliable").addClass('validation-error-label').removeClass('validation-valid-label');
+		          		document.getElementById('usernameavaliable').textContent = "Username Not Avaliable";
+						new PNotify({
+				            title: 'Some Issue!',
+				            text: response.msg,
+				            addclass: 'alert alert-danger alert-styled-right',
+				            type: 'error'
+				        });
+					}
+				}
+	        });
+		}
+
+		function myfunc2(){
+			document.getElementById('emailavaliable').textContent = "";
+			$.ajax({
+		        type: 'POST',
+		        url: '/user/emailverification/',
+		        data:{
+		        	email : document.getElementById("email").value 
+		        },
+		        success: function(response) {
+		          // alert(response.status);
+		          	if(response.status){
+		          		$("#emailavaliable").addClass('validation-valid-label').removeClass('validation-error-label');
+		          		document.getElementById('emailavaliable').textContent = "Email Avaliable";
+			        	new PNotify({
+				            title: 'Email Avaliable',
+				            text: 'Please continue to the next page',
+				            addclass: 'alert alert-success alert-styled-right',
+				            type: 'success'
+				        });				       
+					}
+					else{
+						$("#emailavaliable").addClass('validation-error-label').removeClass('validation-valid-label');
+		          		document.getElementById('emailavaliable').textContent = "Email Not Avaliable";
+						new PNotify({
+				            title: 'Some Issue!',
+				            text: response.msg,
+				            addclass: 'alert alert-danger alert-styled-right',
+				            type: 'error'
+				        });
+					}
+				}
+	        });
+		}
+
 
 	    function ajaxCallFunction(){
         //this function uses ajax to interact with the server
@@ -478,11 +548,20 @@
 
 	    $('#form1').submit(function(e)
 	    {
+	    	var a = document.getElementById('usernameavaliable').textContent;
+	    	var b = document.getElementById('emailavaliable').textContent;
+	    	var url_temp;
+	    	if($("input[name=role]:checked").val() == "0"){
+	    		url_temp = '/student/register/';
+	    	}
+	    	if($("input[name=role]:checked").val() == "1"){
+	    		url_temp = '/teacher/register/';
+	    	}
 	    	e.preventDefault();
 	    	if($("#form1").validate().form()) {
 		        $.ajax({
 		            type: 'POST',
-		            url: '/student/register/',
+		            url: url_temp,
 		            data: $("#form1").serialize(),
 		            success: function(response) {
 			            if(response.status === true)
@@ -495,6 +574,10 @@
 					        });
 		                }
 		                else{
+		                	$('#usernameavaliable').show();
+		                	$('#emailavaliable').show();
+		                	document.getElementById('usernameavaliable').textContent = a;
+		                	document.getElementById('emailavaliable').textContent = b;
 		                	new PNotify({
 					            title: 'Registration Unsuccessful',
 					            text: response.msg,

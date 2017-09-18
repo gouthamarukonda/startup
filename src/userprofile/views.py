@@ -90,12 +90,10 @@ def username_verification(request):
 		try:
 			if not request.POST.get("username"):
 				return JsonResponse({"status": False, "msg": "User ID shouldn't be empty"})
-
 			if not User.objects.filter(username = request.POST.get("username")).exists():
 				return JsonResponse({"status": True, "msg": "User ID does not exists"})
 			else:
 				return JsonResponse({"status": False, "msg": "User ID already exists"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
@@ -105,11 +103,9 @@ def email_verification(request):
 		try:
 			if not request.POST.get("email"):
 				return JsonResponse({"status": False, "msg": "Email ID shouldn't be empty"})
-
 			if not User.objects.filter(email = request.POST.get("email")).exists():
 				return JsonResponse({"status": True, "msg": "Email ID does not exists"})
 			else:
-				return JsonResponse({"status": False, "msg": "Email ID already exists"})
-				
+				return JsonResponse({"status": False, "msg": "Email ID already exists"})	
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})

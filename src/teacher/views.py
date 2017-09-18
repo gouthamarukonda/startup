@@ -62,6 +62,7 @@ def teacher_register(request):
 			userprofile.gender = request.POST.get("gender")
 			userprofile.mobile = request.POST.get("mobile")
 			userprofile.institute = institute
+			userprofile.address = request.POST.get("address")
 			userprofile.dob = datetime.now()
 			userprofile.status = STATUS_UNAPPROVED
 

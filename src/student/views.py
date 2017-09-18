@@ -33,10 +33,7 @@ def student_register(request):
 				return JsonResponse({"status": False, "msg": "Retype password can't be empty"})
 			if request.POST.get("password") != request.POST.get("repeat_password"): 
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
-			print "hi"
-			print request.POST.get("standard")
-			for choice in STD_CHOICES:
-				print choice[0]
+			
 			if request.POST.get("standard") not in [choice[0] for choice in STD_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Standard Value"})
 
@@ -67,13 +64,13 @@ def student_register(request):
 			userprofile.gender = request.POST.get("gender")
 			userprofile.mobile = request.POST.get("mobile")
 			userprofile.institute = institute
+			userprofile.address = request.POST.get("address")
 			userprofile.dob = datetime.now()
 			userprofile.status = STATUS_UNAPPROVED
 
 			studentprofile = StudentProfile()
 			studentprofile.user = userprofile
 			studentprofile.boe = request.POST.get("boe")
-			studentprofile.address = request.POST.get("address")
 			studentprofile.standard = request.POST.get("standard")
 			studentprofile.roll_number = request.POST.get("roll_number")
 

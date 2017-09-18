@@ -72,13 +72,13 @@ for cid in sample_student_ids:
 	np.random.shuffle(sample_institute_ids)
 	userprofile.institute = Institute.objects.get(institute_name = sample_institute_ids[0])
 	userprofile.dob = datetime.now()
+	userprofile.address = "IIT Bombay"
 	userprofile.status = STATUS_APPROVED
 	userprofile.save()
 	studentprofile = StudentProfile()
 	studentprofile.user = userprofile
 	studentprofile.boe = "CBSE"
 	studentprofile.roll_number = "12345"
-	studentprofile.address = "IIT Bombay"
 	studentprofile.standard = '2'
 	studentprofile.save()
 
@@ -92,6 +92,7 @@ for cid in sample_teacher_ids:
 	userprofile = UserProfile()
 	userprofile.user = user
 	userprofile.role = ROLE_TEACHER
+	userprofile.address = "IIT Bombay"
 	userprofile.mobile = cid + "000000"
 	np.random.shuffle(sample_institute_ids)
 	userprofile.institute = Institute.objects.get(institute_name = sample_institute_ids[0])
