@@ -1,7 +1,7 @@
 from django.http import JsonResponse
-from .approvalTypes import *
+
 from userprofile.models import STATUS_APPROVED
-from django.contrib.auth.models import User
+
 
 def approve_registration(approvalRequest):
 

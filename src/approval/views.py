@@ -1,12 +1,10 @@
-from django.http import JsonResponse
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import ApprovalRequest, STATUS_WAITING, STATUS_APPROVED
-from .approvalFuncs import *
+from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION, APPROVAL_TEACHER_REGISTRATION
 from userprofile.decorators import admin_required
-
+from .approvalFuncs import *
+from .models import ApprovalRequest, STATUS_WAITING, STATUS_APPROVED
 
 ApprovalFunctions = {}
 ApprovalFunctions[APPROVAL_STUDENT_REGISTRATION] = approve_registration
