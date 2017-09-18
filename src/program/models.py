@@ -17,3 +17,13 @@ class Program(models.Model):
 
 	def SUBJECTS(self):
 		return ", ".join([str(p.subject_name) for p in self.subjects.all()])
+
+class Standard(models.Model):
+	standard_id = models.AutoField("Standard ID", db_column = 'standard_id', primary_key = True)
+	standard_name = models.CharField("Program Name", max_length = 2, blank = True)
+
+	class Meta:
+		db_table = 'standard'
+
+	def __unicode__(self):
+		return unicode(self.standard_name)

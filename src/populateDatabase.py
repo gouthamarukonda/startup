@@ -13,11 +13,11 @@ from chapter.models import Chapter, Subject
 from institute.models import Institute
 from paper.models import Paper
 from question.models import Question
-from student.models import StudentProfile, STD_CHOICES
+from student.models import StudentProfile
 from teacher.models import TeacherProfile
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_APPROVED, ROLE_TEACHER
 from answer.tools  import evaluate_answer
-from program.models import Program
+from program.models import Program, Standard
 
 # Create superuser
 
@@ -38,6 +38,14 @@ for p in programs:
 	program.save()
 
 
+# create standards
+standards = ['8', '9', '10', '11', '12']
+
+for i in standards:
+	standard = Standard()
+	standard.standard_name = i
+	standard.save()
+
 #create institutes
 
 sample_institute_ids = ['powai', 'hyd', 'vizag']
@@ -57,6 +65,7 @@ for cid in sample_institute_ids:
 
 sample_student_ids = ['10001', '10002', '10003', '10004', '10005']
 sample_teacher_ids = ['20001', '20002', '20003', '20004', '20005']
+count = 0
 
 for cid in sample_student_ids:
 	user = User(username = cid)
@@ -79,8 +88,9 @@ for cid in sample_student_ids:
 	studentprofile.user = userprofile
 	studentprofile.boe = "CBSE"
 	studentprofile.roll_number = "12345"
-	studentprofile.standard = '2'
+	studentprofile.standard = Standard.objects.get(standard_id = (count % 5)+1)
 	studentprofile.save()
+	count += 1
 
 for cid in sample_teacher_ids:
 	user = User(username = cid)
@@ -147,7 +157,6 @@ for name in Paper_name:
 	paper = Paper()
 	paper.program = Program.objects.get(program_id = (count % 4) + 1)
 	paper.paper_name = name
-	paper.standard = (count % 4) + 1
 	paper.paper_type = Paper_type[count % 2]
 	paper.teacher_id = TeacherProfile.objects.get(user__user__username = sample_teacher_ids[count % 5])
 	paper.start_time = datetime.now()

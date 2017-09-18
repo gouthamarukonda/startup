@@ -36,6 +36,9 @@ def subject_create(request):
 		try:
 			if not request.POST.get("subject_name"):
 				return JsonResponse({"status": False, "msg": "Subject Name shouldn't be empty"})
+
+			if Subject.objects.filter(subject_name = request.POST.get("subject_name")).exists():
+				return JsonResponse({"status": False, "msg": "Subject already exists"})
 			
 			subject = Subject()
 			subject.subject_name = request.POST.get("subject_name")

@@ -3,9 +3,8 @@ from __future__ import unicode_literals
 from django.db import models
 from teacher.models import TeacherProfile
 from question.models import Question
-from program.models import Program
+from program.models import Program, Standard
 from institute.models import Institute
-from student.models import STD_8, STD_9, STD_10, STD_11, STD_12, STD_CHOICES
 
 PM_NO = '0'
 PM_YES = '1'
@@ -28,7 +27,7 @@ class Paper(models.Model):
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
 	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.PROTECT)
 	institutes = models.ManyToManyField(Institute, db_column = 'institute_ids')
-	standard = models.CharField("Standard", max_length = 2, choices = STD_CHOICES, blank = True)
+	standards = models.ManyToManyField(Standard)
 	questions = models.ManyToManyField(Question, db_column = 'question_ids')
 	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
 	paper_type = models.CharField("Paper Type", max_length = 1, choices = PAPER_CHOICES, default = PAPER_DPP)
@@ -50,3 +49,6 @@ class Paper(models.Model):
 
 	def QUESTIONS(self):
 		return ", ".join([str(p.question_id) for p in self.questions.all()])
+
+	def STANDARDS(self):
+		return ", ".join([str(p.standard_id) for p in self.standards.all()])

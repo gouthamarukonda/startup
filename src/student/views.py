@@ -8,11 +8,12 @@ from django.contrib.auth.models import User
 from django.utils.dateparse import parse_datetime
 from datetime import datetime
 
-from student.models import StudentProfile, STD_CHOICES
+from student.models import StudentProfile
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED, GENDER_CHOICES
 from institute.models import Institute
 from approval.models import ApprovalRequest
 from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION
+from program.models import Standard
 
 @csrf_exempt
 def student_register(request):
@@ -33,9 +34,6 @@ def student_register(request):
 				return JsonResponse({"status": False, "msg": "Retype password can't be empty"})
 			if request.POST.get("password") != request.POST.get("repeat_password"): 
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
-			
-			if request.POST.get("standard") not in [choice[0] for choice in STD_CHOICES]: 
-				return JsonResponse({"status": False, "msg": "Invalid Standard Value"})
 
 			if request.POST.get("gender") not in [choice[0] for choice in GENDER_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Gender Value"})
@@ -71,7 +69,7 @@ def student_register(request):
 			studentprofile = StudentProfile()
 			studentprofile.user = userprofile
 			studentprofile.boe = request.POST.get("boe")
-			studentprofile.standard = request.POST.get("standard")
+			studentprofile.standard = Standard.objects.get(standard_id = request.POST.get("standard_id"))
 			studentprofile.roll_number = request.POST.get("roll_number")
 
 			try:
