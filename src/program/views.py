@@ -28,3 +28,19 @@ def program_create(request):
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+def get_all_programs(request):
+	if request.method == 'GET':
+		try:
+			resp = {"status": True}
+			resp["programs"] = []
+			for program in Program.objects.all():
+				odict={
+					"program_id" : program.program_id,
+					"program_name" : program.program_name,
+				}
+				resp["programs"].append(odict)
+			return JsonResponse(resp)
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
