@@ -144,6 +144,7 @@ for name in Paper_name:
 	paper = Paper()
 	paper.program = Program.objects.get(program_id = (count % 4) + 1)
 	paper.paper_name = name
+	paper.standard = (count % 4) + 1
 	paper.paper_type = Paper_type[count % 2]
 	paper.teacher_id = TeacherProfile.objects.get(user__user__username = sample_teacher_ids[count % 5])
 	paper.start_time = datetime.now()
