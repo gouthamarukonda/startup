@@ -80,6 +80,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'portal.wsgi.application'
 
 # Password validation

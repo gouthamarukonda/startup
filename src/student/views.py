@@ -9,7 +9,7 @@ from django.utils.dateparse import parse_datetime
 from datetime import datetime
 
 from student.models import StudentProfile, STD_CHOICES
-from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED
+from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED, GENDER_CHOICES
 from institute.models import Institute
 from approval.models import ApprovalRequest
 from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION
@@ -29,13 +29,19 @@ def student_register(request):
 
 			if not request.POST.get("password"):
 				return JsonResponse({"status": False, "msg": "Password cannot be empty"})
-			if not request.POST.get("password_again"):
+			if not request.POST.get("repeat_password"):
 				return JsonResponse({"status": False, "msg": "Retype password can't be empty"})
-			if request.POST.get("password") != request.POST.get("password_again"): 
+			if request.POST.get("password") != request.POST.get("repeat_password"): 
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
-
+			print "hi"
+			print request.POST.get("standard")
+			for choice in STD_CHOICES:
+				print choice[0]
 			if request.POST.get("standard") not in [choice[0] for choice in STD_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Standard Value"})
+
+			if request.POST.get("gender") not in [choice[0] for choice in GENDER_CHOICES]: 
+				return JsonResponse({"status": False, "msg": "Invalid Gender Value"})
 
 			institute = None
 			try:
@@ -53,7 +59,7 @@ def student_register(request):
 			try:
 				user.save()
 			except:
-				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+				return JsonResponse({"status": False, "msg": "Internal Server Error 1"})
 
 			userprofile = UserProfile()
 			userprofile.user = user
@@ -67,6 +73,7 @@ def student_register(request):
 			studentprofile = StudentProfile()
 			studentprofile.user = userprofile
 			studentprofile.boe = request.POST.get("boe")
+			studentprofile.address = request.POST.get("address")
 			studentprofile.standard = request.POST.get("standard")
 			studentprofile.roll_number = request.POST.get("roll_number")
 
@@ -76,12 +83,11 @@ def student_register(request):
 				studentprofile.save()
 			except:
 				user.delete()
-				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+				return JsonResponse({"status": False, "msg": "Internal Server Error 2"})
 
 			registration_approval_request = ApprovalRequest(approval_type = APPROVAL_STUDENT_REGISTRATION, user = user)
 			registration_approval_request.save()
 
 			return JsonResponse({"status": True, "msg": "Registered Successfully"})
-
 		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+			return JsonResponse({"status": False, "msg": "Internal Server Error 3"})

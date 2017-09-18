@@ -77,6 +77,8 @@ for cid in sample_student_ids:
 	studentprofile = StudentProfile()
 	studentprofile.user = userprofile
 	studentprofile.boe = "CBSE"
+	studentprofile.roll_number = "12345"
+	studentprofile.address = "IIT Bombay"
 	studentprofile.standard = '2'
 	studentprofile.save()
 

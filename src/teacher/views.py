@@ -10,7 +10,7 @@ from django.utils.dateparse import parse_datetime
 from datetime import datetime
 
 from teacher.models import TeacherProfile
-from userprofile.models import UserProfile, ROLE_TEACHER, STATUS_UNAPPROVED
+from userprofile.models import UserProfile, ROLE_TEACHER, STATUS_UNAPPROVED, GENDER_CHOICES
 from institute.models import Institute
 from approval.models import ApprovalRequest
 from approval.approvalTypes import APPROVAL_TEACHER_REGISTRATION
@@ -30,10 +30,13 @@ def teacher_register(request):
 
 			if not request.POST.get("password"):
 				return JsonResponse({"status": False, "msg": "Password cannot be empty"})
-			if not request.POST.get("password_again"):
+			if not request.POST.get("repeat_password"):
 				return JsonResponse({"status": False, "msg": "Retype password can't be empty"})
-			if request.POST.get("password") != request.POST.get("password_again"): 
+			if request.POST.get("password") != request.POST.get("repeat_password"): 
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
+
+			if request.POST.get("gender") not in [choice[0] for choice in GENDER_CHOICES]: 
+				return JsonResponse({"status": False, "msg": "Invalid Gender Value"})
 
 			institute = None
 			try:

@@ -24,13 +24,23 @@
 	<!-- /core JS files -->
 
 	<!-- Theme JS files -->
+
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/jgrowl.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/ui/moment/moment.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/stepy.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/select2.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/core/libraries/jasny_bootstrap.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/validation/validate.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/pickers/daterangepicker.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/pickers/anytime.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/pickers/pickadate/picker.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/pickers/pickadate/picker.date.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/pickers/pickadate/picker.time.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/pickers/pickadate/legacy.js' %}"></script>
 
 	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/picker_date.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/components_notifications_pnotify.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/wizard_stepy.js' %}"></script>
@@ -87,36 +97,39 @@
 		            <!-- Wizard with validation -->
 		            <div class="panel panel-white">
 						<div class="panel-heading">
-							<h6 class="panel-title">Registration</h6>
+							<div class="text-center">
+								<div class="icon-object border-success text-success"><i class="icon-plus3"></i></div>
+								<h5 class="content-group">Create account <small class="display-block">All fields are required</small></h5>
+							</div>
 						</div>
 
-	                	<form class="stepy-validation" action="#" id="form1">
+
+
+	                	<form class="stepy-validation" enctype='application/json' method="POST" action="" id="form1">
 							<fieldset title="1">
-								<legend class="text-semibold">Personal data</legend>
+								<legend class="text-semibold">Credentials</legend>
 
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Select location: <span class="text-danger">*</span></label>
-											<select id="institutes" name="location" data-placeholder="Select position" class="select required">
-											</select>
+											<label>First Name: <span class="text-danger">*</span></label>
+											<input type="text" name="firstname" class="form-control required" placeholder="Goutham">
 										</div>
 									</div>
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Select position: <span class="text-danger">*</span></label>
-											<select name="position" data-placeholder="Select position" class="select required">
-											</select>
+											<label>Last Name: <span class="text-danger">*</span></label>
+											<input type="text" name="lastname" class="form-control required" placeholder="Arukonda">
 										</div>
 									</div>
 								</div>
 
 								<div class="row">
 									<div class="col-md-6">
-										<div class="form-group" id="institutes2">
-											<label>Applicant name: <span class="text-danger">*</span></label>
-											<input type="text" name="name" class="form-control required" placeholder="John Doe">
+										<div class="form-group">
+											<label>Username: <span class="text-danger">*</span></label>
+											<input type="text" name="username" class="form-control required" placeholder="John Doe">
 										</div>
 									</div>
 
@@ -131,14 +144,14 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Password field <span class="text-danger">*</span></label>
+											<label>Enter Password: <span class="text-danger">*</span></label>
 											<input type="password" name="password" id="password" class="form-control" required="required" placeholder="Minimum 5 characters allowed">
 										</div>
 									</div>
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Repeat password <span class="text-danger">*</span></label>
+											<label>Re-Enter Password: <span class="text-danger">*</span></label>
 											<input type="password" name="repeat_password" class="form-control" required="required" placeholder="Try different password">
 										</div>
 									</div>
@@ -147,180 +160,188 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Phone #:</label>
-											<input type="text" name="tel" class="form-control" placeholder="+99-9999999999" data-mask="+99-9999999999">
+											<label>Role: <span class="text-danger">*</span></label>
+											<div class="radio">
+												<label>
+													<input id="role_student" value="0" type="radio" name="role" class="styled required">
+													Student
+												</label>
+											</div>
+
+											<div class="radio">
+												<label>
+													<input id="role_teacher" value="1" type="radio" name="role" class="styled">
+													Teacher
+												</label>
+											</div>
 										</div>
 									</div>
 
 									<div class="col-md-6">
-										<label>Date of birth:</label>
-										<div class="row">
-											<div class="col-md-4">
-												<div class="form-group">
-													<select name="birth-month" data-placeholder="Month" class="select">
-														<option></option>
-														<option value="1">January</option>
-														<option value="2">February</option>
-														<option value="3">March</option>
-														<option value="4">April</option>
-														<option value="5">May</option>
-														<option value="6">June</option>
-														<option value="7">July</option>
-														<option value="8">August</option>
-														<option value="9">September</option>
-														<option value="10">October</option>
-														<option value="11">November</option>
-														<option value="12">December</option>
-													</select>
-												</div>
+										<div class="form-group">
+											<label>Gender: <span class="text-danger">*</span></label>
+											<div class="radio">
+												<label>
+													<input id="gender_male" value="0" type="radio" name="gender" class="styled required">
+													Male
+												</label>
 											</div>
 
-											<div class="col-md-4">
-												<div class="form-group">
-													<select name="birth-day" data-placeholder="Day" class="select">
-														<option></option>
-														<option value="1">1</option>
-														<option value="2">2</option>
-														<option value="3">3</option>
-														<option value="4">4</option>
-														<option value="5">5</option>
-														<option value="6">6</option>
-														<option value="7">7</option>
-														<option value="8">8</option>
-														<option value="9">9</option>
-														<option value="...">...</option>
-														<option value="31">31</option>
-													</select>
-												</div>
+											<div class="radio">
+												<label>
+													<input id="gender_female" value="1" type="radio" name="gender" class="styled">
+													Female
+												</label>
 											</div>
 
-											<div class="col-md-4">
-												<div class="form-group">
-													<select name="birth-year" data-placeholder="Year" class="select">
-														<option></option>
-														<option value="1">1980</option>
-														<option value="2">1981</option>
-														<option value="3">1982</option>
-														<option value="4">1983</option>
-														<option value="5">1984</option>
-														<option value="6">1985</option>
-														<option value="7">1986</option>
-														<option value="8">1987</option>
-														<option value="9">1988</option>
-														<option value="10">1989</option>
-														<option value="11">1990</option>
-													</select>
-												</div>
+											<div class="radio">
+												<label>
+													<input id="gender_other" value="2" type="radio" name="gender" class="styled">
+													Other
+												</label>
 											</div>
 										</div>
 									</div>
 								</div>
 							</fieldset>
-
-							<fieldset title="2">
-								<legend class="text-semibold">Your education</legend>
-
+	                		<fieldset title="2">
+								<legend class="text-semibold">Additional Info</legend>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>University: <span class="text-danger">*</span></label>
-			                                <input type="text" name="university" placeholder="University name" class="form-control required">
-		                                </div>
+											<label>Select Institute: <span class="text-danger">*</span></label>
+											<select id="institutes" name="institute" data-placeholder="Select institute" class="select required">
+											</select>
+										</div>
 									</div>
 
-									<div class="col-md-6">
+									<div class="col-md-6 studentonly">
 										<div class="form-group">
-											<label>Country:</label>
-		                                    <select name="university-country" data-placeholder="Choose a Country..." class="select">
-		                                        <option></option> 
-		                                        <option value="1">United States</option> 
-		                                        <option value="2">France</option> 
-		                                        <option value="3">Germany</option> 
-		                                        <option value="4">Spain</option> 
-		                                    </select>
-	                                    </div>
+											<label>Board of Education: <span class="text-danger">*</span></label>
+											<select name="boe" data-placeholder="Select Board of Education" class="select required studentonly1">
+												<option></option>
+												<option value="Central Board of Secondary Education (CBSE)">Central Board of Secondary Education (CBSE)</option>
+												<option value="National Institute of Open Schooling (NIOS)">National Institute of Open Schooling (NIOS)</option>
+												<option value="Council for the Indian School Certificate Examinations (CISCE)">Council for the Indian School Certificate Examinations (CISCE)</option>
+												<option value="Grameen Mukt Vidhyalayi Shiksha Sansthan(GMVSS)">Grameen Mukt Vidhyalayi Shiksha Sansthan(GMVSS)</option>
+												<option value="Andhra Pradesh Board of Secondary Education">Andhra Pradesh Board of Secondary Education</option>
+												<option value="Andhra Pradesh Open School Society">Andhra Pradesh Open School Society</option>
+												<option value="Assam Board of Secondary Education">Assam Board of Secondary Education</option>
+												<option value="Assam Higher Secondary Education Council">Assam Higher Secondary Education Council</option>
+												<option value="Assam State Open School">Assam State Open School</option>
+												<option value="Bihar Board of Open Schooling & Examinations">Bihar Board of Open Schooling & Examinations</option>
+												<option value="Bihar School Examination Board">Bihar School Examination Board</option>
+												<option value="Uttar Pradesh Board of High School and Intermediate Education Allahabad">Uttar Pradesh Board of High School and Intermediate Education Allahabad</option>
+												<option value="Madhya Pradesh Board of Secondary Education (Gwalior)">Madhya Pradesh Board of Secondary Education (Gwalior)</option>
+												<option value="Madhya Pradesh Board of Secondary Education">Madhya Pradesh Board of Secondary Education</option>
+												<option value="Madhya Pradesh State Open School">Madhya Pradesh State Open School</option>
+												<option value="Rajasthan Board of Secondary Education">Rajasthan Board of Secondary Education</option>
+												<option value="Rajasthan State Open School">Rajasthan State Open School</option>
+												<option value="Chhattisgarh Board of Education">Chhattisgarh Board of Education</option>
+												<option value="Central Board of Secondary Education (CBSE)">Central Board of Secondary Education (CBSE)</option>
+												<option value="Council for the Indian School Certificate Examinations (CISCE)">Council for the Indian School Certificate Examinations (CISCE)</option>
+												<option value="Goa Board of Secondary & Higher Secondary Education">Goa Board of Secondary & Higher Secondary Education</option>
+												<option value="Gujarat Secondary Education Board">Gujarat Secondary Education Board</option>
+												<option value="[[Gujarat state open school|Gujarat State Open School]">[[Gujarat state open school|Gujarat State Open School]</option>
+												<option value="Haryana Board of School Education">Haryana Board of School Education</option>
+												<option value="Haryana State Open School">Haryana State Open School</option>
+												<option value="Himachal Pradesh Board of School Education">Himachal Pradesh Board of School Education</option>
+												<option value="Himachal Pradesh State Open School">Himachal Pradesh State Open School</option>
+												<option value="Jharkhand Academic Council">Jharkhand Academic Council</option>
+												<option value="Jharkhand State Open School, Ranchi.">Jharkhand State Open School, Ranchi.</option>
+												<option value="Jammu and Kashmir State Board of School Education">Jammu and Kashmir State Board of School Education</option>
+												<option value="Jammu and Kashmir State Open School">Jammu and Kashmir State Open School</option>
+												<option value="Karnataka Secondary Education Examination Board">Karnataka Secondary Education Examination Board</option>
+												<option value="Karnataka State Open School">Karnataka State Open School</option>
+												<option value="Kerala Higher Secondary Examination Board">Kerala Higher Secondary Examination Board</option>
+												<option value="Kerala State Open School">Kerala State Open School</option>
+												<option value="Maharashtra State Board of Secondary and Higher Secondary Education">Maharashtra State Board of Secondary and Higher Secondary Education</option>
+												<option value="Meghalaya Board of School Education">Meghalaya Board of School Education</option>
+												<option value="Mizoram Board of School Education">Mizoram Board of School Education</option>
+												<option value="Nagaland Board of School Education">Nagaland Board of School Education</option>
+												<option value="National Institute of Open Schooling">National Institute of Open Schooling</option>
+												<option value="Orissa Board of Secondary Education">Orissa Board of Secondary Education</option>
+												<option value="Orissa Council of Higher Secondary Education">Orissa Council of Higher Secondary Education</option>
+												<option value="Punjab School Education Board">Punjab School Education Board</option>
+												<option value="Tamil Nadu Board of Secondary Education">Tamil Nadu Board of Secondary Education</option>
+												<option value="Tripura Board of Secondary Education">Tripura Board of Secondary Education</option>
+												<option value="Telangana Board of Intermediate Education">Telangana Board of Intermediate Education</option>
+												<option value="Telangana Board of Secondary Education">Telangana Board of Secondary Education</option>
+												<option value="Uttarakhand Board of School Education">Uttarakhand Board of School Education</option>
+												<option value="West Bengal Board of Madrasah Education">West Bengal Board of Madrasah Education</option>
+												<option value="West Bengal Board of Primary Education">West Bengal Board of Primary Education</option>
+												<option value="West Bengal Board of Secondary Education">West Bengal Board of Secondary Education</option>
+												<option value="West Bengal Council of Higher Secondary Education">West Bengal Council of Higher Secondary Education</option>
+												<option value="West Bengal Council of Rabindra Open Schooling">West Bengal Council of Rabindra Open Schooling</option>
+												<option value="West Bengal State Council of Vocational Education">West Bengal State Council of Vocational Education</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6 teacheronly" >
+										<div class="form-group">
+											<label>Experience #: <span class="text-danger">*</span></label>
+											<input type="text" name="experience" class="form-control required teacheronly1">
+										</div>
 									</div>
 								</div>
-
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Degree level: <span class="text-danger">*</span></label>
-			                                <input type="text" name="degree-level" placeholder="Bachelor, Master etc." class="form-control required">
-		                                </div>
-
-										<div class="form-group">
-											<label>Specialization:</label>
-			                                <input type="text" name="specialization" placeholder="Design, Development etc." class="form-control">
-		                                </div>
+											<label>Phone #: <span class="text-danger">*</span></label>
+											<input type="text" name="mobile" class="form-control required" placeholder="+99-9999999999" data-mask="+99-9999999999">
+										</div>
 									</div>
 
 									<div class="col-md-6">
-										<div class="row">
-											<div class="col-md-6">
-												<label>From:</label>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-						                                    <select name="education-from-month" data-placeholder="Month" class="select">
-						                                    	<option></option>
-						                                        <option value="January">January</option> 
-						                                        <option value="...">...</option> 
-						                                        <option value="December">December</option> 
-						                                    </select>
-					                                    </div>
-													</div>
-
-													<div class="col-md-6">
-														<div class="form-group">
-						                                    <select name="education-from-year" data-placeholder="Year" class="select">
-						                                        <option></option> 
-						                                        <option value="1995">1995</option> 
-						                                        <option value="...">...</option> 
-						                                        <option value="1980">1980</option> 
-						                                    </select>
-					                                    </div>
-													</div>
-												</div>
-											</div>
-
-											<div class="col-md-6">
-												<label>To:</label>
-												<div class="row">
-													<div class="col-md-6">
-														<div class="form-group">
-						                                    <select name="education-to-month" data-placeholder="Month" class="select">
-						                                    	<option></option>
-						                                        <option value="January">January</option> 
-						                                        <option value="...">...</option> 
-						                                        <option value="December">December</option> 
-						                                    </select>
-					                                    </div>
-													</div>
-
-													<div class="col-md-6">
-														<div class="form-group">
-						                                    <select name="education-to-year" data-placeholder="Year" class="select">
-						                                        <option></option> 
-						                                        <option value="1995">1995</option> 
-						                                        <option value="...">...</option> 
-						                                        <option value="1980">1980</option> 
-						                                    </select>
-					                                    </div>
-													</div>
-												</div>
-											</div>
-										</div>
-
 										<div class="form-group">
-											<label>Language of education:</label>
-			                                <input type="text" name="education-language" placeholder="English, German etc." class="form-control">
-		                                </div>
+											<label>Date of Birth: <span class="text-danger">*</span></label>
+											<div class="input-group">
+											<span class="input-group-addon"><i class="icon-calendar3"></i></span>
+											<input type="text" name="dob" class="form-control required" id="anytime-month-numeric" value="04/06/2014">
+										</div>
+										</div>
+									</div>
+								</div>
+								<div class="row studentonly">
+									<div class="col-md-6" >
+										<div class="form-group">
+											<label>Standard: <span class="text-danger">*</span></label>
+											<select name="standard" data-placeholder="Select Standard" class="select required studentonly1">
+												<option></option>
+												<option value="0">8th standard</option>
+												<option value="1">9th standard</option>
+												<option value="2">10th standard</option>
+												<option value="3">11th standard</option>
+												<option value="4">12th standard</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6" >
+										<div class="form-group">
+											<label>Roll Number: <span class="text-danger">*</span></label>
+											<input type="text" name="roll_number" placeholder="Give Your Institute Roll No" class="form-control required studentonly1">
+										</div>
+									</div>
+								</div>
+								<div class="row studentonly">
+									<div class="col-md-6" >
+										<div class="form-group">
+											<label>Program: <span class="text-danger">*</span></label>
+											<select id="programs" name="program_id" data-placeholder="Select Program" class="select required studentonly1">
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6" >
+										<div class="form-group">
+											<label>Address: <span class="text-danger">*</span></label>
+											<input type="text" name="address" class="form-control required studentonly1">
+										</div>
 									</div>
 								</div>
 							</fieldset>
-
-
 							<button type="submit" class="btn btn-primary stepy-finish">Submit <i class="icon-check position-right"></i></button>
 						</form>
 		            </div>
@@ -335,6 +356,7 @@
 
 	</div>
 	<!-- /page container -->
+
 
 
 	<!-- Footer -->
@@ -362,8 +384,40 @@
 	<script type="text/javascript">
 		window.onload = function() {
 	        ajaxCallFunction();
-	        document.getElementById('institutes2').innerHTML += '<label class="validation-error-label">hello field is required.</label>';
+	        // document.getElementById('institutes2').innerHTML += '<label class="validation-error-label">hello field is required.</label>';
 	    };
+
+		$('input:radio[name="role"]').change(function(){
+		    if($(this).val() == '1'){
+		       	$( ".studentonly" ).each(function() {
+					$(this).hide();
+				});
+				$( ".studentonly1" ).each(function() {
+					$(this).removeClass('required');
+				});
+				$( ".teacheronly" ).each(function() {
+					$(this).show();
+				});
+				$( ".teacheronly1" ).each(function() {
+					$(this).addClass('required');
+				});
+		    }
+		    else{
+		    	$( ".studentonly" ).each(function() {
+					$(this).show();
+				});
+				$( ".studentonly1" ).each(function() {
+					$(this).addClass('required');
+				});
+				$( ".teacheronly" ).each(function() {
+					$(this).hide();
+				});
+				$( ".teacheronly1" ).each(function() {
+					$(this).removeClass('required');
+				});
+		    }
+		});
+
 
 	    function ajaxCallFunction(){
         //this function uses ajax to interact with the server
@@ -380,14 +434,39 @@
 							var data = '<option value="'+institutes[i].institute_id+'">'+
 										institutes[i].institute_name+', '
 										+institutes[i].institute_city+', '
-										+institutes[i].institute_state;
+										+institutes[i].institute_state+'</option>';
 							document.getElementById('institutes').innerHTML += data;       
 						};							       
 					}
 					else{
 						new PNotify({
-				            title: 'Right icon',
-				            text: 'Check me out! I\'m a notice.',
+				            title: 'Some Issue!',
+				            text: 'Please reload the page',
+				            addclass: 'alert alert-danger alert-styled-right',
+				            type: 'error'
+				        });
+					}
+				}
+	        });
+	        $.ajax({
+		        type: 'GET',
+		        url: '/program/fetchprograms/',
+		        success: function(response) {
+		          // alert(response.status);
+		          	if(response.status){
+			            programs = response.programs;
+			            document.getElementById('programs').innerHTML = '<option></option>';
+						for(var i = 0; i < programs.length; ++i)
+						{     
+							var data = '<option value="'+programs[i].program_id+'">'+
+										programs[i].program_name+'</option>';
+							document.getElementById('programs').innerHTML += data;       
+						};							       
+					}
+					else{
+						new PNotify({
+				            title: 'Some Issue!',
+				            text: 'Please reload the page',
 				            addclass: 'alert alert-danger alert-styled-right',
 				            type: 'error'
 				        });
@@ -395,6 +474,46 @@
 				}
 	        });
 	    }
+
+
+	    $('#form1').submit(function(e)
+	    {
+	    	e.preventDefault();
+	    	if($("#form1").validate().form()) {
+		        $.ajax({
+		            type: 'POST',
+		            url: '/student/register/',
+		            data: $("#form1").serialize(),
+		            success: function(response) {
+			            if(response.status === true)
+		                {
+		                	new PNotify({
+					            title: 'Registration Successful',
+					            text: response.msg,
+					            addclass: 'alert alert-success alert-styled-right',
+					            type: 'success'
+					        });
+		                }
+		                else{
+		                	new PNotify({
+					            title: 'Registration Unsuccessful',
+					            text: response.msg,
+					            addclass: 'alert alert-danger alert-styled-right',
+					            type: 'error'
+					        });
+		                }
+		            }
+		        });
+		    }
+		    else{
+		    	new PNotify({
+		            title: 'Registration Unsuccessful',
+		            text: 'Validation error!',
+		            addclass: 'alert alert-danger alert-styled-right',
+		            type: 'error'
+		        });
+		    }
+	    });
 	</script>
 
 </body>
