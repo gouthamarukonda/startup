@@ -11,6 +11,7 @@ from datetime import datetime
 
 from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT
 from userprofile.decorators import admin_required
+from institute.models import Institute
 
 @csrf_exempt
 @admin_required

@@ -109,3 +109,22 @@ def register_admin(request):
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+
+@csrf_exempt
+def get_all_institutes(request):
+	if request.method == 'GET':
+		try:
+			resp = {"status": True}
+			resp["institutes"] = []
+			for institute in Institute.objects.all():
+				odict={
+					"institute_id" : institute.institute_id,
+					"institute_name" : institute.institute_name,
+					"institute_city" : institute.city,
+					"institute_state" : institute.state,
+				}
+				resp["institutes"].append(odict)
+			return JsonResponse(resp)
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})

@@ -31,6 +31,8 @@
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/validation/validate.min.js' %}"></script>
 
 	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/components_notifications_pnotify.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/wizard_stepy.js' %}"></script>
 	<!-- /theme JS files -->
 
@@ -96,40 +98,7 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Select location: <span class="text-danger">*</span></label>
-											<select name="location" data-placeholder="Select position" class="select required">
-												<option></option>
-												<optgroup label="North America">
-													<option value="1">United States</option>
-													<option value="2">Canada</option>
-												</optgroup>
-
-												<optgroup label="Latin America">
-													<option value="3">Chile</option>
-													<option value="4">Argentina</option>
-													<option value="5">Colombia</option>
-													<option value="6">Peru</option>
-												</optgroup>
-
-												<optgroup label="Europe">
-													<option value="8">Croatia</option>
-													<option value="9">Hungary</option>
-													<option value="10">Ukraine</option>
-													<option value="11">Greece</option>
-												</optgroup>
-
-												<optgroup label="Middle East &amp; Africa">
-													<option value="21">Egypt</option>
-													<option value="22">Israel</option>
-													<option value="23">Nigeria</option>
-													<option value="24">United Arab Emirates</option>
-												</optgroup>
-
-												<optgroup label="Asia Pacific">
-													<option value="26">Australia</option>
-													<option value="27">China</option>
-													<option value="28">India</option>
-													<option value="29">Singapore</option>
-												</optgroup>
+											<select id="institutes" name="location" data-placeholder="Select position" class="select required">
 											</select>
 										</div>
 									</div>
@@ -138,36 +107,6 @@
 										<div class="form-group">
 											<label>Select position: <span class="text-danger">*</span></label>
 											<select name="position" data-placeholder="Select position" class="select required">
-												<option></option>
-												<optgroup label="Developer Relations">
-													<option value="1">Sales Engineer</option>
-													<option value="2">Ads Solutions Consultant</option>
-													<option value="3">Technical Solutions Consultant</option>
-													<option value="4">Business Intern</option>
-												</optgroup>
-
-												<optgroup label="Engineering &amp; Design">
-													<option value="5">Interaction Designer</option>
-													<option value="6">Technical Program Manager</option>
-													<option value="7">Software Engineer</option>
-													<option value="8">Information Security Engineer</option>
-													<option value="9">Security Engineer</option>
-												</optgroup>
-
-												<optgroup label="Marketing &amp; Communications">
-													<option value="13">Media Outreach Manager</option>
-													<option value="14">Research Manager</option>
-													<option value="15">Marketing Intern</option>
-													<option value="16">Business Intern</option>
-												</optgroup>
-
-												<optgroup label="Sales Operations">
-													<option value="17">Sales Operations Analyst</option>
-													<option value="18">Technology Product Manager</option>
-													<option value="19">Product Expert</option>
-													<option value="20">Sales Insights Analyst</option>
-													<option value="21">Customer Operations Analyst</option>
-												</optgroup>
 											</select>
 										</div>
 									</div>
@@ -175,7 +114,7 @@
 
 								<div class="row">
 									<div class="col-md-6">
-										<div class="form-group">
+										<div class="form-group" id="institutes2">
 											<label>Applicant name: <span class="text-danger">*</span></label>
 											<input type="text" name="name" class="form-control required" placeholder="John Doe">
 										</div>
@@ -419,6 +358,44 @@
 		</div>
 	</div>
 	<!-- /footer -->
+
+	<script type="text/javascript">
+		window.onload = function() {
+	        ajaxCallFunction();
+	        document.getElementById('institutes2').innerHTML += '<label class="validation-error-label">hello field is required.</label>';
+	    };
+
+	    function ajaxCallFunction(){
+        //this function uses ajax to interact with the server
+	       	$.ajax({
+		        type: 'GET',
+		        url: '/institute/fetchinstitutes/',
+		        success: function(response) {
+		          // alert(response.status);
+		          	if(response.status){
+			            institutes = response.institutes;
+			            document.getElementById('institutes').innerHTML = '<option></option>';
+						for(var i = 0; i < institutes.length; ++i)
+						{     
+							var data = '<option value="'+institutes[i].institute_id+'">'+
+										institutes[i].institute_name+', '
+										+institutes[i].institute_city+', '
+										+institutes[i].institute_state;
+							document.getElementById('institutes').innerHTML += data;       
+						};							       
+					}
+					else{
+						new PNotify({
+				            title: 'Right icon',
+				            text: 'Check me out! I\'m a notice.',
+				            addclass: 'alert alert-danger alert-styled-right',
+				            type: 'error'
+				        });
+					}
+				}
+	        });
+	    }
+	</script>
 
 </body>
 </html>
