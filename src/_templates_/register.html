@@ -309,13 +309,7 @@
 									<div class="col-md-6" >
 										<div class="form-group">
 											<label>Standard: <span class="text-danger">*</span></label>
-											<select name="standard" data-placeholder="Select Standard" class="select required studentonly1">
-												<option></option>
-												<option value="0">8th standard</option>
-												<option value="1">9th standard</option>
-												<option value="2">10th standard</option>
-												<option value="3">11th standard</option>
-												<option value="4">12th standard</option>
+											<select id="standards" name="standard_id" data-placeholder="Select Standard" class="select required studentonly1">
 											</select>
 										</div>
 									</div>
@@ -531,6 +525,31 @@
 							var data = '<option value="'+programs[i].program_id+'">'+
 										programs[i].program_name+'</option>';
 							document.getElementById('programs').innerHTML += data;       
+						};							       
+					}
+					else{
+						new PNotify({
+				            title: 'Some Issue!',
+				            text: 'Please reload the page',
+				            addclass: 'alert alert-danger alert-styled-right',
+				            type: 'error'
+				        });
+					}
+				}
+	        });
+	        $.ajax({
+		        type: 'GET',
+		        url: '/program/fetchstandards/',
+		        success: function(response) {
+		          	// alert(response.status);
+		          	if(response.status){
+			            standards = response.standards;
+			            document.getElementById('standards').innerHTML = '<option></option>';
+						for(var i = 0; i < standards.length; ++i)
+						{     
+							var data = '<option value="'+standards[i].standard_id+'">'+
+										standards[i].standard_name+'</option>';
+							document.getElementById('standards').innerHTML += data;       
 						};							       
 					}
 					else{
