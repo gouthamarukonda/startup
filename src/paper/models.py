@@ -14,24 +14,21 @@ PM_CHOICES = (
 	(PM_NO, 'No')
 )
 
-PAPER_DPP = '0'
-PAPER_EXAM = '1'
+class PaperType(models.Model):
+	type_id = models.AutoField("Paper Type ID", db_column = 'type_id', primary_key = True)
+	type_name = models.CharField("Type Name", max_length = 600, blank = True)
 
-PAPER_CHOICES = (
-	(PAPER_DPP, 'Dpp'),
-	(PAPER_EXAM, 'Exam')
-)
 
 class Paper(models.Model):
 
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
+	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
+	paper_type = models.ForeignKey(PaperType, db_column = 'paper_type', on_delete = models.PROTECT)
 	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.PROTECT)
 	institutes = models.ManyToManyField(Institute, db_column = 'institute_ids')
 	standards = models.ManyToManyField(Standard)
-	questions = models.ManyToManyField(Question, db_column = 'question_ids')
-	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
-	paper_type = models.CharField("Paper Type", max_length = 1, choices = PAPER_CHOICES, default = PAPER_DPP)
 	teacher_id = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
+	questions = models.ManyToManyField(Question, db_column = 'question_ids')
 	start_time = models.DateTimeField(auto_now = False, blank = True, null = True)
 	end_time = models.DateTimeField(auto_now = False, blank = True, null = True)
 	duration = models.IntegerField("Duration", blank = True, default = 180)

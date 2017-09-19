@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from answer.models import Answer
 from chapter.models import Chapter, Subject
 from institute.models import Institute
-from paper.models import Paper
+from paper.models import Paper, PaperType
 from question.models import Question
 from student.models import StudentProfile
 from teacher.models import TeacherProfile
@@ -61,6 +61,15 @@ for cid in sample_institute_ids:
 	institute.save()
 
 
+# create Paper Types
+paper_types = ['DPP', 'Exam', 'AIST', 'AIFT', 'SAT', 'FAT', 'CQ']
+
+for p in paper_types:
+	paper_type = PaperType()
+	paper_type.type_name = p
+	paper_type.save()
+
+
 # Create users for student, teacher
 
 sample_student_ids = ['10001', '10002', '10003', '10004', '10005']
@@ -69,7 +78,7 @@ count = 0
 
 for cid in sample_student_ids:
 	user = User(username = cid)
-	user.set_password(cid)
+	user.set_password(cid+cid)
 	user.first_name = "CUSTOMER-" + cid[0] + cid[4]
 	user.email = "CUSTOMER-" + cid[0] + cid[4] + "@gmail.com"
 	user.is_active = True
@@ -157,7 +166,7 @@ for name in Paper_name:
 	paper = Paper()
 	paper.program = Program.objects.get(program_id = (count % 4) + 1)
 	paper.paper_name = name
-	paper.paper_type = Paper_type[count % 2]
+	paper.paper_type = PaperType.objects.get(type_id = (count % 7) + 1)
 	paper.teacher_id = TeacherProfile.objects.get(user__user__username = sample_teacher_ids[count % 5])
 	paper.start_time = datetime.now()
 	paper.end_time = datetime.now()

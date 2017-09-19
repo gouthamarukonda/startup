@@ -10,8 +10,8 @@ from datetime import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 
 from question.models import Question
-from paper.models import Paper, PM_CHOICES, PAPER_CHOICES
-from userprofile.decorators import admin_teacher_required, teacher_required
+from paper.models import Paper, PM_CHOICES, PaperType
+from userprofile.decorators import admin_required, teacher_required
 from program.models import Program
 from institute.models import Institute
 
@@ -24,11 +24,11 @@ def paper_create(request):
 			if not request.POST.get("paper_name"):
 				return JsonResponse({"status": False, "msg": "Paper Name shouldn't be empty"})
 
+			if not PaperType.objects.filter(type_id = request.POST.get("paper_type")).exists():
+				return JsonResponse({"status": False, "msg": "Paper Type does not exist"})
+
 			if not Program.objects.filter(program_id = request.POST.get("program_id")).exists():
 				return JsonResponse({"status": False, "msg": "Program ID does not exist"})
-
-			if request.POST.get("paper_type") not in [choice[0] for choice in PAPER_CHOICES]: 
-				return JsonResponse({"status": False, "msg": "Invalid Paper Type"})
 
 			if request.POST.get("partial_marking") not in [choice[0] for choice in PM_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Partial Marking Scheme"})
@@ -36,7 +36,7 @@ def paper_create(request):
 			paper = Paper()
 			paper.paper_name = request.POST.get("paper_name")
 			paper.program = Program.objects.get(program_id = request.POST.get("program_id"))
-			paper.paper_type = request.POST.get("paper_type")
+			paper.paper_type = PaperType.objects.get(type_id = request.POST.get("paper_type"))
 			paper.teacher_id = request.user.userprofile.teacherprofile
 			paper.start_time = datetime.now()
 			paper.end_time = datetime.now()
@@ -72,6 +72,31 @@ def add_question(request):
 			paper.questions.add(request.POST.get("question_id"))
 
 			return JsonResponse({"status": True, "msg": "Question added Successfully"})
+
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+
+@csrf_exempt
+@admin_required
+def paper_type_create(request):
+	if request.method == 'POST':
+
+		try:
+			if not request.POST.get("paper_type"):
+				return JsonResponse({"status": False, "msg": "Paper Type shouldn't be empty"})
+
+			if PaperType.objects.filter(type_name = request.POST.get("paper_type")).exists():
+				return JsonResponse({"status": False, "msg": "Paper Type already exists"})
+			
+			paper_type = PaperType()
+			paper_type.type_name = request.POST.get("paper_type")
+			
+			try:
+				paper_type.save()
+				return JsonResponse({"status": True, "msg": "Paper Type Added Successfully"})
+			except:
+				return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
