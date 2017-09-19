@@ -32,7 +32,16 @@ def paper_create(request):
 
 			if request.POST.get("partial_marking") not in [choice[0] for choice in PM_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Partial Marking Scheme"})
+
+			institute_ids = json.loads(request.POST.get("institute_list"))["institute_list"]
+			standard_ids = json.loads(request.POST.get("standard_list"))["standard_list"]
+
+			if not len(institute_ids)==len(Institute.objects.filter(pk__in = institute_ids)):
+				return JsonResponse({"status": False, "msg": "Some of the Institute IDs are invalid or appear more than once"})
 			
+			if not len(standard_ids)==len(Institute.objects.filter(pk__in = standard_ids)):
+				return JsonResponse({"status": False, "msg": "Some of the Standard IDs are invalid or appear more than once"})
+				
 			paper = Paper()
 			paper.paper_name = request.POST.get("paper_name")
 			paper.program = Program.objects.get(program_id = request.POST.get("program_id"))
@@ -45,8 +54,9 @@ def paper_create(request):
 
 			try:
 				paper.save()
-				paper.institutes.add(*map(int, json.loads(request.POST.get("institute_list"))["institute_list"]))
-				paper.standards.add(*map(int, json.loads(request.POST.get("standard_list"))["standard_list"]))
+				pk_id = json.loads(request.POST.get("institute_list"))["institute_list"]
+				paper.institutes.add(*map(int, institute_ids))
+				paper.standards.add(*map(int, standard_ids))
 				return JsonResponse({"status": True, "msg": "Paper Registered Successfully"})
 			except:
 				paper.delete()

@@ -14,6 +14,7 @@ from .models import Institute
 from .models2 import InstituteAdmin
 from userprofile.models import UserProfile, ROLE_INSTITUTE_ADMIN, STATUS_APPROVED
 from userprofile.decorators import admin_required
+from program.models import Program
 
 @csrf_exempt
 @admin_required
@@ -40,6 +41,7 @@ def institute_register(request):
 
 			try:
 				institute.save()
+				institute.programs.add(*map(int, json.loads(request.POST.get("program_list"))["program_list"]))
 				return JsonResponse({"status": True, "msg": "Institute Registered Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})

@@ -15,15 +15,21 @@ PM_CHOICES = (
 )
 
 class PaperType(models.Model):
-	type_id = models.AutoField("Paper Type ID", db_column = 'type_id', primary_key = True)
+	type_id = models.AutoField("Type ID", db_column = 'type_id', primary_key = True)
 	type_name = models.CharField("Type Name", max_length = 600, blank = True)
+
+	class Meta:
+		db_table = 'paper_type'
+
+	def __unicode__(self):
+		return unicode(self.type_id)
 
 
 class Paper(models.Model):
 
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
 	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
-	paper_type = models.ForeignKey(PaperType, db_column = 'paper_type', on_delete = models.PROTECT)
+	paper_type = models.ForeignKey(PaperType, db_column = 'paper_type', on_delete = models.CASCADE)
 	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.PROTECT)
 	institutes = models.ManyToManyField(Institute, db_column = 'institute_ids')
 	standards = models.ManyToManyField(Standard)
