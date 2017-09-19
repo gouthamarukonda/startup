@@ -74,7 +74,14 @@ def register(request):
 @login_required(login_url='/login/')
 def get_user_home_page(request):
 	if request.method == 'GET':
-		return render(request, 'user/index.html')
+		if request.user.is_superuser:
+			return render(request, 'admin/index.html')
+		elif request.user.userprofile.role == 1:
+			return render(request, 'teacher/index.html')
+		elif request.user.userprofile.role == 2:
+			return render(request, 'instituteadmin/index.html')
+		else:
+			return render(request, 'student/index.html')
 
 @login_required(login_url='/login/')
 @csrf_exempt
@@ -111,8 +118,10 @@ def email_verification(request):
 @csrf_exempt
 def password_validation(request):
 	if request.method == 'POST':
-
 		try:
+			if not request.POST.get("username"):
+				return JsonResponse({"status": False, "msg": "Username shouldn't be empty"})
+
 			if not request.POST.get("password"):
 				return JsonResponse({"status": False, "msg": "Password shouldn't be empty"})
 
@@ -121,6 +130,7 @@ def password_validation(request):
 				user = User(username = request.POST.get("username"))
 				user.first_name = request.POST.get("first_name")
 				user.last_name = request.POST.get("last_name")
+				user.email = request.POST.get("email")
 
 			password = request.POST.get("password")
 			password_validators = get_default_password_validators()

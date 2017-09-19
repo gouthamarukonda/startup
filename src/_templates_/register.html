@@ -113,14 +113,14 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>First Name: <span class="text-danger">*</span></label>
-											<input type="text" name="firstname" class="form-control required" placeholder="Goutham">
+											<input type="text" id="firstname" name="firstname" class="form-control required" placeholder="Goutham">
 										</div>
 									</div>
 
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Last Name: <span class="text-danger">*</span></label>
-											<input type="text" name="lastname" class="form-control required" placeholder="Arukonda">
+											<input type="text" id="lastname" name="lastname" class="form-control required" placeholder="Arukonda">
 										</div>
 									</div>
 								</div>
@@ -147,7 +147,8 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Enter Password: <span class="text-danger">*</span></label>
-											<input type="password" name="password" id="password" class="form-control" required="required" placeholder="Minimum 5 characters allowed">
+											<input type="password" onblur="myfunc3()" name="password" id="password" class="form-control" required="required" placeholder="Minimum 8 characters allowed">
+                                            <label id="passwordcheck" class="validation-error-label"></label>
 										</div>
 									</div>
 
@@ -482,6 +483,43 @@
 	        });
 		}
 
+        function myfunc3(){
+			document.getElementById('passwordcheck').textContent = "";
+			$.ajax({
+		        type: 'POST',
+		        url: '/user/validatepassword/',
+		        data:{
+		        	password : document.getElementById("password").value,
+                    username : document.getElementById("username").value,
+                    first_name : document.getElementById("firstname").value,
+                    last_name : document.getElementById("lastname").value,
+                    email : document.getElementById("email").value
+		        },
+		        success: function(response) {
+		          // alert(response.status);
+		          	if(response.status){
+		          		$("#passwordcheck").addClass('validation-valid-label').removeClass('validation-error-label');
+		          		document.getElementById('passwordcheck').textContent = "Password is okay";
+			        	new PNotify({
+				            title: 'Email Avaliable',
+				            text: 'Please continue to the next page',
+				            addclass: 'alert alert-success alert-styled-right',
+				            type: 'success'
+				        });
+					}
+					else{
+						$("#passwordcheck").addClass('validation-error-label').removeClass('validation-valid-label');
+		          		document.getElementById('passwordcheck').textContent = response.failed;
+						new PNotify({
+				            title: 'Some Issue!',
+				            text: response.failed,
+				            addclass: 'alert alert-danger alert-styled-right',
+				            type: 'error'
+				        });
+					}
+				}
+	        });
+		}
 
 	    function ajaxCallFunction(){
         //this function uses ajax to interact with the server
@@ -569,6 +607,7 @@
 	    {
 	    	var a = document.getElementById('usernameavaliable').textContent;
 	    	var b = document.getElementById('emailavaliable').textContent;
+	    	var c = document.getElementById('passwordcheck').textContent;
 	    	var url_temp;
 	    	if($("input[name=role]:checked").val() == "0"){
 	    		url_temp = '/student/register/';
@@ -595,8 +634,10 @@
 		                else{
 		                	$('#usernameavaliable').show();
 		                	$('#emailavaliable').show();
+		                	$('#passwordcheck').show();
 		                	document.getElementById('usernameavaliable').textContent = a;
 		                	document.getElementById('emailavaliable').textContent = b;
+		                	document.getElementById('passwordcheck').textContent = c;
 		                	new PNotify({
 					            title: 'Registration Unsuccessful',
 					            text: response.msg,
