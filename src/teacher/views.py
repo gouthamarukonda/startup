@@ -37,6 +37,8 @@ def teacher_register(request):
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
 			if request.POST.get("gender") not in [choice[0] for choice in GENDER_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Gender Value"})
+			if not request.POST.get("program_id"):
+				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
 
 			user = None
 			if request.POST.get("username"):

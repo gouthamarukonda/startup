@@ -10,8 +10,9 @@ from django.core.exceptions import ValidationError
 from approval.models import ApprovalRequest
 from institute.models import Institute
 from program.models import Standard
-from student.models import StudentProfile
+from student.models import StudentProfile, BoardOfEducation
 from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED, GENDER_CHOICES
+from userprofile.decorators import admin_required
 
 
 @csrf_exempt
@@ -34,6 +35,12 @@ def student_register(request):
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
 			if request.POST.get("gender") not in [choice[0] for choice in GENDER_CHOICES]: 
 				return JsonResponse({"status": False, "msg": "Invalid Gender Value"})
+			if not request.POST.get("program_id"):
+				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
+			if not request.POST.get("boe"):
+				return JsonResponse({"status": False, "msg": "Board Of Education ID shouldn't be empty"})
+			if not request.POST.get("standard_id"):
+				return JsonResponse({"status": False, "msg": "Standard ID shouldn't be empty"})
 
 			user = None
 			if request.POST.get("username"):
@@ -84,7 +91,7 @@ def student_register(request):
 
 			studentprofile = StudentProfile()
 			studentprofile.user = userprofile
-			studentprofile.boe = request.POST.get("boe")
+			studentprofile.boe = BoardOfEducation.objects.get(boe_id = request.POST.get("boe"))
 			studentprofile.standard = Standard.objects.get(standard_id = request.POST.get("standard_id"))
 			studentprofile.roll_number = request.POST.get("roll_number")
 
@@ -102,3 +109,28 @@ def student_register(request):
 			return JsonResponse({"status": True, "msg": "Registered Successfully"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error 3"})
+
+
+@csrf_exempt
+@admin_required
+def boe_create(request):
+	if request.method == 'POST':
+
+		try:
+			if not request.POST.get("boe"):
+				return JsonResponse({"status": False, "msg": "Boe Name shouldn't be empty"})
+
+			if BoardOfEducation.objects.filter(boe_name = request.POST.get("boe")).exists():
+				return JsonResponse({"status": False, "msg": "Boe Name already exists"})
+
+			boe = BoardOfEducation()
+			boe.boe_name = request.POST.get("boe")
+
+			try:
+				boe.save()
+				return JsonResponse({"status": True, "msg": "Boe Added Successfully"})
+			except:
+				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})

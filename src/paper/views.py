@@ -39,7 +39,7 @@ def paper_create(request):
 			if not len(institute_ids)==len(Institute.objects.filter(pk__in = institute_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Institute IDs are invalid or appear more than once"})
 			
-			if not len(standard_ids)==len(Institute.objects.filter(pk__in = standard_ids)):
+			if not len(standard_ids)==len(Standard.objects.filter(pk__in = standard_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Standard IDs are invalid or appear more than once"})
 				
 			paper = Paper()
@@ -54,7 +54,6 @@ def paper_create(request):
 
 			try:
 				paper.save()
-				pk_id = json.loads(request.POST.get("institute_list"))["institute_list"]
 				paper.institutes.add(*map(int, institute_ids))
 				paper.standards.add(*map(int, standard_ids))
 				return JsonResponse({"status": True, "msg": "Paper Registered Successfully"})
@@ -74,6 +73,9 @@ def add_question(request):
 		try:
 			if not request.POST.get("paper_id"):
 				return JsonResponse({"status": False, "msg": "Paper ID shouldn't be empty"})
+
+			if not request.POST.get("question_id"):
+				return JsonResponse({"status": False, "msg": "Question ID shouldn't be empty"})
 
 			if not Paper.objects.filter(paper_id = request.POST.get("paper_id")).exists():
 				return JsonResponse({"status": False, "msg": "Paper ID does not exist"})

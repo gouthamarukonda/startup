@@ -75,7 +75,7 @@ def register(request):
 def get_user_home_page(request):
 	if request.method == 'GET':
 		if request.user.is_superuser:
-			return render(request, 'admin/index.html')
+			return render(request, 'admin2/index.html')
 		elif request.user.userprofile.role == 1:
 			return render(request, 'teacher/index.html')
 		elif request.user.userprofile.role == 2:

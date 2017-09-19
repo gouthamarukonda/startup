@@ -31,6 +31,10 @@ def institute_register(request):
 			if not request.POST.get("state"):
 				return JsonResponse({"status": False, "msg": "State can't be empty"})
 
+			program_ids = json.loads(request.POST.get("program_list"))["program_list"]
+			if not len(program_ids)==len(Program.objects.filter(pk__in = program_ids)):
+				return JsonResponse({"status": False, "msg": "Some of the Program IDs are invalid or appear more than once"})
+
 			institute = Institute()
 			institute.institute_name = request.POST.get("institute_name")
 			institute.address = request.POST.get("address")
@@ -41,7 +45,7 @@ def institute_register(request):
 
 			try:
 				institute.save()
-				institute.programs.add(*map(int, json.loads(request.POST.get("program_list"))["program_list"]))
+				institute.programs.add(*map(int, program_ids))
 				return JsonResponse({"status": True, "msg": "Institute Registered Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
@@ -69,6 +73,10 @@ def register_admin(request):
 			if request.POST.get("password") != request.POST.get("password_again"): 
 				return JsonResponse({"status": False, "msg": "Password and retype password must be the same"})
 
+			institute_ids = json.loads(request.POST.get("institute_list"))["institute_list"]
+			if not len(institute_ids)==len(Institute.objects.filter(pk__in = institute_ids)):
+				return JsonResponse({"status": False, "msg": "Some of the Institute IDs are invalid or appear more than once"})
+				
 			institute = None
 			try:
 				institute = Institute.objects.get(institute_id = request.POST.get("institute"))
@@ -102,7 +110,7 @@ def register_admin(request):
 			try:
 				userprofile.save()
 				instituteAdmin.save()
-				instituteAdmin.institutes.add(*map(int, json.loads(request.POST.get("institute_list"))["institute_list"]))
+				instituteAdmin.institutes.add(*map(int, institute_ids))
 			except:
 				user.delete()
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
