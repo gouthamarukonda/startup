@@ -134,3 +134,19 @@ def boe_create(request):
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+def get_all_boards(request):
+	if request.method == 'GET':
+		try:
+			resp = {"status": True}
+			resp["boe"] = []
+			for boe in BoardOfEducation.objects.all():
+				odict={
+					"boe_id" : boe.boe_id,
+					"boe_name" : boe.boe_name,
+				}
+				resp["boe"].append(odict)
+			return JsonResponse(resp)
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})

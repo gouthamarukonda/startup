@@ -12,6 +12,7 @@ ROLE_INSTITUTE_ADMIN = '2'
 ROLE_CHOICES = (
 	(ROLE_STUDENT, 'student'),
 	(ROLE_TEACHER, 'teacher'),
+	(ROLE_INSTITUTE_ADMIN, 'Institute Admin'),
 )
 
 GENDER_MALE = '0'

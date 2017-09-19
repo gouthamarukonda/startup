@@ -20,7 +20,7 @@ class Program(models.Model):
 
 class Standard(models.Model):
 	standard_id = models.AutoField("Standard ID", db_column = 'standard_id', primary_key = True)
-	standard_name = models.CharField("Program Name", max_length = 2, blank = True)
+	standard_name = models.CharField("Standard Name", max_length = 2, blank = True)
 
 	class Meta:
 		db_table = 'standard'
