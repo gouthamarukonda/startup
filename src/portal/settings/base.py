@@ -143,10 +143,26 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_mediaroot_')
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'portal.s3utils.MediaRootS3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'portal.s3conf.MediaRootS3Boto3Storage'
 
 DEFAULT_PROFILE_PICTURE_PATH = 'defaultprofilepicture.jpg'
 DEFAULT_PROFILE_PICTURE_URL = STATIC_URL + DEFAULT_PROFILE_PICTURE_PATH
+
+# SMTP Settings
+
+EMAIL_HOST_USER = 'AKIAJAUMR2LEKFVMVZ7A'
+EMAIL_HOST_PASSWORD = 'AlyceFn7Tu9NvL1XD3IJGdPEHF1OL0/dgzA5bOIf0ALk'
+EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_SUBJECT_PREFIX = "[Startup]"
+
+SERVER_EMAIL = 'sahilkonkyana@gmail.com'
+ADMINS = [
+    ("Avinash", "avinashdec12@gmail.com"),
+    ("Goutham", "gouthamarukonda@gmail.com"),
+    ("Sahil", "sahilkonkyana@gmail.com"),
+]
 
 # S3 Settings
 

@@ -1,18 +1,20 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import get_default_password_validators
+from django.core.exceptions import ValidationError
+from django.core.mail import mail_admins, send_mail
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from approval.approvalTypes import APPROVAL_STUDENT_REGISTRATION
-from django.contrib.auth.password_validation import get_default_password_validators
-from django.core.exceptions import ValidationError
 from approval.models import ApprovalRequest
 from institute.models import Institute
 from program.models import Standard
 from student.models import StudentProfile, BoardOfEducation
-from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED, GENDER_CHOICES
 from userprofile.decorators import admin_required
+from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_UNAPPROVED, GENDER_CHOICES
 
 
 @csrf_exempt
@@ -106,10 +108,11 @@ def student_register(request):
 			registration_approval_request = ApprovalRequest(approval_type = APPROVAL_STUDENT_REGISTRATION, user = user)
 			registration_approval_request.save()
 
+			send_mail("Welcome to startup", "Yo bro, Wait for your approval", settings.SERVER_EMAIL, [user.email])
+			mail_admins("Student Registered", "Yo Admin, " + user.username + " registered.")
 			return JsonResponse({"status": True, "msg": "Registered Successfully"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error 3"})
-
 
 @csrf_exempt
 @admin_required
@@ -138,6 +141,7 @@ def boe_create(request):
 @csrf_exempt
 def get_all_boards(request):
 	if request.method == 'GET':
+
 		try:
 			resp = {"status": True}
 			resp["boe"] = []
