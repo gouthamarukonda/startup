@@ -1,9 +1,11 @@
 from __future__ import unicode_literals
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from imagekit.models import ProcessedImageField
+
 from chapter.models import Chapter
 from teacher.models import TeacherProfile
-from django.contrib.postgres.fields import ArrayField
 
 Q_MULTIPLE = '0'
 Q_SINGLE = '1'
@@ -36,13 +38,19 @@ class Question(models.Model):
 	chapter = models.ForeignKey(Chapter, db_column = 'chapter_id', on_delete = models.CASCADE)
 	question_type = models.CharField("Question Type", max_length = 1, choices = QUESTION_CHOICES, default = Q_SINGLE)
 	question = models.TextField("Question", blank = True, null = True)
-	question_image = models.TextField("Question Image", blank = True, null = True)
+	question_image = ProcessedImageField(upload_to = 'questions',
+										 format = 'JPEG',
+										 options = {'quality': 90},
+										 null = True)
 	marks_positive = models.IntegerField("Positive Marks", default = 3)
 	marks_negative = models.IntegerField("Negative Marks", default = -1)
 	options = ArrayField(ArrayField(models.TextField(), size = 3), blank = True, null = True)
 	int_answer = models.IntegerField("Integer Answer", blank = True, null = True)
 	solution = models.TextField("Solution", db_column = 'solution', blank = True, null = True)
-	solution_image = models.TextField("Solution Image", blank = True, null = True)
+	solution_image = ProcessedImageField(upload_to = 'solutions',
+										 format = 'JPEG',
+										 options = {'quality': 90},
+										 null = True)
 	complexity = models.CharField("Question Complexity", max_length = 1, choices = COMPLEXITY_CHOICES, default = C_EASY)
 	teacher = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
 	time_stamp = models.DateTimeField(auto_now = True, blank = True, null = True)

@@ -1,8 +1,9 @@
-from django.conf.urls import url, include
+from django.conf.urls import include, url
+
 from . import views
 from . import views_admin
 
-admin_patterns = [
+admin_urlpatterns = [
 	url(r'^view-programs/$', views_admin.template_view_all_programs),
 	url(r'^view-subjects/$', views_admin.template_view_all_subjects),
 	url(r'^view-institutes/$', views_admin.template_view_all_institutes),
@@ -16,11 +17,13 @@ admin_patterns = [
 ]
 
 urlpatterns = [
+	url(r'^admin/', include(admin_urlpatterns)),
 	url(r'^disapprove/$', views.user_disapprove),
 	url(r'^login/$', views.user_login),
 	url(r'^home/$', views.get_user_home_page),
 	url(r'^usernameverification/$', views.username_verification),
 	url(r'^emailverification/$', views.email_verification),
 	url(r'^validatepassword/$', views.password_validation),
-	url(r'^admin/', include(admin_patterns)),
+	url(r'^updateprofilepicture/$', views.update_profile_picture),
+	url(r'^getprofilepicture/$', views.get_profile_picture),
 ]
