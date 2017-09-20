@@ -27,6 +27,9 @@ from answer.tools import evaluate_answer
 
 superuser = User(username = "admin")
 superuser.set_password("admin12345")
+superuser.email="admin@admin.com"
+superuser.first_name = "Admin"
+superuser.last_name	= "Admin"
 superuser.is_superuser = True
 superuser.is_staff = True
 superuser.is_active = True

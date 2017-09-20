@@ -107,7 +107,7 @@ a.label {
     display: none
 }
 .sidebar .sidebar-content {
-    background-color: #37474f;
+    background-color: rgba(39, 50, 57, 1);
     border: 1px solid transparent
 }
 @media (min-width: 769px) {

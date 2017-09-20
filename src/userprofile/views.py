@@ -72,18 +72,6 @@ def register(request):
 		return render(request, 'register.html')
 
 @login_required(login_url='/login/')
-def get_user_home_page(request):
-	if request.method == 'GET':
-		if request.user.is_superuser:
-			return render(request, 'adminportal/index.html')
-		elif request.user.userprofile.role == 1:
-			return render(request, 'teacher/index.html')
-		elif request.user.userprofile.role == 2:
-			return render(request, 'instituteadmin/index.html')
-		else:
-			return render(request, 'student/index.html')
-
-@login_required(login_url='/login/')
 @csrf_exempt
 def user_logout(request):
 	logout(request)
@@ -149,3 +137,21 @@ def password_validation(request):
 				return JsonResponse({"status": False, "passed": passed, "failed": failed})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+
+@login_required(login_url='/login/')
+def get_user_home_page(request):
+	if request.method == 'GET':
+		if request.user.is_superuser:
+			return get_admin_home_page(request)
+		elif request.user.userprofile.role == 1:
+			return render(request, 'teacher/index.html')
+		elif request.user.userprofile.role == 2:
+			return render(request, 'instituteadmin/index.html')
+		else:
+			return render(request, 'student/index.html')
+
+
+@login_required(login_url='/login/')
+def get_admin_home_page(request):
+	return render(request, 'adminportal/index.html')
