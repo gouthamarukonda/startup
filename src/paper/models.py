@@ -30,7 +30,7 @@ class Paper(models.Model):
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
 	paper_name = models.CharField("Paper Name", max_length = 600, blank = True)
 	paper_type = models.ForeignKey(PaperType, db_column = 'paper_type', on_delete = models.CASCADE)
-	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.PROTECT)
+	program = models.ForeignKey(Program, db_column = 'program_id', on_delete = models.CASCADE)
 	institutes = models.ManyToManyField(Institute, db_column = 'institute_ids')
 	standards = models.ManyToManyField(Standard)
 	teacher_id = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)

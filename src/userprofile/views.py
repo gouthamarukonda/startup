@@ -13,7 +13,7 @@ from institute.models import Institute
 from institute.models2 import InstituteAdmin
 from student.models import StudentProfile
 from teacher.models import TeacherProfile
-
+from program.models import Program
 
 @csrf_exempt
 @admin_required
@@ -156,6 +156,7 @@ def get_user_home_page(request):
 			return render(request, 'student/index.html')
 
 
+@admin_required
 @login_required(login_url='/login/')
 def get_admin_home_page(request):
 	NumInstitutes = len(Institute.objects.all())

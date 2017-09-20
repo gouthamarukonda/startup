@@ -238,7 +238,6 @@ for cid in sample_insti_admin_ids:
 	userprofile.dob = datetime.now()
 	userprofile.status = STATUS_APPROVED
 	userprofile.save()
-	userprofile.programs.add((count % 6)+1)
 	instituteAdmin = InstituteAdmin()
 	instituteAdmin.user = userprofile
 	instituteAdmin.save()
