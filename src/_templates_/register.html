@@ -22,6 +22,22 @@
 	<script type="text/javascript" src="{% static 'assets/js/core/libraries/bootstrap.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/loaders/blockui.min.js' %}"></script>
 	<!-- /core JS files -->
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>#}
+{#    <script>#}
+{#        jQuery(window).load(function(){#}
+{#            jQuery(".hameid-loader-overlay").fadeOut(500);#}
+{#        });#}
+{#    </script>#}
+{#    <style>#}
+{#        .hameid-loader-overlay {#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            background: url('images/preloader.gif') center no-repeat #FFF;#}
+{#            z-index: 99999;#}
+{#            position: fixed;#}
+{#        }#}
+{#    </style>#}
+
 
 	<!-- Theme JS files -->
 
@@ -49,6 +65,8 @@
 </head>
 
 <body class="navbar-bottom">
+{#    <div class="hameid-loader-overlay"></div>#}
+
 
 		<!-- Main navbar -->
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -357,7 +375,7 @@
 
 
 	<!-- Footer -->
-	<div class="navbar navbar-default navbar-fixed-bottom footer">
+	<div class="navbar navbar-default footer">
 		<ul class="nav navbar-nav visible-xs-block">
 			<li><a class="text-center collapsed" data-toggle="collapse" data-target="#footer"><i class="icon-circle-up2"></i></a></li>
 		</ul>
@@ -381,7 +399,6 @@
 	<script type="text/javascript">
 		window.onload = function() {
 	        ajaxCallFunction();
-	        // document.getElementById('institutes2').innerHTML += '<label class="validation-error-label">hello field is required.</label>';
 	    };
 
 		$('input:radio[name="role"]').change(function(){
