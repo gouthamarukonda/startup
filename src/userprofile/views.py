@@ -9,6 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from userprofile.decorators import admin_required
 from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT
+from institute.models import Institute
+from institute.models2 import InstituteAdmin
+from student.models import StudentProfile
+from teacher.models import TeacherProfile
 
 
 @csrf_exempt
@@ -154,4 +158,10 @@ def get_user_home_page(request):
 
 @login_required(login_url='/login/')
 def get_admin_home_page(request):
-	return render(request, 'adminportal/index.html')
+	NumInstitutes = len(Institute.objects.all())
+	NumStudents = len(StudentProfile.objects.all())
+	NumTeachers = len(TeacherProfile.objects.all())
+	NumInstituteAdmins = len(InstituteAdmin.objects.all())
+	return render(request, 'adminportal/index.html',
+				  {'NumInstitutes': NumInstitutes, 'NumStudents': NumStudents, 'NumTeachers': NumTeachers,
+				   'NumInstituteAdmins': NumInstituteAdmins})
