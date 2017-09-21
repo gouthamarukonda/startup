@@ -9,14 +9,16 @@ from imagekit.processors import ResizeToFill
 from institute.models import Institute
 from program.models import Program
 
-ROLE_STUDENT = '0'
-ROLE_TEACHER = '1'
-ROLE_INSTITUTE_ADMIN = '2'
+ROLE_ADMIN = '0'
+ROLE_INSTITUTE_ADMIN = '1'
+ROLE_TEACHER = '2'
+ROLE_STUDENT = '3'
 
 ROLE_CHOICES = (
-	(ROLE_STUDENT, 'student'),
-	(ROLE_TEACHER, 'teacher'),
+	(ROLE_ADMIN, 'Admin'),
 	(ROLE_INSTITUTE_ADMIN, 'Institute Admin'),
+	(ROLE_TEACHER, 'Teacher'),
+	(ROLE_STUDENT, 'Student'),
 )
 
 GENDER_MALE = '0'

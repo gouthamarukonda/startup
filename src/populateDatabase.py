@@ -17,24 +17,10 @@ from paper.models import Paper, PaperType
 from question.models import Question
 from student.models import StudentProfile, BoardOfEducation
 from teacher.models import TeacherProfile
-from userprofile.models import UserProfile, ROLE_STUDENT, STATUS_APPROVED, ROLE_TEACHER, ROLE_INSTITUTE_ADMIN
-from answer.tools  import evaluate_answer
+from userprofile.models import UserProfile, ROLE_ADMIN, ROLE_STUDENT, STATUS_APPROVED, ROLE_TEACHER, ROLE_INSTITUTE_ADMIN
 from program.models import Program, Standard
 from attempt.models import Attempt
 from answer.tools import evaluate_answer
-
-# Create superuser
-
-superuser = User(username = "admin")
-superuser.set_password("admin12345")
-superuser.email="admin@admin.com"
-superuser.first_name = "Admin"
-superuser.last_name	= "Admin"
-superuser.is_superuser = True
-superuser.is_staff = True
-superuser.is_active = True
-superuser.save()
-
 
 # create boards of education
 
@@ -160,6 +146,28 @@ for p in paper_types:
 	paper_type.type_name = p
 	paper_type.save()
 
+# Create superuser
+
+superuser = User(username = "admin")
+superuser.set_password("admin12345")
+superuser.email="admin@admin.com"
+superuser.first_name = "Admin"
+superuser.last_name	= "Admin"
+superuser.is_superuser = True
+superuser.is_staff = True
+superuser.is_active = True
+superuser.save()
+
+userprofile = UserProfile()
+userprofile.user = superuser
+userprofile.role = ROLE_ADMIN
+userprofile.gender = 0
+userprofile.mobile = "9999999999"
+userprofile.institute = Institute.objects.get(institute_id = '1')
+userprofile.address = "IIT Bombay"
+userprofile.dob = datetime.now()
+userprofile.status = STATUS_APPROVED
+userprofile.save()
 
 # Create users for student, teacher, institute Admin
 
