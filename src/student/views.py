@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import get_default_password_validators
 from django.core.exceptions import ValidationError
@@ -108,7 +107,7 @@ def student_register(request):
 			registration_approval_request = ApprovalRequest(approval_type = APPROVAL_STUDENT_REGISTRATION, user = user)
 			registration_approval_request.save()
 
-			send_mail("Welcome to startup", "Yo bro, Wait for your approval", settings.SERVER_EMAIL, [user.email])
+			send_mail("Welcome to startup", "Yo bro, Wait for your approval", None, [user.email])
 			mail_admins("Student Registered", "Yo Admin, " + user.username + " registered.")
 			return JsonResponse({"status": True, "msg": "Registered Successfully"})
 		except:
