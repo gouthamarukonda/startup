@@ -4943,8 +4943,8 @@ legend.alpaca-container-label {
     font-family: summernote;
     font-style: normal;
     font-weight: 400;
-    src: url(icons/summernote/summernote.eot%3Fad8d7e2d177d2473aecd9b35d16211fb);
-    src: url(icons/summernote/summernote.eot%3F) format("embedded-opentype"), url(icons/summernote/summernote.woff%3Fad8d7e2d177d2473aecd9b35d16211fb) format("woff"), url(icons/summernote/summernote.ttf%3Fad8d7e2d177d2473aecd9b35d16211fb) format("truetype")
+    src: url(icons/summernote/summernote.eot);
+    src: url(icons/summernote/summernote.eot) format("embedded-opentype"), url(icons/summernote/summernote.woff) format("woff"), url(icons/summernote/summernote.ttf) format("truetype")
 }
 [class*=" note-icon-"]:before,
 [class^=note-icon-]:before {
@@ -15952,7 +15952,8 @@ thead .htCollapseButton:after {
 }
 .dataTables_wrapper {
     position: relative;
-    clear: both
+    clear: both;
+    margin: 30px;
 }
 .dataTables_wrapper:after {
     visibility: hidden;

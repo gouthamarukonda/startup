@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'Glyphicons Halflings';
     src: url(icons/glyphicons/glyphicons-halflings-regular.eot);
-    src: url(icons/glyphicons/glyphicons-halflings-regular.eot%3F) format('embedded-opentype'), url(icons/glyphicons/glyphicons-halflings-regular.woff2) format('woff2'), url(icons/glyphicons/glyphicons-halflings-regular.woff) format('woff'), url(icons/glyphicons/glyphicons-halflings-regular.ttf) format('truetype'), url(icons/glyphicons/glyphicons-halflings-regular.svg) format('svg')
+    src: url(icons/glyphicons/glyphicons-halflings-regular.eot) format('embedded-opentype'), url(icons/glyphicons/glyphicons-halflings-regular.woff2) format('woff2'), url(icons/glyphicons/glyphicons-halflings-regular.woff) format('woff'), url(icons/glyphicons/glyphicons-halflings-regular.ttf) format('truetype'), url(icons/glyphicons/glyphicons-halflings-regular.svg) format('svg')
 }
 .glyphicon {
     font-size: 16px;
@@ -455,7 +455,6 @@ a.bg-danger:hover {
 .page-header-content {
     position: relative;
     background-color: inherit;
-    padding: 0 20px;
     margin:20px;
 }
 .page-header-content[class*=border-bottom-]+.breadcrumb-line {
@@ -3621,7 +3620,7 @@ li+.dropdown-header.highlight {
         background-color: rgba(0, 0, 0, .1);
         color: #fff
     }
-    .navbar-inverse .navbar-nav .open .dropdown-menu a:not(.label-flat):not(.badge-flat):not(.disabled>a) {
+    .navbar-inverse .navbar-nav .open .dropdown-menu a:not(.label-flat):not(.badge-flat):not(.disabled)>a {
         color: #fff
     }
     .navbar-inverse .navbar-nav .open .dropdown-menu .divider {

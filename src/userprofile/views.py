@@ -8,12 +8,12 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from institute.models import Institute
+from program.models import Standard, Program
 from institute.models2 import InstituteAdmin
-from student.models import StudentProfile
+from student.models import StudentProfile, BoardOfEducation
 from teacher.models import TeacherProfile
 from userprofile.decorators import admin_required
-from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT, UserProfile, \
-	ROLE_INSTITUTE_ADMIN
+from userprofile.models import STATUS_APPROVED, STATUS_UNAPPROVED, ROLE_TEACHER, ROLE_STUDENT, UserProfile, ROLE_INSTITUTE_ADMIN
 
 
 @csrf_exempt
@@ -76,7 +76,37 @@ def register(request):
 	if request.method == 'GET':
 		if request.user.is_authenticated():
 			logout(request)
-		return render(request, 'register.html')
+		institutes = []
+		for institute in Institute.objects.all():
+			odict = {
+				"institute_id": institute.institute_id,
+				"institute_name": institute.institute_name,
+				"institute_city": institute.city,
+				"institute_state": institute.state,
+			}
+			institutes.append(odict)
+		programs = []
+		for program in Program.objects.all():
+			odict = {
+				"program_id": program.program_id,
+				"program_name": program.program_name,
+			}
+			programs.append(odict)
+		standards = []
+		for standard in Standard.objects.all():
+			odict = {
+				"standard_id": standard.standard_id,
+				"standard_name": standard.standard_name,
+			}
+			standards.append(odict)
+		boes = []
+		for boe in BoardOfEducation.objects.all():
+			odict = {
+				"boe_id": boe.boe_id,
+				"boe_name": boe.boe_name,
+			}
+			boes.append(odict)
+		return render(request, 'register.html', {'institutes' : institutes, 'programs' : programs, 'standards' : standards, 'boes' : boes})
 
 @login_required(login_url='/login/')
 @csrf_exempt
@@ -151,12 +181,14 @@ def get_user_home_page(request):
 	if request.method == 'GET':
 		if request.user.is_superuser:
 			return get_admin_home_page(request)
-		elif request.user.userprofile.role == 1:
+		elif request.user.userprofile.role == ROLE_TEACHER:
 			return render(request, 'teacher/index.html')
-		elif request.user.userprofile.role == 2:
+		elif request.user.userprofile.role == ROLE_INSTITUTE_ADMIN:
 			return render(request, 'instituteadmin/index.html')
-		else:
+		elif request.user.userprofile.role == ROLE_STUDENT:
 			return render(request, 'student/index.html', {'image' : request.user.userprofile.get_profile_picture_url()})
+		else:
+			return HttpResponse(status=500)
 
 @admin_required
 def get_admin_home_page(request):

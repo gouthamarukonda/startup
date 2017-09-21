@@ -184,14 +184,14 @@
 											<label>Role: <span class="text-danger">*</span></label>
 											<div class="radio">
 												<label>
-													<input id="role_student" value="0" type="radio" name="role" class="styled required">
+													<input id="role_student" value="3" type="radio" name="role" class="styled required">
 													Student
 												</label>
 											</div>
 
 											<div class="radio">
 												<label>
-													<input id="role_teacher" value="1" type="radio" name="role" class="styled">
+													<input id="role_teacher" value="2" type="radio" name="role" class="styled">
 													Teacher
 												</label>
 											</div>
@@ -231,7 +231,11 @@
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>Select Institute: <span class="text-danger">*</span></label>
-											<select id="institutes" name="institute" data-placeholder="Select institute" class="select required">
+											<select name="institute" data-placeholder="Select institute" class="select required">
+                                                <option></option>
+                                                {%  for institute in institutes %}
+                                                    <option value="{{ institute.institute_id }}">{{ institute.institute_name }}, {{ institute.institute_city }}, {{ institute.institute_state }}</option>
+                                                {%  endfor %}
 											</select>
 										</div>
 									</div>
@@ -241,60 +245,9 @@
 											<label>Board of Education: <span class="text-danger">*</span></label>
 											<select name="boe" data-placeholder="Select Board of Education" class="select required studentonly1">
 												<option></option>
-												<option value="Central Board of Secondary Education (CBSE)">Central Board of Secondary Education (CBSE)</option>
-												<option value="National Institute of Open Schooling (NIOS)">National Institute of Open Schooling (NIOS)</option>
-												<option value="Council for the Indian School Certificate Examinations (CISCE)">Council for the Indian School Certificate Examinations (CISCE)</option>
-												<option value="Grameen Mukt Vidhyalayi Shiksha Sansthan(GMVSS)">Grameen Mukt Vidhyalayi Shiksha Sansthan(GMVSS)</option>
-												<option value="Andhra Pradesh Board of Secondary Education">Andhra Pradesh Board of Secondary Education</option>
-												<option value="Andhra Pradesh Open School Society">Andhra Pradesh Open School Society</option>
-												<option value="Assam Board of Secondary Education">Assam Board of Secondary Education</option>
-												<option value="Assam Higher Secondary Education Council">Assam Higher Secondary Education Council</option>
-												<option value="Assam State Open School">Assam State Open School</option>
-												<option value="Bihar Board of Open Schooling & Examinations">Bihar Board of Open Schooling & Examinations</option>
-												<option value="Bihar School Examination Board">Bihar School Examination Board</option>
-												<option value="Uttar Pradesh Board of High School and Intermediate Education Allahabad">Uttar Pradesh Board of High School and Intermediate Education Allahabad</option>
-												<option value="Madhya Pradesh Board of Secondary Education (Gwalior)">Madhya Pradesh Board of Secondary Education (Gwalior)</option>
-												<option value="Madhya Pradesh Board of Secondary Education">Madhya Pradesh Board of Secondary Education</option>
-												<option value="Madhya Pradesh State Open School">Madhya Pradesh State Open School</option>
-												<option value="Rajasthan Board of Secondary Education">Rajasthan Board of Secondary Education</option>
-												<option value="Rajasthan State Open School">Rajasthan State Open School</option>
-												<option value="Chhattisgarh Board of Education">Chhattisgarh Board of Education</option>
-												<option value="Central Board of Secondary Education (CBSE)">Central Board of Secondary Education (CBSE)</option>
-												<option value="Council for the Indian School Certificate Examinations (CISCE)">Council for the Indian School Certificate Examinations (CISCE)</option>
-												<option value="Goa Board of Secondary & Higher Secondary Education">Goa Board of Secondary & Higher Secondary Education</option>
-												<option value="Gujarat Secondary Education Board">Gujarat Secondary Education Board</option>
-												<option value="[[Gujarat state open school|Gujarat State Open School]">[[Gujarat state open school|Gujarat State Open School]</option>
-												<option value="Haryana Board of School Education">Haryana Board of School Education</option>
-												<option value="Haryana State Open School">Haryana State Open School</option>
-												<option value="Himachal Pradesh Board of School Education">Himachal Pradesh Board of School Education</option>
-												<option value="Himachal Pradesh State Open School">Himachal Pradesh State Open School</option>
-												<option value="Jharkhand Academic Council">Jharkhand Academic Council</option>
-												<option value="Jharkhand State Open School, Ranchi.">Jharkhand State Open School, Ranchi.</option>
-												<option value="Jammu and Kashmir State Board of School Education">Jammu and Kashmir State Board of School Education</option>
-												<option value="Jammu and Kashmir State Open School">Jammu and Kashmir State Open School</option>
-												<option value="Karnataka Secondary Education Examination Board">Karnataka Secondary Education Examination Board</option>
-												<option value="Karnataka State Open School">Karnataka State Open School</option>
-												<option value="Kerala Higher Secondary Examination Board">Kerala Higher Secondary Examination Board</option>
-												<option value="Kerala State Open School">Kerala State Open School</option>
-												<option value="Maharashtra State Board of Secondary and Higher Secondary Education">Maharashtra State Board of Secondary and Higher Secondary Education</option>
-												<option value="Meghalaya Board of School Education">Meghalaya Board of School Education</option>
-												<option value="Mizoram Board of School Education">Mizoram Board of School Education</option>
-												<option value="Nagaland Board of School Education">Nagaland Board of School Education</option>
-												<option value="National Institute of Open Schooling">National Institute of Open Schooling</option>
-												<option value="Orissa Board of Secondary Education">Orissa Board of Secondary Education</option>
-												<option value="Orissa Council of Higher Secondary Education">Orissa Council of Higher Secondary Education</option>
-												<option value="Punjab School Education Board">Punjab School Education Board</option>
-												<option value="Tamil Nadu Board of Secondary Education">Tamil Nadu Board of Secondary Education</option>
-												<option value="Tripura Board of Secondary Education">Tripura Board of Secondary Education</option>
-												<option value="Telangana Board of Intermediate Education">Telangana Board of Intermediate Education</option>
-												<option value="Telangana Board of Secondary Education">Telangana Board of Secondary Education</option>
-												<option value="Uttarakhand Board of School Education">Uttarakhand Board of School Education</option>
-												<option value="West Bengal Board of Madrasah Education">West Bengal Board of Madrasah Education</option>
-												<option value="West Bengal Board of Primary Education">West Bengal Board of Primary Education</option>
-												<option value="West Bengal Board of Secondary Education">West Bengal Board of Secondary Education</option>
-												<option value="West Bengal Council of Higher Secondary Education">West Bengal Council of Higher Secondary Education</option>
-												<option value="West Bengal Council of Rabindra Open Schooling">West Bengal Council of Rabindra Open Schooling</option>
-												<option value="West Bengal State Council of Vocational Education">West Bengal State Council of Vocational Education</option>
+												{%  for boe in boes %}
+                                                    <option value="{{ boe.boe_id }}">{{ boe.boe_name }}</option>
+                                                {% endfor %}
 											</select>
 										</div>
 									</div>
@@ -328,7 +281,11 @@
 									<div class="col-md-6" >
 										<div class="form-group">
 											<label>Standard: <span class="text-danger">*</span></label>
-											<select id="standards" name="standard_id" data-placeholder="Select Standard" class="select required studentonly1">
+											<select name="standard_id" data-placeholder="Select Standard" class="select required studentonly1">
+                                                <option></option>
+                                                {%  for standard in standards%}
+                                                    <option value="{{ standard.standard_id }}">{{ standard.standard_name }}</option>
+                                                {%  endfor %}
 											</select>
 										</div>
 									</div>
@@ -344,7 +301,11 @@
 									<div class="col-md-6" >
 										<div class="form-group">
 											<label>Program: <span class="text-danger">*</span></label>
-											<select id="programs" name="program_id" data-placeholder="Select Program" class="select required">
+											<select name="program_id" data-placeholder="Select Program" class="select required">
+                                                <option></option>
+                                                {%  for program in programs %}
+                                                    <option value="{{ program.program_id }}">{{ program.program_name }}</option>
+                                                {%  endfor %}
 											</select>
 										</div>
 									</div>
@@ -397,12 +358,8 @@
 	<!-- /footer -->
 
 	<script type="text/javascript">
-		window.onload = function() {
-	        ajaxCallFunction();
-	    };
-
 		$('input:radio[name="role"]').change(function(){
-		    if($(this).val() == '1'){
+		    if($(this).val() == '2'){
 		       	$( ".studentonly" ).each(function() {
 					$(this).hide();
 				});
@@ -537,88 +494,6 @@
 				}
 	        });
 		}
-
-	    function ajaxCallFunction(){
-        //this function uses ajax to interact with the server
-	       	$.ajax({
-		        type: 'GET',
-		        url: '/institute/fetchinstitutes/',
-		        success: function(response) {
-		          // alert(response.status);
-		          	if(response.status){
-			            institutes = response.institutes;
-			            document.getElementById('institutes').innerHTML = '<option></option>';
-						for(var i = 0; i < institutes.length; ++i)
-						{     
-							var data = '<option value="'+institutes[i].institute_id+'">'+
-										institutes[i].institute_name+', '
-										+institutes[i].institute_city+', '
-										+institutes[i].institute_state+'</option>';
-							document.getElementById('institutes').innerHTML += data;       
-						};							       
-					}
-					else{
-						new PNotify({
-				            title: 'Some Issue!',
-				            text: 'Please reload the page',
-				            addclass: 'alert alert-danger alert-styled-right',
-				            type: 'error'
-				        });
-					}
-				}
-	        });
-	        $.ajax({
-		        type: 'GET',
-		        url: '/program/fetchprograms/',
-		        success: function(response) {
-		          // alert(response.status);
-		          	if(response.status){
-			            programs = response.programs;
-			            document.getElementById('programs').innerHTML = '<option></option>';
-						for(var i = 0; i < programs.length; ++i)
-						{     
-							var data = '<option value="'+programs[i].program_id+'">'+
-										programs[i].program_name+'</option>';
-							document.getElementById('programs').innerHTML += data;       
-						};							       
-					}
-					else{
-						new PNotify({
-				            title: 'Some Issue!',
-				            text: 'Please reload the page',
-				            addclass: 'alert alert-danger alert-styled-right',
-				            type: 'error'
-				        });
-					}
-				}
-	        });
-	        $.ajax({
-		        type: 'GET',
-		        url: '/program/fetchstandards/',
-		        success: function(response) {
-		          	// alert(response.status);
-		          	if(response.status){
-			            standards = response.standards;
-			            document.getElementById('standards').innerHTML = '<option></option>';
-						for(var i = 0; i < standards.length; ++i)
-						{     
-							var data = '<option value="'+standards[i].standard_id+'">'+
-										standards[i].standard_name+'</option>';
-							document.getElementById('standards').innerHTML += data;       
-						};							       
-					}
-					else{
-						new PNotify({
-				            title: 'Some Issue!',
-				            text: 'Please reload the page',
-				            addclass: 'alert alert-danger alert-styled-right',
-				            type: 'error'
-				        });
-					}
-				}
-	        });
-	    }
-
 
 	    $('#form1').submit(function(e)
 	    {

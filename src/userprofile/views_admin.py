@@ -34,7 +34,7 @@ def template_view_all_programs(request):
 				"subject_list" : subject_list
 			}
 			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
+		return render(request, 'adminportal/programs/view-programs.html', {'resp' : resp})
 
 
 @admin_required
@@ -108,7 +108,7 @@ def template_edit_program(request, id):
 			"subject_list" : subject_list
 		}
 		resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
+		return render(request, 'adminportal/programs/edit-program.html', {'resp' : resp})
 
 @csrf_exempt
 @admin_required
@@ -331,7 +331,7 @@ def template_delete_program(request):
 				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
 
 			if not Program.objects.filter(program_id = request.POST.get("program_id")).exists():
-				return JsonResponse({"status": False, "msg": "Given Program ID doesn't exist"})
+				return JsonResponse({"status": False, "msg": "Given Program ID doesn't exist, Please refresh the page"})
 
 			program = Program.objects.get(program_id = request.POST.get("program_id"))
 			program.delete()

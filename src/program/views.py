@@ -35,22 +35,6 @@ def program_create(request):
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
-def get_all_programs(request):
-	if request.method == 'GET':
-		try:
-			resp = {"status": True}
-			resp["programs"] = []
-			for program in Program.objects.all():
-				odict={
-					"program_id" : program.program_id,
-					"program_name" : program.program_name,
-				}
-				resp["programs"].append(odict)
-			return JsonResponse(resp)
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
 @admin_required
 def standard_create(request):
 	if request.method == 'POST':
@@ -71,21 +55,5 @@ def standard_create(request):
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
-def get_all_standards(request):
-	if request.method == 'GET':
-		try:
-			resp = {"status": True}
-			resp["standards"] = []
-			for standard in Standard.objects.all():
-				odict={
-					"standard_id" : standard.standard_id,
-					"standard_name" : standard.standard_name,
-				}
-				resp["standards"].append(odict)
-			return JsonResponse(resp)
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
