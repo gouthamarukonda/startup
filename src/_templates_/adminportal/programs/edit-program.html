@@ -36,7 +36,7 @@
 	<!-- Main navbar -->
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="index.html"><img src="{% static 'assets/images/logo_light.png' %}" alt=""></a>
+			<a class="navbar-brand" href="../index.html"><img src="{% static 'assets/images/logo_light.png' %}" alt=""></a>
 
 			<ul class="nav navbar-nav visible-xs-block">
 				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -130,11 +130,11 @@
 						<div class="category-content no-padding">
 							<ul class="navigation navigation-main navigation-accordion">
 								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-								    <li class="active"><a href="/user/home/"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+								    <li><a href="/user/home/"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
                                 <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="Forms"></i></li>
                                     <li><a href="/user/admin/view-subjects/"><i class="icon-copy"></i> <span>All Sujects</span></a></li>
                                 <li class="navigation-header"><span>Programs</span> <i class="icon-menu" title="Forms"></i></li>
-                                    <li><a href="/user/admin/view-programs/"><i class="icon-stack2"></i> <span>All Programs</span></a></li>
+                                    <li class="active"><a href="/user/admin/view-programs/"><i class="icon-stack2"></i> <span>All Programs</span></a></li>
                                 <li class="navigation-header"><span>Institues</span> <i class="icon-menu" title="Forms"></i></li>
                                      <li><a href="/user/admin/view-institutes/"><i class="icon-stack2"></i> <span>All Institutes</span></a></li>
                                      <li><a href="/user/admin/view-institute-admins/"><i class="icon-stack2"></i> <span>Register Institute Admin</span></a></li>
@@ -151,67 +151,7 @@
 			<!-- Main content -->
 			<div class="content-wrapper">
 
-				<div class="row">
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-body panel-body-accent">
-							<div class="media no-margin">
-								<div class="media-left media-middle">
-									<i class="icon-pointer icon-3x text-success-400"></i>
-								</div>
 
-								<div class="media-body text-right">
-									<h3 class="no-margin text-semibold">{{ NumInstitutes|intcomma }}</h3>
-									<span class="text-uppercase text-size-mini text-muted">Institutes</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-body">
-							<div class="media no-margin">
-								<div class="media-left media-middle">
-									<i class="icon-enter6 icon-3x text-indigo-400"></i>
-								</div>
-
-								<div class="media-body text-right">
-									<h3 class="no-margin text-semibold">{{ NumInstituteAdmins|intcomma }}</h3>
-									<span class="text-uppercase text-size-mini text-muted">Institute Admins</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-body">
-							<div class="media no-margin">
-								<div class="media-left media-middle">
-									<i class="icon-pointer icon-3x text-blue-400"></i>
-								</div>
-
-								<div class="media-body text-right">
-									<h3 class="no-margin text-semibold">{{ NumStudents|intcomma }}</h3>
-									<span class="text-uppercase text-size-mini text-muted">students</span>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-body">
-							<div class="media no-margin">
-								<div class="media-left media-middle">
-									<i class="icon-bag icon-3x text-danger-400"></i>
-								</div>
-
-								<div class="media-body text-right">
-									<h3 class="no-margin text-semibold">{{ NumTeachers|intcomma }}</h3>
-									<span class="text-uppercase text-size-mini text-muted">teachers</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 			<!-- /main content -->
 

@@ -156,7 +156,7 @@ def get_user_home_page(request):
 		elif request.user.userprofile.role == 2:
 			return render(request, 'instituteadmin/index.html')
 		else:
-			return render(request, 'student/index.html')
+			return render(request, 'student/index.html', {'image' : request.user.userprofile.get_profile_picture_url()})
 
 @admin_required
 def get_admin_home_page(request):

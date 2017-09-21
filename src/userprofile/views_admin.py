@@ -34,7 +34,7 @@ def template_view_all_programs(request):
 				"subject_list" : subject_list
 			}
 			resp.append(odict)
-	return render(request, 'adminportal/index.html', {'resp' : resp})
+	return render(request, 'adminportal/programs/view-programs.html', {'resp' : resp})
 
 
 @admin_required
