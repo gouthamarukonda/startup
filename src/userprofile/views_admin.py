@@ -20,7 +20,6 @@ from userprofile.models import UserProfile
 from datetime import datetime
 
 @admin_required
-@login_required(login_url='/login/')
 def template_view_all_programs(request):
 	if request.method == 'GET':
 		resp = []
@@ -39,7 +38,6 @@ def template_view_all_programs(request):
 
 
 @admin_required
-@login_required(login_url='/login/')
 def template_view_all_subjects(request):
 	if request.method == 'GET':
 		resp = []
@@ -53,7 +51,6 @@ def template_view_all_subjects(request):
 
 
 @admin_required
-@login_required(login_url='/login/')
 def template_view_all_institutes(request):
 	if request.method == 'GET':
 		resp = []
@@ -75,7 +72,6 @@ def template_view_all_institutes(request):
 	return render(request, 'adminportal/index.html', {'resp' : resp})
 
 @admin_required
-@login_required(login_url='/login/')
 def template_view_all_institute_admins(request):
 	if request.method == 'GET':
 		resp = []
@@ -93,10 +89,8 @@ def template_view_all_institute_admins(request):
 
 @csrf_exempt
 @admin_required
-@login_required(login_url='/login/')
 def template_edit_program(request, id = "1"):
 	if request.method == 'POST':
-
 		try:
 			if not request.POST.get("program_name"):
 				return JsonResponse({"status": False, "msg": "Program Name shouldn't be empty"})
@@ -115,43 +109,34 @@ def template_edit_program(request, id = "1"):
 				program.save()
 				program.subjects.clear()
 				program.subjects.add(*map(int, subject_ids))
-				# return render(request, 'adminportal/index.html', {'resp' : 'Changes Saved Successfully'})
 				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
 @admin_required
-@login_required(login_url='/login/')
 def template_edit_subject(request, id = "1"):
 	if request.method == 'POST':
-
 		try:
 			if not request.POST.get("subject_name"):
 				return JsonResponse({"status": False, "msg": "Subject Name shouldn't be empty"})
 			
 			subject = Subject.objects.get(subject_id = id)
 			subject.subject_name = request.POST.get("subject_name")
-
 			try:
 				subject.save()
-				# return render(request, 'adminportal/index.html', {'resp' : 'Changes Saved Successfully'})
 				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
 @admin_required
-@login_required(login_url='/login/')
 def template_edit_institute(request, id = "1"):
 	if request.method == 'POST':
-
 		try:
 			if not request.POST.get("institute_name"):
 				return JsonResponse({"status": False, "msg": "Institute Name shouldn't be empty"})
@@ -180,17 +165,14 @@ def template_edit_institute(request, id = "1"):
 				institute.save()
 				institute.programs.clear()
 				institute.programs.add(*map(int, program_ids))
-				# return render(request, 'adminportal/index.html', {'resp' : 'Changes Saved Successfully'})
 				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
 @admin_required
-@login_required(login_url='/login/')
 def template_edit_institute_admin(request, id = "1"):
 	if request.method == 'POST':
 
@@ -245,42 +227,29 @@ def template_edit_institute_admin(request, id = "1"):
 			except:
 				user.delete()
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-			# return render(request, 'adminportal/index.html', {'resp' : 'Changes Saved Successfully'})
 			return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 
 @csrf_exempt
 @admin_required
-@login_required(login_url='/login/')
 def template_delete_program(request, id = "1"):
 	if request.method == 'POST':
-
 		try:
-					
 			program = Program.objects.get(program_id = id)
 			program.delete()
-			# return render(request, 'adminportal/index.html', {'resp' : 'Changes Saved Successfully'})
 			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
 @admin_required
-@login_required(login_url='/login/')
 def template_delete_subject(request, id = "1"):
 	if request.method == 'POST':
-
 		try:
-					
 			subject = Subject.objects.get(subject_id = id)
 			subject.delete()
-			# return render(request, 'adminportal/index.html', {'resp' : 'Changes Saved Successfully'})
 			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
-
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})

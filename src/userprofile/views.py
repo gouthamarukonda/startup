@@ -157,7 +157,6 @@ def get_user_home_page(request):
 
 
 @admin_required
-@login_required(login_url='/login/')
 def get_admin_home_page(request):
 	NumInstitutes = len(Institute.objects.all())
 	NumStudents = len(StudentProfile.objects.all())
