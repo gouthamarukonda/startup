@@ -5,20 +5,21 @@
 <head>
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
     {%  include "global_js_css_files.html" %}
-
     <!-- Theme JS files -->
-    <script type="text/javascript" src="{% static 'assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/libraries/jquery_ui/core.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/form_wizard/form.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/select2.min.js' %}"></script>
-
-	<script type="text/javascript" src="{% static 'assets/js/pages/datatables_advanced.js' %}"></script>
-	<script type="text/javascript" src="{% static 'assets/js/pages/datatables_api.js' %}"></script>
-    <script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/libraries/jasny_bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/validation/validate.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
 
 	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/wizard_form.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/components_notifications_pnotify.js' %}"></script>
-{#	<script type="text/javascript" src="{% static 'assets/js/pages/dashboard.js' %}"></script>#}
 	<!-- /theme JS files -->
-
 </head>
 
 <body class="navbar-bottom navbar-top">
@@ -77,16 +78,16 @@
 							<ul class="navigation navigation-main navigation-accordion">
 								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
 								    <li><a href="/user/home/"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-                                <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="Forms"></i></li>
+                                <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="subjects"></i></li>
                                     <li><a href="/user/admin/view-subjects/"><i class="icon-book3"></i> <span>All Sujects</span></a></li>
-                                <li class="navigation-header"><span>Programs</span> <i class="icon-menu6" title="Forms"></i></li>
+                                <li class="navigation-header"><span>Programs</span> <i class="icon-menu" title="Programs"></i></li>
                                     <li class="active"><a><i class="icon-menu6"></i> <span>Programs</span></a>
                                         <ul>
                                             <li><a href="/user/admin/view-programs/">View All Programs</a></li>
                                             <li class="active"><a onclick="location.reload()">Edit Program</a></li>
                                         </ul>
                                     </li>
-                                <li class="navigation-header"><span>Institues</span> <i class="icon-menu" title="Forms"></i></li>
+                                <li class="navigation-header"><span>Institues</span> <i class="icon-menu" title="Institutes"></i></li>
                                      <li><a href="/user/admin/view-institutes/"><i class="icon-tree6"></i> <span>All Institutes</span></a></li>
                                      <li><a href="/user/admin/view-institute-admins/"><i class="icon-users4"></i> <span>Register Institute Admin</span></a></li>
 							</ul>
@@ -97,87 +98,228 @@
 			</div>
 			<!-- /main sidebar -->
 
-
-			<!-- Main content -->
+            <!-- Main content -->
 			<div class="content-wrapper">
+                <!-- Wizard with validation -->
+	            <div class="panel panel-white">
+					<div class="panel-heading">
+						<h6 class="panel-title">Wizard with validation</h6>
+						<div class="heading-elements">
+							<ul class="icons-list">
+		                		<li><a data-action="collapse"></a></li>
+		                		<li><a data-action="reload"></a></li>
+		                		<li><a data-action="close"></a></li>
+		                	</ul>
+	                	</div>
+					</div>
 
-			</div>
-			<!-- /main content -->
+                	<form class="form-validation" id="form1">
+						<fieldset class="step" id="validation-step1">
+							<h6 class="form-wizard-title text-semibold">
+								<span class="form-wizard-count">1</span>
+								Personal info
+								<small class="display-block">Tell us a bit about yourself</small>
+							</h6>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Select location: <span class="text-danger">*</span></label>
+										<select name="location" data-placeholder="Select position" class="select required">
+											<option></option>
+											<optgroup label="North America">
+												<option value="1">United States</option>
+												<option value="2">Canada</option>
+											</optgroup>
+
+											<optgroup label="Europe">
+												<option value="8">Croatia</option>
+												<option value="9">Hungary</option>
+												<option value="10">Ukraine</option>
+												<option value="11">Greece</option>
+												<option value="12">Norway</option>
+												<option value="13">Germany</option>
+												<option value="14">United Kingdom</option>
+											</optgroup>
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Select position: <span class="text-danger">*</span></label>
+										<select name="position" data-placeholder="Select position" class="select required" onchange="myfunc()">
+											<option></option>
+											<optgroup label="Developer Relations">
+												<option value="1">Sales Engineer</option>
+												<option value="2">Ads Solutions Consultant</option>
+												<option value="3">Technical Solutions Consultant</option>
+												<option value="4">Business Intern</option>
+											</optgroup>
+
+											<optgroup label="Engineering &amp; Design">
+												<option value="5">Interaction Designer</option>
+												<option value="6">Technical Program Manager</option>
+												<option value="7">Software Engineer</option>
+												<option value="8">Information Security Engineer</option>
+												<option value="9">Security Engineer</option>
+												<option value="10">Usability Expert</option>
+												<option value="11">UI Designer</option>
+												<option value="12">Illustrator</option>
+											</optgroup>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Applicant name: <span class="text-danger">*</span></label>
+										<input type="text" name="name" class="form-control required" placeholder="John Doe">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Email address: <span class="text-danger">*</span></label>
+										<input type="email" name="email" class="form-control required" placeholder="your@email.com">
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Phone #:</label>
+										<input type="text" name="tel" class="form-control" placeholder="+99-99-9999-9999" data-mask="+99-99-9999-9999">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label>Date of birth:</label>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<select name="birth-month" data-placeholder="Month" class="select">
+													<option></option>
+													<option value="1">January</option>
+													<option value="2">February</option>
+													<option value="3">March</option>
+													<option value="4">April</option>
+													<option value="5">May</option>
+													<option value="6">June</option>
+													<option value="7">July</option>
+													<option value="8">August</option>
+													<option value="9">September</option>
+													<option value="10">October</option>
+													<option value="11">November</option>
+													<option value="12">December</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<select name="birth-day" data-placeholder="Day" class="select">
+													<option></option>
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+													<option value="6">6</option>
+													<option value="7">7</option>
+													<option value="8">8</option>
+													<option value="9">9</option>
+													<option value="10">10</option>
+													<option value="...">...</option>
+													<option value="31">31</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<select name="birth-year" data-placeholder="Year" class="select">
+													<option></option>
+													<option value="1">1980</option>
+													<option value="2">1981</option>
+													<option value="3">1982</option>
+													<option value="4">1983</option>
+													<option value="5">1984</option>
+													<option value="6">1985</option>
+													<option value="7">1986</option>
+													<option value="8">1987</option>
+													<option value="9">1988</option>
+													<option value="10">1989</option>
+													<option value="11">1990</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<div class="form-wizard-actions">
+{#							<button class="btn btn-default" id="validation-back" type="reset">Back</button>#}
+							<button class="btn btn-info" id="validation-next" type="submit">Next</button>
+						</div>
+					</form>
+	            </div>
+	            <!-- /wizard with validation -->
+
+            </div>
 		</div>
 		<!-- /page content -->
 	</div>
 	<!-- /page container -->
     {%  include 'footer_html.html' %}
     <script>
-        function myfunc(e) {
-            // Setup
-            var notice = new PNotify({
-                title: 'Confirmation',
-                text: '<p>Are you sure you want to delete the program?</p>',
-                hide: false,
-                type: 'warning',
-                confirm: {
-                    confirm: true,
-                    buttons: [
-                        {
-                            text: 'Yes',
-                            addClass: 'btn btn-sm btn-success'
-                        },
-                        {
-                            addClass: 'btn btn-sm btn-danger'
-                        }
-                    ]
-                },
-                buttons: {
-                    closer: false,
-                    sticker: false
-                },
-                history: {
-                    history: false
-                }
-            })
-
-            // On confirm
-            notice.get().on('pnotify.confirm', function() {
-                $.ajax({
-                    type: 'POST',
-                    url: '/user/admin/delete-program/',
-                    data:{
-                        program_id : e
-                    },
-                    success: function(response) {
-                      // alert(response.status);
-                        if(response.status){
-                            $('#'+e).hide();
-                            new PNotify({
-                                title: 'Confirmation',
-                                text: response.msg,
-                                addclass: 'alert alert-success alert-styled-right',
-                                type: 'success'
-                            });
-                        }
-                        else{
-                            new PNotify({
-                                title: 'Some Issue!',
-                                text: response.msg,
-                                addclass: 'alert alert-danger alert-styled-right',
-                                type: 'error'
-                            });
-                        }
-                    }
-                });
-            })
-
-            // On cancel
-            notice.get().on('pnotify.cancel', function() {
-                new PNotify({
-                    title: 'Changed your mind ?',
-                    text: 'Delete Aborted',
-                    addclass: 'alert alert-danger alert-styled-right',
-                    type: 'error'
-                });
-            });
+        function myfunc() {
+            $('#form1').validate().form();
         }
+        $('#form1').submit(function(e)
+	    {
+	    	e.preventDefault();
+	    	if($("#form1").validate().form()) {
+		        $.ajax({
+		            type: 'POST',
+		            url: '/user/admin/update-program/',
+		            data: $("#form1").serialize(),
+		            success: function(response) {
+			            if(response.status === true)
+		                {
+		                	new PNotify({
+					            title: 'Registration Successful',
+					            text: response.msg,
+					            addclass: 'alert alert-success alert-styled-right',
+					            type: 'success'
+					        });
+		                }
+		                else{
+		                	new PNotify({
+					            title: 'Registration Unsuccessful',
+					            text: response.msg,
+					            addclass: 'alert alert-danger alert-styled-right',
+					            type: 'error'
+					        });
+		                }
+		            }
+		        });
+		    }
+		    else{
+		    	new PNotify({
+		            title: 'Registration Unsuccessful',
+		            text: 'Validation error!',
+		            addclass: 'alert alert-danger alert-styled-right',
+		            type: 'error'
+		        });
+		    }
+	    });
+
     </script>
+
 </body>
 </html>

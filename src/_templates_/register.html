@@ -117,7 +117,7 @@
 						<div class="panel-heading">
 							<div class="text-center">
 								<div class="icon-object border-success text-success"><i class="icon-plus3"></i></div>
-								<h5 class="content-group">Create account <small class="display-block">All fields are required</small></h5>
+								<h5 class="content-group text-bold">Create account <small class="display-block">All fields are required</small></h5>
 							</div>
 						</div>
 
@@ -125,19 +125,19 @@
 
 	                	<form class="stepy-validation" enctype='application/json' method="POST" action="" id="form1">
 							<fieldset title="1">
-								<legend class="text-semibold">Credentials</legend>
+								<legend class="text-bold">Credentials</legend>
 
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>First Name: <span class="text-danger">*</span></label>
+											<label class="text-bold">First Name: <span class="text-danger">*</span></label>
 											<input type="text" id="firstname" name="firstname" class="form-control required" placeholder="Goutham">
 										</div>
 									</div>
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Last Name: <span class="text-danger">*</span></label>
+											<label class="text-bold">Last Name: <span class="text-danger">*</span></label>
 											<input type="text" id="lastname" name="lastname" class="form-control required" placeholder="Arukonda">
 										</div>
 									</div>
@@ -146,7 +146,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Username: <span class="text-danger">*</span></label>
+											<label class="text-bold">Username: <span class="text-danger">*</span></label>
 											<input type="text" onblur="myfunc1()" id="username" name="username" class="form-control required" placeholder="John Doe">
 											<label id="usernameavaliable" class="validation-error-label"></label>
 										</div>
@@ -154,7 +154,7 @@
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Email address: <span class="text-danger">*</span></label>
+											<label class="text-bold">Email address: <span class="text-danger">*</span></label>
 											<input type="email" onblur="myfunc2()" id="email" name="email" class="form-control required" placeholder="your@email.com">
 											<label id="emailavaliable" class="validation-error-label"></label>
 										</div>
@@ -164,7 +164,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Enter Password: <span class="text-danger">*</span></label>
+											<label class="text-bold">Enter Password: <span class="text-danger">*</span></label>
 											<input type="password" onblur="myfunc3()" name="password" id="password" class="form-control" required="required" placeholder="Minimum 8 characters allowed">
                                             <label id="passwordcheck" class="validation-error-label"></label>
 										</div>
@@ -172,7 +172,7 @@
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Re-Enter Password: <span class="text-danger">*</span></label>
+											<label class="text-bold">Re-Enter Password: <span class="text-danger">*</span></label>
 											<input type="password" name="repeat_password" class="form-control" required="required" placeholder="Try different password">
 										</div>
 									</div>
@@ -181,16 +181,16 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Role: <span class="text-danger">*</span></label>
+											<label class="text-bold">Role: <span class="text-danger">*</span></label>
 											<div class="radio">
-												<label>
+												<label class="text-bold">
 													<input id="role_student" value="3" type="radio" name="role" class="styled required">
 													Student
 												</label>
 											</div>
 
 											<div class="radio">
-												<label>
+												<label class="text-bold">
 													<input id="role_teacher" value="2" type="radio" name="role" class="styled">
 													Teacher
 												</label>
@@ -200,23 +200,23 @@
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Gender: <span class="text-danger">*</span></label>
+											<label class="text-bold">Gender: <span class="text-danger">*</span></label>
 											<div class="radio">
-												<label>
+												<label class="text-bold">
 													<input id="gender_male" value="0" type="radio" name="gender" class="styled required">
 													Male
 												</label>
 											</div>
 
 											<div class="radio">
-												<label>
+												<label class="text-bold">
 													<input id="gender_female" value="1" type="radio" name="gender" class="styled">
 													Female
 												</label>
 											</div>
 
 											<div class="radio">
-												<label>
+												<label class="text-bold">
 													<input id="gender_other" value="2" type="radio" name="gender" class="styled">
 													Other
 												</label>
@@ -226,11 +226,11 @@
 								</div>
 							</fieldset>
 	                		<fieldset title="2">
-								<legend class="text-semibold">Additional Info</legend>
+								<legend class="text-bold">Additional Info</legend>
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Select Institute: <span class="text-danger">*</span></label>
+											<label class="text-bold">Select Institute: <span class="text-danger">*</span></label>
 											<select name="institute" data-placeholder="Select institute" class="select required">
                                                 <option></option>
                                                 {%  for institute in institutes %}
@@ -242,7 +242,7 @@
 
 									<div class="col-md-6 studentonly">
 										<div class="form-group">
-											<label>Board of Education: <span class="text-danger">*</span></label>
+											<label class="text-bold">Board of Education: <span class="text-danger">*</span></label>
 											<select name="boe" data-placeholder="Select Board of Education" class="select required studentonly1">
 												<option></option>
 												{%  for boe in boes %}
@@ -254,7 +254,7 @@
 
 									<div class="col-md-6 teacheronly" >
 										<div class="form-group">
-											<label>Experience #: <span class="text-danger">*</span></label>
+											<label class="text-bold">Experience #: <span class="text-danger">*</span></label>
 											<input type="text" name="experience" class="form-control required teacheronly1">
 										</div>
 									</div>
@@ -262,14 +262,14 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Phone #: <span class="text-danger">*</span></label>
+											<label class="text-bold">Phone #: <span class="text-danger">*</span></label>
 											<input type="text" name="mobile" class="form-control required" placeholder="+99-9999999999" data-mask="+99-9999999999">
 										</div>
 									</div>
 
 									<div class="col-md-6">
 										<div class="form-group">
-											<label>Date of Birth: <span class="text-danger">*</span></label>
+											<label class="text-bold">Date of Birth: <span class="text-danger">*</span></label>
 											<div class="input-group">
 											<span class="input-group-addon"><i class="icon-calendar3"></i></span>
 											<input type="text" name="dob" class="form-control required" id="anytime-month-numeric" value="04/06/2014">
@@ -280,7 +280,7 @@
 								<div class="row studentonly">
 									<div class="col-md-6" >
 										<div class="form-group">
-											<label>Standard: <span class="text-danger">*</span></label>
+											<label class="text-bold">Standard: <span class="text-danger">*</span></label>
 											<select name="standard_id" data-placeholder="Select Standard" class="select required studentonly1">
                                                 <option></option>
                                                 {%  for standard in standards%}
@@ -292,7 +292,7 @@
 
 									<div class="col-md-6" >
 										<div class="form-group">
-											<label>Roll Number: <span class="text-danger">*</span></label>
+											<label class="text-bold">Roll Number: <span class="text-danger">*</span></label>
 											<input type="text" name="roll_number" placeholder="Give Your Institute Roll No" class="form-control required studentonly1">
 										</div>
 									</div>
@@ -300,7 +300,7 @@
 								<div class="row">
 									<div class="col-md-6" >
 										<div class="form-group">
-											<label>Program: <span class="text-danger">*</span></label>
+											<label class="text-bold">Program: <span class="text-danger">*</span></label>
 											<select name="program_id" data-placeholder="Select Program" class="select required">
                                                 <option></option>
                                                 {%  for program in programs %}
@@ -312,7 +312,7 @@
 
 									<div class="col-md-6" >
 										<div class="form-group">
-											<label>Address: <span class="text-danger">*</span></label>
+											<label class="text-bold">Address: <span class="text-danger">*</span></label>
 											<input type="text" name="address" class="form-control required">
 										</div>
 									</div>
@@ -413,7 +413,7 @@
 						$("#usernameavaliable").addClass('validation-error-label').removeClass('validation-valid-label');
 		          		document.getElementById('usernameavaliable').textContent = "Username Not Avaliable";
 						new PNotify({
-				            title: 'Some Issue!',
+				            title: 'Some Issue 1!',
 				            text: response.msg,
 				            addclass: 'alert alert-danger alert-styled-right',
 				            type: 'error'
@@ -447,7 +447,7 @@
 						$("#emailavaliable").addClass('validation-error-label').removeClass('validation-valid-label');
 		          		document.getElementById('emailavaliable').textContent = "Email Not Avaliable";
 						new PNotify({
-				            title: 'Some Issue!',
+				            title: 'Some Issue 2!',
 				            text: response.msg,
 				            addclass: 'alert alert-danger alert-styled-right',
 				            type: 'error'
@@ -483,10 +483,10 @@
 					}
 					else{
 						$("#passwordcheck").addClass('validation-error-label').removeClass('validation-valid-label');
-		          		document.getElementById('passwordcheck').textContent = response.failed;
+		          		document.getElementById('passwordcheck').textContent = response.msg;
 						new PNotify({
-				            title: 'Some Issue!',
-				            text: response.failed,
+				            title: 'Some Issue 3!',
+				            text: response.msg,
 				            addclass: 'alert alert-danger alert-styled-right',
 				            type: 'error'
 				        });
@@ -501,14 +501,14 @@
 	    	var b = document.getElementById('emailavaliable').textContent;
 	    	var c = document.getElementById('passwordcheck').textContent;
 	    	var url_temp;
-	    	if($("input[name=role]:checked").val() == "0"){
+	    	if($("input[name=role]:checked").val() == "3"){
 	    		url_temp = '/student/register/';
 	    	}
-	    	if($("input[name=role]:checked").val() == "1"){
+	    	if($("input[name=role]:checked").val() == "2"){
 	    		url_temp = '/teacher/register/';
 	    	}
 	    	e.preventDefault();
-	    	if($("#form1").validate().form()) {
+	    	if($("#form1").validate().checkForm()) {
 		        $.ajax({
 		            type: 'POST',
 		            url: url_temp,

@@ -172,7 +172,7 @@ def password_validation(request):
 			if len(failed) == 0:
 				return JsonResponse({"status": True, "passed": passed})
 			else:
-				return JsonResponse({"status": False, "passed": passed, "failed": failed})
+				return JsonResponse({"status": False, "passed": passed, "msg": failed})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 

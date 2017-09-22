@@ -98,17 +98,15 @@ def template_edit_program(request, id):
 		if not Program.objects.filter(program_id = id).exists():
 			return render(request, 'adminportal/index.html', {'resp' : "Program ID doesn't exists"})
 		program = Program.objects.get(program_id = id)
-		resp = []
 		subject_list = []
 		for subject in program.subjects.all():
 			subject_list.append((subject.subject_id, subject.subject_name))
-		odict={
+		program={
 			"program_id" : program.program_id,
 			"program_name" : program.program_name,
 			"subject_list" : subject_list
 		}
-		resp.append(odict)
-		return render(request, 'adminportal/programs/edit-program.html', {'resp' : resp})
+		return render(request, 'adminportal/programs/edit-program.html', {'program' : program})
 
 @csrf_exempt
 @admin_required
@@ -191,7 +189,7 @@ def template_update_program(request):
 			subject_ids = json.loads(request.POST.get("subject_list"))["subject_list"]
 			if not len(subject_ids)==len(Subject.objects.filter(pk__in = subject_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Subject IDs are invalid or appear more than once"})
-			
+
 			program = Program.objects.get(program_id = id)
 			program.program_name = request.POST.get("program_name")
 
