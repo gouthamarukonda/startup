@@ -19,6 +19,7 @@ from chapter.models import Subject
 from userprofile.models import UserProfile
 from datetime import datetime
 
+# Programs
 @admin_required
 def template_view_all_programs(request):
 	if request.method == 'GET':
@@ -35,61 +36,6 @@ def template_view_all_programs(request):
 			}
 			resp.append(odict)
 		return render(request, 'adminportal/programs/view-programs.html', {'resp' : resp})
-
-
-@admin_required
-def template_view_all_subjects(request):
-	if request.method == 'GET':
-		resp = []
-		for subject in Subject.objects.all():
-			odict={
-				"subject_id" : subject.subject_id,
-				"subject_name" : subject.subject_name,
-			}
-			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
-
-
-@admin_required
-def template_view_all_institutes(request):
-	if request.method == 'GET':
-		resp = []
-		for institute in Institute.objects.all():
-			program_list = []
-			for program in institute.programs.all():
-				program_list.append(program.program_name)
-			odict={
-				"institute_id" : institute.institute_id,
-				"institute_name" : institute.institute_name,
-				"programs" : program_list,
-				"address" : institute.address,
-				"city" : institute.city,
-				"state" : institute.state,
-				"phone_no" : institute.phone_no,
-				"manager_name" : institute.manager_name,
-			}
-			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
-
-@admin_required
-def template_view_all_institute_admins(request):
-	if request.method == 'GET':
-		resp = []
-		for institute_admin in InstituteAdmin.objects.all():
-			insti_list = []
-			for institute in institute_admin.institutes.all():
-				insti_list.append(institute.institute_name)
-			insti_list.append(institute_admin.user.institute.institute_name)
-			insti_list = list(set(insti_list))
-			odict={
-				"institute_admin_id" : institute_admin.user.user.username,
-				"institute_admin_name" : institute_admin.user.user.first_name + " " + 
-										institute_admin.user.user.last_name,
-				"institutes" : insti_list,
-			}
-			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
-
 
 @csrf_exempt
 @admin_required
@@ -113,6 +59,77 @@ def template_edit_program(request, id):
 			}
 		return render(request, 'adminportal/programs/edit-program.html', {'program' : program, 'status' : True})
 
+
+@csrf_exempt
+@admin_required
+def template_delete_program(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("program_id"):
+				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
+
+			if not Program.objects.filter(program_id = request.POST.get("program_id")).exists():
+				return JsonResponse({"status": False, "msg": "Given Program ID doesn't exist, Please refresh the page"})
+
+			program = Program.objects.get(program_id = request.POST.get("program_id"))
+			program.delete()
+			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+@admin_required
+def template_update_program(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("program_id"):
+				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
+
+			if not request.POST.get("program_name"):
+				return JsonResponse({"status": False, "msg": "Program Name shouldn't be empty"})
+
+			if not request.POST.get("subject_list"):
+				return JsonResponse({"status": False, "msg": "Subject List in Program shouldn't be empty"})
+
+			subject_ids = request.POST.getlist("subject_list")
+			if not len(subject_ids)==len(Subject.objects.filter(pk__in = subject_ids)):
+				return JsonResponse({"status": False, "msg": "Some of the Subject IDs are invalid or appear more than once"})
+
+			program = Program.objects.get(program_id = request.POST.get("program_id"))
+			program.program_name = request.POST.get("program_name")
+
+			try:
+				program.save()
+				program.subjects.clear()
+				program.subjects.add(*map(int, subject_ids))
+				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
+			except:
+				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+@admin_required
+def template_add_program(request):
+	if request.method == 'GET':
+		return render(request, 'adminportal/programs/add-program.html')
+
+
+
+
+# Subjects
+@admin_required
+def template_view_all_subjects(request):
+	if request.method == 'GET':
+		resp = []
+		for subject in Subject.objects.all():
+			odict={
+				"subject_id" : subject.subject_id,
+				"subject_name" : subject.subject_name,
+			}
+			resp.append(odict)
+		return render(request, 'adminportal/index.html', {'resp' : resp})
+
 @csrf_exempt
 @admin_required
 def template_edit_subject(request, id):
@@ -127,7 +144,66 @@ def template_edit_subject(request, id):
 		}
 		resp.append(odict)
 		return render(request, 'adminportal/index.html', {'resp' : resp, 'status' : True})
-			
+
+@csrf_exempt
+@admin_required
+def template_delete_subject(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("subject_id"):
+				return JsonResponse({"status": False, "msg": "Subject ID shouldn't be empty"})
+
+			if not Subject.objects.filter(subject_id = request.POST.get("subject_id")).exists():
+				return JsonResponse({"status": False, "msg": "Given Subject ID doesn't exist"})
+
+			subject = Subject.objects.get(subject_id = request.POST.get("subject_id"))
+			subject.delete()
+			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+@admin_required
+def template_update_subject(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("subject_name"):
+				return JsonResponse({"status": False, "msg": "Subject Name shouldn't be empty"})
+
+			subject = Subject.objects.get(subject_id=id)
+			subject.subject_name = request.POST.get("subject_name")
+			try:
+				subject.save()
+				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
+			except:
+				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+
+
+
+# Institutes
+@admin_required
+def template_view_all_institutes(request):
+	if request.method == 'GET':
+		resp = []
+		for institute in Institute.objects.all():
+			program_list = []
+			for program in institute.programs.all():
+				program_list.append(program.program_name)
+			odict={
+				"institute_id" : institute.institute_id,
+				"institute_name" : institute.institute_name,
+				"programs" : program_list,
+				"address" : institute.address,
+				"city" : institute.city,
+				"state" : institute.state,
+				"phone_no" : institute.phone_no,
+				"manager_name" : institute.manager_name,
+			}
+			resp.append(odict)
+		return render(request, 'adminportal/index.html', {'resp' : resp})
 
 @csrf_exempt
 @admin_required
@@ -160,79 +236,18 @@ def template_edit_institute(request, id):
 
 @csrf_exempt
 @admin_required
-def template_edit_institute_admin(request, id):
-	if request.method == 'GET':
-		if not InstituteAdmin.objects.filter(user__user__username = id).exists():
-			return render(request, 'adminportal/index.html', {'resp' : "Institute Admin ID doesn't exists", 'status' : False})
-
-		institute_admin = InstituteAdmin.objects.get(user__user__username = id)
-		resp = []
-		insti_list = []
-		all_insti = []
-		for institute in institute_admin.institutes.all():
-			insti_list.append((institute.institute_id, institute.institute_name))
-		for institute in Institute.objects.all():
-			all_insti.append((institute.institute_id, institute.institute_name))
-		institute_complement_list = list(set(all_insti) - set(insti_list))
-		odict={
-			"username" : institute_admin.user.user.username,
-			"firstname" : institute_admin.user.user.first_name,
-			"lastname" : institute_admin.user.user.last_name,
-			"email" : institute_admin.user.address,
-			"gender" : institute_admin.user.gender,
-			"mobile" : institute_admin.user.mobile,
-			"dob" : institute_admin.user.dob,
-			"main_institute" : institute_admin.user.institute,
-			"institutes" : insti_list,
-			"institute_complement_list" : institute_complement_list,
-		}
-		resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp, 'status' : True})
-
-
-@csrf_exempt
-@admin_required
-def template_update_program(request):
+def template_delete_institute(request):
 	if request.method == 'POST':
 		try:
-			if not request.POST.get("program_name"):
-				return JsonResponse({"status": False, "msg": "Program Name shouldn't be empty"})
+			if not request.POST.get("institute_id"):
+				return JsonResponse({"status": False, "msg": "Institute ID shouldn't be empty"})
 
-			if not request.POST.get("subject_list"):
-				return JsonResponse({"status": False, "msg": "Subject List in Program shouldn't be empty"})
+			if not Institute.objects.filter(institute_id = request.POST.get("institute_id")).exists():
+				return JsonResponse({"status": False, "msg": "Given Institute ID doesn't exist"})
 
-			subject_ids = json.loads(request.POST.get("subject_list"))["subject_list"]
-			if not len(subject_ids)==len(Subject.objects.filter(pk__in = subject_ids)):
-				return JsonResponse({"status": False, "msg": "Some of the Subject IDs are invalid or appear more than once"})
-
-			program = Program.objects.get(program_id = id)
-			program.program_name = request.POST.get("program_name")
-
-			try:
-				program.save()
-				program.subjects.clear()
-				program.subjects.add(*map(int, subject_ids))
-				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
-			except:
-				return JsonResponse({"status": False, "msg": "Internal Server Error"})
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
-@admin_required
-def template_update_subject(request):
-	if request.method == 'POST':
-		try:
-			if not request.POST.get("subject_name"):
-				return JsonResponse({"status": False, "msg": "Subject Name shouldn't be empty"})
-			
-			subject = Subject.objects.get(subject_id = id)
-			subject.subject_name = request.POST.get("subject_name")
-			try:
-				subject.save()
-				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
-			except:
-				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+			institute = Institute.objects.get(institute_id = request.POST.get("institute_id"))
+			institute.delete()
+			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
@@ -271,6 +286,83 @@ def template_update_institute(request):
 				return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
 			except:
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
+		except:
+			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+
+
+
+
+# Institute Admins
+@admin_required
+def template_view_all_institute_admins(request):
+	if request.method == 'GET':
+		resp = []
+		for institute_admin in InstituteAdmin.objects.all():
+			insti_list = []
+			for institute in institute_admin.institutes.all():
+				insti_list.append(institute.institute_name)
+			insti_list.append(institute_admin.user.institute.institute_name)
+			insti_list = list(set(insti_list))
+			odict={
+				"institute_admin_id" : institute_admin.user.user.username,
+				"institute_admin_name" : institute_admin.user.user.first_name + " " + 
+										institute_admin.user.user.last_name,
+				"institutes" : insti_list,
+			}
+			resp.append(odict)
+		return render(request, 'adminportal/index.html', {'resp' : resp})
+
+@csrf_exempt
+@admin_required
+def template_edit_institute_admin(request, id):
+	if request.method == 'GET':
+		if not InstituteAdmin.objects.filter(user__user__username = id).exists():
+			return render(request, 'adminportal/index.html', {'resp' : "Institute Admin ID doesn't exists", 'status' : False})
+
+		institute_admin = InstituteAdmin.objects.get(user__user__username = id)
+		resp = []
+		insti_list = []
+		all_insti = []
+		for institute in institute_admin.institutes.all():
+			insti_list.append((institute.institute_id, institute.institute_name))
+		for institute in Institute.objects.all():
+			all_insti.append((institute.institute_id, institute.institute_name))
+		institute_complement_list = list(set(all_insti) - set(insti_list))
+		odict={
+			"username" : institute_admin.user.user.username,
+			"firstname" : institute_admin.user.user.first_name,
+			"lastname" : institute_admin.user.user.last_name,
+			"email" : institute_admin.user.address,
+			"gender" : institute_admin.user.gender,
+			"mobile" : institute_admin.user.mobile,
+			"dob" : institute_admin.user.dob,
+			"main_institute" : institute_admin.user.institute,
+			"institutes" : insti_list,
+			"institute_complement_list" : institute_complement_list,
+		}
+		resp.append(odict)
+		return render(request, 'adminportal/index.html', {'resp' : resp, 'status' : True})
+
+
+@csrf_exempt
+@admin_required
+def template_delete_institute_admin(request):
+	if request.method == 'POST':
+		try:
+			if not request.POST.get("institute_admin_id"):
+				return JsonResponse({"status": False, "msg": "Institute Admin ID shouldn't be empty"})
+
+			if not InstituteAdmin.objects.filter(user__user__username = request.POST.get("institute_admin_id")).exists():
+				return JsonResponse({"status": False, "msg": "Given InstituteAdmin ID doesn't exist"})
+
+			institute_admin = InstituteAdmin.objects.get(user__user__username = request.POST.get("institute_admin_id"))
+			userprofile = institute_admin.user
+			user = userprofile.user
+			user.delete()
+			userprofile.delete()
+			institute_admin.delete()
+			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
@@ -333,82 +425,3 @@ def template_update_institute_admin(request):
 			return JsonResponse({"status": True, "msg": "Changes Saved Successfully"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-
-@csrf_exempt
-@admin_required
-def template_delete_program(request):
-	if request.method == 'POST':
-		try:
-			if not request.POST.get("program_id"):
-				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
-
-			if not Program.objects.filter(program_id = request.POST.get("program_id")).exists():
-				return JsonResponse({"status": False, "msg": "Given Program ID doesn't exist, Please refresh the page"})
-
-			program = Program.objects.get(program_id = request.POST.get("program_id"))
-			program.delete()
-			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
-@admin_required
-def template_delete_subject(request):
-	if request.method == 'POST':
-		try:
-			if not request.POST.get("subject_id"):
-				return JsonResponse({"status": False, "msg": "Subject ID shouldn't be empty"})
-
-			if not Subject.objects.filter(subject_id = request.POST.get("subject_id")).exists():
-				return JsonResponse({"status": False, "msg": "Given Subject ID doesn't exist"})
-
-			subject = Subject.objects.get(subject_id = request.POST.get("subject_id"))
-			subject.delete()
-			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
-@admin_required
-def template_delete_institute(request):
-	if request.method == 'POST':
-		try:
-			if not request.POST.get("institute_id"):
-				return JsonResponse({"status": False, "msg": "Institute ID shouldn't be empty"})
-
-			if not Institute.objects.filter(institute_id = request.POST.get("institute_id")).exists():
-				return JsonResponse({"status": False, "msg": "Given Institute ID doesn't exist"})
-
-			institute = Institute.objects.get(institute_id = request.POST.get("institute_id"))
-			institute.delete()
-			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
-@admin_required
-def template_delete_institute_admin(request):
-	if request.method == 'POST':
-		try:
-			if not request.POST.get("institute_admin_id"):
-				return JsonResponse({"status": False, "msg": "Institute Admin ID shouldn't be empty"})
-
-			if not InstituteAdmin.objects.filter(user__user__username = request.POST.get("institute_admin_id")).exists():
-				return JsonResponse({"status": False, "msg": "Given InstituteAdmin ID doesn't exist"})
-
-			institute_admin = InstituteAdmin.objects.get(user__user__username = request.POST.get("institute_admin_id"))
-			userprofile = institute_admin.user
-			user = userprofile.user
-			user.delete()
-			userprofile.delete()
-			institute_admin.delete()
-			return JsonResponse({"status": True, "msg": "Deleted Successfully"})
-		except:
-			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
-@csrf_exempt
-@admin_required
-def template_add_program(request):
-	if request.method == 'GET':
-		return render(request, 'adminportal/programs/add-program.html')

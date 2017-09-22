@@ -318,7 +318,7 @@
 									</div>
 								</div>
 							</fieldset>
-							<button type="submit" class="btn btn-primary stepy-finish">Submit <i class="icon-check position-right"></i></button>
+							<button id="register-submit-button" type="submit" class="btn btn-primary stepy-finish">Submit <i class="icon-paperplane position-right"></i></button>
 						</form>
 		            </div>
 		            <!-- /wizard with validation -->
@@ -516,17 +516,28 @@
 		            success: function(response) {
 			            if(response.status === true)
 		                {
+		                    $("#register-submit-button").addClass('btn-success').removeClass('btn-primary').removeClass('btn-danger');
+                            $("#register-submit-button").html('Registered <i class="icon-check position-right"></i>');
 		                	new PNotify({
 					            title: 'Registration Successful',
 					            text: response.msg,
 					            addclass: 'alert alert-success alert-styled-right',
 					            type: 'success'
 					        });
+		                	setTimeout( function(){
+                                $("#register-submit-button").html('Submit <i class="icon-paperplane position-right"></i>');
+                                $("#register-submit-button").removeClass('btn-success').addClass('btn-primary').removeClass('btn-danger');
+                            }, 3000 );
+		                	setTimeout( function(){
+                                window.location = "/user/login/";
+                            }, 2000 );
 		                }
 		                else{
 		                	$('#usernameavaliable').show();
 		                	$('#emailavaliable').show();
 		                	$('#passwordcheck').show();
+		                	$("#register-submit-button").removeClass('btn-success').removeClass('btn-primary').addClass('btn-danger');
+                            $("#register-submit-button").html('Registration Failed! <i class="icon-alert position-right"></i>');
 		                	document.getElementById('usernameavaliable').textContent = a;
 		                	document.getElementById('emailavaliable').textContent = b;
 		                	document.getElementById('passwordcheck').textContent = c;
@@ -536,6 +547,10 @@
 					            addclass: 'alert alert-danger alert-styled-right',
 					            type: 'error'
 					        });
+		                	setTimeout( function(){
+                                $("#register-submit-button").html('Submit <i class="icon-paperplane position-right"></i>');
+                                $("#register-submit-button").removeClass('btn-success').addClass('btn-primary').removeClass('btn-danger');
+                            }, 3000 );
 		                }
 		            }
 		        });

@@ -200,6 +200,10 @@
 					            addclass: 'alert alert-danger alert-styled-right',
 					            type: 'error'
 					        });
+		                	setTimeout( function(){
+                                $("#msg").html('Login <i class="icon-paperplane position-right"></i>');
+                                $("#msg").removeClass('btn-success').addClass('btn-info').removeClass('btn-danger').removeClass('btn-warning');
+                            }, 3000 );
 		                }
 		            }
 		        });
