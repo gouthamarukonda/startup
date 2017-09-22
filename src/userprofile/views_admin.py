@@ -112,7 +112,14 @@ def template_update_program(request):
 @admin_required
 def template_add_program(request):
 	if request.method == 'GET':
-		return render(request, 'adminportal/programs/add-program.html')
+		resp = []
+		for subject in Subject.objects.all():
+			odict={
+				"subject_id" : subject.subject_id,
+				"subject_name" : subject.subject_name,
+			}
+			resp.append(odict)
+		return render(request, 'adminportal/programs/add-program.html', {'resp' : resp})
 
 
 
