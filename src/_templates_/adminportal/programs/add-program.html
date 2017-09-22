@@ -84,8 +84,7 @@
                                     <li class="active"><a><i class="icon-menu6"></i> <span>Programs</span></a>
                                         <ul>
                                             <li><a href="/user/admin/view-programs/"><i class="icon-eye2"></i>View All Programs</a></li>
-                                            <li class="active"><a onclick="location.reload()"><i class="icon-pencil5"></i>Edit Program</a></li>
-                                            <li><a href="/user/admin/add-program/"><i class="icon-plus-circle2"></i>Add Program</a></li>
+                                            <li class="active"><a href="/user/admin/add-program/"><i class="icon-plus-circle2"></i>Add Program</a></li>
                                         </ul>
                                     </li>
                                 <li class="navigation-header"><span>Institues</span> <i class="icon-menu" title="Institutes"></i></li>
@@ -118,19 +117,13 @@
 
                 	<form class="form-validation" enctype='application/json' method="POST" action="" id="form1">
 						<fieldset class="step" id="validation-step1">
-							<h6 class="form-wizard-title text-semibold text-center">
-								<span class="edit-page-style text-center"><i class="icon-pencil5"></i></span>
-								Edit Program - {{ program.program_name }}
+							<h6 class="form-wizard-title text-semibold">
+								<span class="form-wizard-count"><i class="icon-plus-circle2"></i></span>
+								Add Program
 								<small class="display-block">All feilds are required</small>
 							</h6>
 
 							<div class="row">
-                                <div class="col-md-6" style="display: none;">
-                                    <div class="form-group">
-                                        <label class="text-bold">Program ID: <span class="text-danger">*</span></label>
-                                        <input type="text" name="program_id" class="form-control required" placeholder="Program ID" value="{{ program.program_id }}">
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="text-bold">Program Name: <span class="text-danger">*</span></label>
@@ -142,11 +135,8 @@
 										<label class="text-bold">Select Subjects: <span class="text-danger">*</span></label>
 										<select onchange="myfunc()" data-placeholder="Select position" multiple="multiple" class="select required" name="subject_list">
 											<option></option>
-                                            {% for subject_id, subject_name in program.subject_complement_list %}
-                                                <option value="{{ subject_id }}">{{ subject_name }}</option>
-                                            {%  endfor %}
-                                            {% for subject_id, subject_name in program.subject_list %}
-                                                <option value="{{ subject_id }}" selected="selected">{{ subject_name }}</option>
+                                            {% for temp in resp %}
+                                                <option value="{{ temp.subject_id}}">{{ temp.subject_name }}</option>
                                             {%  endfor %}
 										</select>
 									</div>
@@ -178,7 +168,7 @@
 	    	if($("#form1").validate().form()) {
 		        $.ajax({
 		            type: 'POST',
-		            url: '/user/admin/update-program/',
+		            url: '/program/create/',
 		            data: $("#form1").serialize(),
 		            success: function(response) {
 			            if(response.status === true)
@@ -192,8 +182,7 @@
 					            type: 'success'
 					        });
 		                	setTimeout( function(){
-                                $("#validation-next").html('Submit <i class="icon-paperplane"></i>');
-                                $("#validation-next").removeClass('btn-success').addClass('btn-info').removeClass('btn-danger');
+                                location.reload();
                             }, 3000 );
 		                }
 		                else{

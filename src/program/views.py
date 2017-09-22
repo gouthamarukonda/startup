@@ -17,7 +17,7 @@ def program_create(request):
 			if not request.POST.get("program_name"):
 				return JsonResponse({"status": False, "msg": "Program Name shouldn't be empty"})
 
-			subject_ids = json.loads(request.POST.get("subject_list"))["subject_list"]
+			subject_ids = request.POST.getlist("subject_list")
 			if not len(subject_ids)==len(Subject.objects.filter(pk__in = subject_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Subject IDs are invalid or appear more than once"})
 			
