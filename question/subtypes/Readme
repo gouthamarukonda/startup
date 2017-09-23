@@ -1,0 +1,15 @@
+To add new question type:
+
+(1) Create new directory in subtypes
+
+(2) Add new type to types.py
+
+(3) Define new models in new_dir/models.py
+
+(4) Define new Admin class in new_dir/admin.py
+
+(5) Define handlers in new_dir/tools.py and update router.py to call the handlers
+
+* (6) import new models in question/models.py
+
+* (7) import new Admin classes in question/admin.py

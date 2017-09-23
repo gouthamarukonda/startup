@@ -47,7 +47,6 @@ PROJECT_APPS = [
 	'userprofile',
 	'question',
 	'paper',
-	'answer',
 	'approval',
 	'attempt',
 	'program',
@@ -158,19 +157,19 @@ ADMINS = (
 	("Sahil", "sahilkonkyana@gmail.com"),
 )
 
-EMAIL_HOST_USER = 'THE ENTREPRENEURSHIP CELL, IIT BOMBAY'
-EMAIL_HOST_PASSWORD = 'TN-gk5v-JKf657uXbwe-7g'
-EMAIL_HOST = 'smtp.mandrillapp.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = False
-EMAIL_SUBJECT_PREFIX = "[Startup]"
-
-# EMAIL_HOST_USER = 'AKIAJAUMR2LEKFVMVZ7A'
-# EMAIL_HOST_PASSWORD = 'AlyceFn7Tu9NvL1XD3IJGdPEHF1OL0/dgzA5bOIf0ALk'
-# EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+# EMAIL_HOST_USER = 'THE ENTREPRENEURSHIP CELL, IIT BOMBAY'
+# EMAIL_HOST_PASSWORD = 'TN-gk5v-JKf657uXbwe-7g'
+# EMAIL_HOST = 'smtp.mandrillapp.com'
 # EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+# EMAIL_USE_TLS = False
 # EMAIL_SUBJECT_PREFIX = "[Startup]"
+
+EMAIL_HOST_USER = 'AKIAJAUMR2LEKFVMVZ7A'
+EMAIL_HOST_PASSWORD = 'AlyceFn7Tu9NvL1XD3IJGdPEHF1OL0/dgzA5bOIf0ALk'
+EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_SUBJECT_PREFIX = "[Startup]"
 
 # S3 Settings
 

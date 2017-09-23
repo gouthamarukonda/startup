@@ -8,7 +8,7 @@ class PaperTypeAdmin(admin.ModelAdmin):
 		
 class PaperAdmin(admin.ModelAdmin):
 	list_display = ('paper_id', 'program', 'STANDARDS', 'INSTITUTES', 'QUESTIONS', 'paper_name', 'paper_type', 'teacher_id', 'start_time', 'end_time', 'duration', 'partial_marking' , 'time_stamp')
-	fields = ('program', 'paper_name', 'paper_type', 'teacher_id', 'start_time', 'end_time' , 'duration', 'partial_marking')
+	fields = ('program', 'paper_name', 'paper_type', 'questions', 'teacher_id', 'start_time', 'end_time' , 'duration', 'partial_marking')
 
 admin.site.register(Paper, PaperAdmin)
 admin.site.register(PaperType, PaperTypeAdmin)

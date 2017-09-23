@@ -32,7 +32,6 @@ urlpatterns = [
     url(r'^paper/', include('paper.urls')),
     url(r'^chapter/', include('chapter.urls')),
     url(r'^question/', include('question.urls')),
-    url(r'^answer/', include('answer.urls')),
     url(r'^approval/', include('approval.urls')),
     url(r'^attempt/', include('attempt.urls')),
     url(r'^program/', include('program.urls')),

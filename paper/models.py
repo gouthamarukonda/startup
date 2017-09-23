@@ -1,10 +1,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from teacher.models import TeacherProfile
-from question.models import Question
-from program.models import Program, Standard
+
 from institute.models import Institute
+from program.models import Program, Standard
+from teacher.models import TeacherProfile
 
 PM_NO = '0'
 PM_YES = '1'
@@ -24,7 +24,6 @@ class PaperType(models.Model):
 	def __unicode__(self):
 		return unicode(self.type_id)
 
-
 class Paper(models.Model):
 
 	paper_id = models.AutoField("Paper ID", db_column = 'paper_id', primary_key = True)
@@ -34,7 +33,7 @@ class Paper(models.Model):
 	institutes = models.ManyToManyField(Institute, db_column = 'institute_ids')
 	standards = models.ManyToManyField(Standard)
 	teacher_id = models.ForeignKey(TeacherProfile, db_column = 'teacher_id', on_delete = models.CASCADE)
-	questions = models.ManyToManyField(Question, db_column = 'question_ids')
+	questions = models.ManyToManyField('question.Question')
 	start_time = models.DateTimeField(auto_now = False, blank = True, null = True)
 	end_time = models.DateTimeField(auto_now = False, blank = True, null = True)
 	duration = models.IntegerField("Duration", blank = True, default = 180)

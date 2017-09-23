@@ -9,18 +9,16 @@ import numpy as np
 from datetime import datetime
 from datetime import timedelta
 from django.contrib.auth.models import User
-from answer.models import Answer
 from chapter.models import Chapter, Subject
 from institute.models import Institute
 from institute.models2 import InstituteAdmin
 from paper.models import Paper, PaperType
-from question.models import Question
+from question.models import Question, Answer
 from student.models import StudentProfile, BoardOfEducation
 from teacher.models import TeacherProfile
 from userprofile.models import UserProfile, ROLE_ADMIN, ROLE_STUDENT, STATUS_APPROVED, ROLE_TEACHER, ROLE_INSTITUTE_ADMIN
 from program.models import Program, Standard
 from attempt.models import Attempt
-from answer.tools import evaluate_answer
 
 # create boards of education
 
@@ -384,6 +382,6 @@ for i in range(1,31):
 		answer.answer_array = ['C']
 	answer.time_taken += int(count)
 	answer.status = count % 3
-	answer.marks_obtained = evaluate_answer(attempt.paper, question, answer)
+	# answer.marks_obtained = evaluate_answer(attempt.paper, question, answer)
 	answer.save()
 	count = count + 1

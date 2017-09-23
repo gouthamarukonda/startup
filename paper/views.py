@@ -1,19 +1,14 @@
 import json
+from datetime import datetime
 
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
-from django.utils.dateparse import parse_datetime
-from datetime import datetime
-from django.contrib.admin.views.decorators import staff_member_required
 
-from question.models import Question
-from paper.models import Paper, PM_CHOICES, PaperType
-from userprofile.decorators import admin_required, teacher_required
-from program.models import Program
 from institute.models import Institute
+from paper.models import Paper, PM_CHOICES, PaperType
+from program.models import Program, Standard
+from userprofile.decorators import admin_required, teacher_required
+
 
 @csrf_exempt
 @teacher_required
@@ -41,7 +36,7 @@ def paper_create(request):
 			
 			if not len(standard_ids)==len(Standard.objects.filter(pk__in = standard_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Standard IDs are invalid or appear more than once"})
-				
+
 			paper = Paper()
 			paper.paper_name = request.POST.get("paper_name")
 			paper.program = Program.objects.get(program_id = request.POST.get("program_id"))
@@ -63,7 +58,6 @@ def paper_create(request):
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
 
 @csrf_exempt
 @teacher_required
@@ -87,7 +81,6 @@ def add_question(request):
 
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
 
 @csrf_exempt
 @admin_required
