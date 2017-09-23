@@ -30,32 +30,32 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INBUILT_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.humanize',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'django.contrib.humanize',
 ]
 
 PROJECT_APPS = [
-    'chapter',
-    'institute',
-    'student',
-    'teacher',
-    'userprofile',
-    'question',
-    'paper',
-    'answer',
-    'approval',
-    'attempt',
-    'program',
+	'chapter',
+	'institute',
+	'student',
+	'teacher',
+	'userprofile',
+	'question',
+	'paper',
+	'answer',
+	'approval',
+	'attempt',
+	'program',
 ]
 
 EXTERNAL_APPS = [
-    'imagekit',
-    'storages',
+	'imagekit',
+	'storages',
 ]
 
 INSTALLED_APPS = []
@@ -64,34 +64,34 @@ INSTALLED_APPS.extend(PROJECT_APPS)
 INSTALLED_APPS.extend(EXTERNAL_APPS)
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'portal.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, TEMPLATES_DIR)
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [
+			os.path.join(BASE_DIR, TEMPLATES_DIR)
+		],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+			],
+		},
+	},
 ]
 
 
@@ -101,18 +101,18 @@ WSGI_APPLICATION = 'portal.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 
@@ -136,7 +136,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '_staticroot_')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, '_staticfiles_'),
+	os.path.join(BASE_DIR, '_staticfiles_'),
 ]
 
 MEDIA_URL = '/media/'
@@ -149,6 +149,14 @@ DEFAULT_PROFILE_PICTURE_PATH = 'defaultprofilepicture.jpg'
 DEFAULT_PROFILE_PICTURE_URL = STATIC_URL + DEFAULT_PROFILE_PICTURE_PATH
 
 # SMTP Settings
+
+DEFAULT_FROM_EMAIL = 'sahilkonkyana@gmail.com'
+SERVER_EMAIL = 'sahilkonkyana@gmail.com'
+ADMINS = (
+	("Avinash", "avinashdec12@gmail.com"),
+	("Goutham", "gouthamarukonda@gmail.com"),
+	("Sahil", "sahilkonkyana@gmail.com"),
+)
 
 EMAIL_HOST_USER = 'THE ENTREPRENEURSHIP CELL, IIT BOMBAY'
 EMAIL_HOST_PASSWORD = 'TN-gk5v-JKf657uXbwe-7g'
@@ -164,13 +172,6 @@ EMAIL_SUBJECT_PREFIX = "[Startup]"
 # EMAIL_USE_TLS = True
 # EMAIL_SUBJECT_PREFIX = "[Startup]"
 
-SERVER_EMAIL = 'sahilkonkyana@gmail.com'
-ADMINS = [
-    ("Avinash", "avinashdec12@gmail.com"),
-    ("Goutham", "gouthamarukonda@gmail.com"),
-    ("Sahil", "sahilkonkyana@gmail.com"),
-]
-
 # S3 Settings
 
 AWS_ACCESS_KEY_ID = "AKIAJCL63DMXW6K6MAAQ"
@@ -183,6 +184,6 @@ AWS_QUERYSTRING_AUTH = False
 AWS_AUTO_CREATE_BUCKET = True
 AWS_S3_FILE_OVERWRITE = True
 AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
+	'CacheControl': 'max-age=86400',
 }
 # AWS_S3_SIGNATURE_VERSION = 's3v4'

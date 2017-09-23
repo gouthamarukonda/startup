@@ -1,0 +1,5 @@
+psql -h localhost -p 5433 -U sahil -d portal -c "DROP SCHEMA public CASCADE;"
+psql -h localhost -p 5433 -U sahil -d portal -c "CREATE SCHEMA public AUTHORIZATION sahil;"
+psql -h localhost -p 5433 -U sahil -d portal -c "GRANT ALL ON SCHEMA public TO sahil;"
+psql -h localhost -p 5433 -U sahil -d portal -c "GRANT ALL ON SCHEMA public TO public;"
+psql -h localhost -p 5433 -U sahil -d portal -c "COMMENT ON SCHEMA public IS 'standard public schema';"
