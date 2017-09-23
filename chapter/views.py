@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from chapter.models import Chapter, Subject
-from userprofile.decorators import teacher_required
+from userprofile.decorators import teacher_required, admin_required
 
 @csrf_exempt
 @teacher_required
@@ -29,7 +29,7 @@ def chapter_create(request):
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
-@teacher_required
+@admin_required
 def subject_create(request):
 	if request.method == 'POST':
 

@@ -85,6 +85,9 @@ def template_update_program(request):
 			if not request.POST.get("program_id"):
 				return JsonResponse({"status": False, "msg": "Program ID shouldn't be empty"})
 
+			if not Program.objects.filter(program_id = request.POST.get("subject_id")).exists():
+				return JsonResponse({"status": False, "msg": "Given Subject ID doesn't exist"})
+
 			if not request.POST.get("program_name"):
 				return JsonResponse({"status": False, "msg": "Program Name shouldn't be empty"})
 
@@ -135,22 +138,20 @@ def template_view_all_subjects(request):
 				"subject_name" : subject.subject_name,
 			}
 			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
+		return render(request, 'adminportal/subjects/view-subjects.html', {'resp' : resp})
 
 @csrf_exempt
 @admin_required
 def template_edit_subject(request, id):
 	if request.method == 'GET':
 		if not Subject.objects.filter(subject_id = id).exists():
-			return render(request, 'adminportal/index.html', {'resp' : "Subject ID doesn't exists", 'status' : False})
-		subject = Subject.objects.get(subject_id = id)
-		resp = []
-		odict={
-			"subject_id" : subject.subject_id,
-			"subject_name" : subject.subject_name,
+			return render(request, 'adminportal/subjects/edit-subject.html', {'resp' : "Subject ID doesn't exists", 'status' : False})
+		subject1 = Subject.objects.get(subject_id = id)
+		subject={
+			"subject_id" : subject1.subject_id,
+			"subject_name" : subject1.subject_name,
 		}
-		resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp, 'status' : True})
+		return render(request, 'adminportal/subjects/edit-subject.html', {'subject' : subject, 'status' : True})
 
 @csrf_exempt
 @admin_required
@@ -174,10 +175,16 @@ def template_delete_subject(request):
 def template_update_subject(request):
 	if request.method == 'POST':
 		try:
+			if not request.POST.get("subject_id"):
+				return JsonResponse({"status": False, "msg": "Subject ID shouldn't be empty"})
+				
 			if not request.POST.get("subject_name"):
 				return JsonResponse({"status": False, "msg": "Subject Name shouldn't be empty"})
 
-			subject = Subject.objects.get(subject_id=id)
+			if not Subject.objects.filter(subject_id = request.POST.get("subject_id")).exists():
+				return JsonResponse({"status": False, "msg": "Subject ID doesn't exists"})
+
+			subject = Subject.objects.get(subject_id = request.POST.get("subject_id"))
 			subject.subject_name = request.POST.get("subject_name")
 			try:
 				subject.save()
@@ -186,6 +193,12 @@ def template_update_subject(request):
 				return JsonResponse({"status": False, "msg": "Internal Server Error"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+@csrf_exempt
+@admin_required
+def template_add_subject(request):
+	if request.method == 'GET':
+		return render(request, 'adminportal/subjects/add-subject.html')
 
 
 
@@ -202,7 +215,7 @@ def template_view_all_institutes(request):
 			odict={
 				"institute_id" : institute.institute_id,
 				"institute_name" : institute.institute_name,
-				"programs" : program_list,
+				"program_list" : program_list,
 				"address" : institute.address,
 				"city" : institute.city,
 				"state" : institute.state,
@@ -210,7 +223,7 @@ def template_view_all_institutes(request):
 				"manager_name" : institute.manager_name,
 			}
 			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
+		return render(request, 'adminportal/institutes/view-institutes.html', {'resp' : resp})
 
 @csrf_exempt
 @admin_required
@@ -218,28 +231,26 @@ def template_edit_institute(request, id):
 	if request.method == 'GET':
 		if not Institute.objects.filter(institute_id = id).exists():
 			return render(request, 'adminportal/index.html', {'resp' : "Institute ID doesn't exists", 'status' : False})
-		institute = Institute.objects.get(institute_id = id)
-		resp = []
+		institute1 = Institute.objects.get(institute_id = id)
 		program_list = []
 		all_programs = []
-		for program in institute.programs.all():
+		for program in institute1.programs.all():
 			program_list.append((program.program_id, program.program_name))
 		for program in Program.objects.all():
 			all_programs.append((program.program_id, program.program_name))
 		program_complement_list = list(set(all_programs) - set(program_list))
-		odict={
-			"institute_id" : institute.institute_id,
-			"institute_name" : institute.institute_name,
-			"programs" : program_list,
-			"address" : institute.address,
-			"city" : institute.city,
-			"state" : institute.state,
-			"phone_no" : institute.phone_no,
-			"manager_name" : institute.manager_name,
+		institute={
+			"institute_id" : institute1.institute_id,
+			"institute_name" : institute1.institute_name,
+			"program_list" : program_list,
+			"address" : institute1.address,
+			"city" : institute1.city,
+			"state" : institute1.state,
+			"phone_no" : institute1.phone_no,
+			"manager_name" : institute1.manager_name,
 			"program_complement_list" : program_complement_list,
 		}
-		resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp, 'status' : True})
+		return render(request, 'adminportal/institutes/edit-institute.html', {'institute' : institute, 'status' : True})
 
 @csrf_exempt
 @admin_required
@@ -262,6 +273,7 @@ def template_delete_institute(request):
 @admin_required
 def template_update_institute(request):
 	if request.method == 'POST':
+		print request.POST
 		try:
 			if not request.POST.get("institute_name"):
 				return JsonResponse({"status": False, "msg": "Institute Name shouldn't be empty"})
@@ -274,11 +286,11 @@ def template_update_institute(request):
 			if not request.POST.get("program_list"):
 				return JsonResponse({"status": False, "msg": "Program List in Institute shouldn't be empty"})
 
-			program_ids = json.loads(request.POST.get("program_list"))["program_list"]
+			program_ids = request.POST.getlist("program_list")
 			if not len(program_ids)==len(Program.objects.filter(pk__in = program_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Program IDs are invalid or appear more than once"})
 
-			institute = Institute.objects.get(institute_id = id)
+			institute = Institute.objects.get(institute_id = request.POST.get("institute_id"))
 			institute.institute_name = request.POST.get("institute_name")
 			institute.address = request.POST.get("address")
 			institute.city = request.POST.get("city")
@@ -296,6 +308,19 @@ def template_update_institute(request):
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
+@csrf_exempt
+@admin_required
+def template_add_institute(request):
+	if request.method == 'GET':
+		resp = []
+		for program in Program.objects.all():
+			odict={
+				"program_id" : program.program_id,
+				"program_name" : program.program_name,
+			}
+			resp.append(odict)
+
+		return render(request, 'adminportal/institutes/add-institute.html', {'resp': resp})
 
 
 
@@ -315,10 +340,10 @@ def template_view_all_institute_admins(request):
 				"institute_admin_id" : institute_admin.user.user.username,
 				"institute_admin_name" : institute_admin.user.user.first_name + " " + 
 										institute_admin.user.user.last_name,
-				"institutes" : insti_list,
+				"institute_list" : insti_list,
 			}
 			resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp})
+		return render(request, 'adminportal/institute-admins/view-institute-admins.html', {'resp' : resp})
 
 @csrf_exempt
 @admin_required
@@ -327,29 +352,27 @@ def template_edit_institute_admin(request, id):
 		if not InstituteAdmin.objects.filter(user__user__username = id).exists():
 			return render(request, 'adminportal/index.html', {'resp' : "Institute Admin ID doesn't exists", 'status' : False})
 
-		institute_admin = InstituteAdmin.objects.get(user__user__username = id)
-		resp = []
-		insti_list = []
+		institute_admin1 = InstituteAdmin.objects.get(user__user__username = id)
+		institute_list = []
 		all_insti = []
-		for institute in institute_admin.institutes.all():
-			insti_list.append((institute.institute_id, institute.institute_name))
+		for institute in institute_admin1.institutes.all():
+			institute_list.append((institute.institute_id, institute.institute_name))
 		for institute in Institute.objects.all():
 			all_insti.append((institute.institute_id, institute.institute_name))
-		institute_complement_list = list(set(all_insti) - set(insti_list))
-		odict={
-			"username" : institute_admin.user.user.username,
-			"firstname" : institute_admin.user.user.first_name,
-			"lastname" : institute_admin.user.user.last_name,
-			"email" : institute_admin.user.address,
-			"gender" : institute_admin.user.gender,
-			"mobile" : institute_admin.user.mobile,
-			"dob" : institute_admin.user.dob,
-			"main_institute" : institute_admin.user.institute,
-			"institutes" : insti_list,
+		institute_complement_list = list(set(all_insti) - set(institute_list))
+		institute_admin={
+			"username" : institute_admin1.user.user.username,
+			"firstname" : institute_admin1.user.user.first_name,
+			"lastname" : institute_admin1.user.user.last_name,
+			"email" : institute_admin1.user.user.email,
+			"gender" : institute_admin1.user.gender,
+			"mobile" : institute_admin1.user.mobile,
+			"dob" : institute_admin1.user.dob,
+			"main_institute" : institute_admin1.user.institute,
+			"institute_list" : institute_list,
 			"institute_complement_list" : institute_complement_list,
 		}
-		resp.append(odict)
-		return render(request, 'adminportal/index.html', {'resp' : resp, 'status' : True})
+		return render(request, 'adminportal/institute-admins/edit-institute-admin.html', {'institute_admin' : institute_admin, 'status' : True})
 
 
 @csrf_exempt
@@ -379,6 +402,7 @@ def template_update_institute_admin(request):
 	if request.method == 'POST':
 
 		try:
+			id = request.POST.get("username")
 			if not request.POST.get("username"):
 				return JsonResponse({"status": False, "msg": "Username shouldn't be empty"})
 			if User.objects.filter(username = request.POST.get("username")).exists() and id != request.POST.get("username"):
@@ -391,7 +415,7 @@ def template_update_institute_admin(request):
 			if not request.POST.get("institute_list"):
 				return JsonResponse({"status": False, "msg": "Institute List in InstituteAdmin shouldn't be empty"})
 
-			institute_ids = json.loads(request.POST.get("institute_list"))["institute_list"]
+			institute_ids = request.POST.getlist("institute_list")
 			if not len(institute_ids)==len(Institute.objects.filter(pk__in = institute_ids)):
 				return JsonResponse({"status": False, "msg": "Some of the Institute IDs are invalid or appear more than once"})
 			

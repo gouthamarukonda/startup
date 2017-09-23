@@ -5,73 +5,37 @@
 <head>
 	<title>Limitless - Responsive Web Application Kit by Eugene Kopyov</title>
     {%  include "global_js_css_files.html" %}
-
     <!-- Theme JS files -->
-    <script type="text/javascript" src="{% static 'assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/core/libraries/jquery_ui/core.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/form_wizard/form.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/wizards/form_wizard/form_wizard.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/select2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/styling/uniform.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/core/libraries/jasny_bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/validation/validate.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
 
 	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
-	<script type="text/javascript" src="{% static 'assets/js/pages/datatables_advanced.js' %}"></script>
-	<script type="text/javascript" src="{% static 'assets/js/pages/datatables_api.js' %}"></script>
-{#	<script type="text/javascript" src="{% static 'assets/js/pages/dashboard.js' %}"></script>#}
+	<script type="text/javascript" src="{% static 'assets/js/pages/wizard_form.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/components_notifications_pnotify.js' %}"></script>
 	<!-- /theme JS files -->
-
 </head>
 
 <body class="navbar-bottom navbar-top">
-
-	<!-- Main navbar -->
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="../index.html"><img src="{% static 'assets/images/logo_light.png' %}" alt=""></a>
-
-			<ul class="nav navbar-nav visible-xs-block">
-				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-				<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-			</ul>
-		</div>
-
-		<div class="navbar-collapse collapse" id="navbar-mobile">
-			<ul class="nav navbar-nav">
-				<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
-			</ul>
-
-			<p class="navbar-text"><span class="label bg-success-400">Online</span></p>
-
-
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown dropdown-user">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<img src="{% static 'assets/images/demo/users/face11.jpg' %}" alt="">
-						<span>{{ user.first_name }} {{ user.last_name }}</span>
-						<i class="caret"></i>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><i class="icon-coins"></i> Change Password</a></li>
-						<li class="divider"></li>
-						<li><a href="/logout/"><i class="icon-switch2"></i> Logout</a></li>
-					</ul>
-				</li>
-			</ul>
-			<p class="nav navbar-nav navbar-right navbar-text"><i class="icon-comment-discussion position-left"></i>Support</p>
-		</div>
-	</div>
-	<!-- /main navbar -->
-
-
+    {%  include "main_navbar.html" %}
 	<!-- Page header -->
 	<div class="page-header">
 		<div class="page-header-content">
 			<div class="page-title">
-				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Dashboard <small>Hello, {{ user.username }}!</small></h4>
+                <h4 class="text-uppercase"><i class="icon-arrow-left52 position-left"></i><a href="/user/home/" style="color: #26a69a;">Home </a>/ <a href="/user/admin/view-institute-admins/" style="color: #26a69a;">View Institute Admins </a><span class="text-semibold small">/ Edit Institute Admin</span></h4>
 			</div>
 
+
 			<div class="heading-elements">
+
 				<div class="heading-btn-group">
-					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                    <a onclick="window.history.back();" style="color: #fff;"><button type="button" class="btn btn-info btn-sm"><i class="icon-circle-left2 position-left"></i><bold>Back</bold></button></a>
 				</div>
 			</div>
 		</div>
@@ -81,14 +45,11 @@
 
 	<!-- Page container -->
 	<div class="page-container">
-
 		<!-- Page content -->
 		<div class="page-content">
-
 			<!-- Main sidebar -->
 			<div class="sidebar sidebar-main">
 				<div class="sidebar-content">
-
 					<!-- User menu -->
 					<div class="sidebar-user">
 						<div class="category-content">
@@ -111,37 +72,55 @@
 					</div>
 					<!-- /user menu -->
 
-
 					<!-- Main navigation -->
 					<div class="sidebar-category sidebar-category-visible">
 						<div class="category-content no-padding">
 							<ul class="navigation navigation-main navigation-accordion">
 								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
 								    <li><a href="/user/home/"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-                                <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="Forms"></i></li>
-                                    <li><a href="/user/admin/view-subjects/"><i class="icon-copy"></i> <span>All Sujects</span></a></li>
-                                <li class="navigation-header"><span>Programs</span> <i class="icon-menu" title="Forms"></i></li>
-                                    <li class="active"><a href="/user/admin/view-programs/"><i class="icon-stack2"></i> <span>All Programs</span></a></li>
-                                <li class="navigation-header"><span>Institues</span> <i class="icon-menu" title="Forms"></i></li>
-                                     <li><a href="/user/admin/view-institutes/"><i class="icon-stack2"></i> <span>All Institutes</span></a></li>
-                                     <li><a href="/user/admin/view-institute-admins/"><i class="icon-stack2"></i> <span>Register Institute Admin</span></a></li>
+                                <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="Subjects"></i></li>
+                                    <li><a><i class="icon-book3"></i> <span>Subjects</span></a>
+	                                    <ul>
+	                                        <li><a href="/user/admin/view-subjects/"><i class="icon-eye2"></i>View All Subjects</a></li>
+	                                        <li><a href="/user/admin/add-subject/"><i class="icon-plus-circle2"></i>Add Subject</a></li>
+	                                    </ul>
+                                    </li>
+                                <li class="navigation-header"><span>Programs</span> <i class="icon-menu" title="Programs"></i></li>
+                                    <li><a><i class="icon-menu6"></i> <span>Programs</span></a>
+                                        <ul>
+                                            <li><a href="/user/admin/view-programs/"><i class="icon-eye2"></i>View All Programs</a></li>
+                                            <li><a href="/user/admin/add-program/"><i class="icon-plus-circle2"></i>Add Program</a></li>
+                                        </ul>
+                                    </li>
+                                <li class="navigation-header"><span>Institutes</span> <i class="icon-menu" title="Institutes"></i></li>
+                                    <li><a><i class="icon-stack2"></i> <span>Institutes</span></a>
+                                        <ul>
+                                            <li><a href="/user/admin/view-institutes/"><i class="icon-eye2"></i>View All Institutes</a></li>
+                                            <li><a href="/user/admin/add-institute/"><i class="icon-plus-circle2"></i>Add Institute</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="active"><a><i class="icon-users2"></i> <span>Institute Admin</span></a>
+                                        <ul>
+                                            <li><a href="/user/admin/view-institute-admins/"><i class="icon-eye2"></i>View All Institute Admins</a></li>
+                                            <li class="active"><a onclick="location.reload()"><i class="icon-pencil5"></i>Edit Institute Admin</a></li>
+                                            <li><a href="/user/admin/add-institute-admin/"><i class="icon-plus-circle2"></i>Add Institute Admin</a></li>
+                                        </ul>
+                                    </li>
 							</ul>
 						</div>
 					</div>
 					<!-- /main navigation -->
-
 				</div>
 			</div>
 			<!-- /main sidebar -->
 
-
-			<!-- Main content -->
+            <!-- Main content -->
 			<div class="content-wrapper">
-
-				<!-- Style combinations -->
-				<div class="panel panel-flat">
+                <!-- Wizard with validation -->
+                <div class="col-lg-8 col-lg-offset-2 col-xs-12">
+                    <div class="panel panel-white">
 					<div class="panel-heading">
-						<h5 class="panel-title text-center">All Programs</h5>
+						<h6 class="panel-title text-center text-uppercase text-bold">Institute Admins</h6>
 						<div class="heading-elements">
 							<ul class="icons-list">
 		                		<li><a data-action="collapse"></a></li>
@@ -151,60 +130,174 @@
 	                	</div>
 					</div>
 
-{#					<div class="panel-body">#}
-{#						The <code>DataTables</code> is a highly flexible tool, based upon the foundations of progressive enhancement, and will add advanced interaction controls to any HTML table. DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function. Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example. <strong>Datatables support all available table styling.</strong>#}
-{#					</div>#}
 
-                    <table class="table datatable-show-all datatable-column-search-inputs table-bordered table-striped table-hover datatable-complex-header">
-						<thead>
-	                        <tr>
-                                <th>ID</th>
-	                            <th>Program Name</th>
-	                            <th>Subjects</th>
-	                            <th>Edit/ Delete</th>
-                                <th style="display: none;"></th>
-							    <th style="display: none;"></th>
-                            </tr>
-						</thead>
-						<tbody>
-							{%  for i in resp %}
-                                <tr>
-                                    <td>{{ i.program_id }}</td>
-                                    <td>{{ i.program_name }}</td>
-                                    <td>
-                                        {% for j in i.subject_list %}
-                                            {{ j }} <br>
-                                        {% endfor %}
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-sm"><a href="/user/admin/edit-program/{{ i.program_id }}/" style="color: #fff;"><bold>Edit</bold></a><i class="icon-play3 position-right"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm"><a href="/user/admin/edit-program/{{ i.program_id }}/" style="color: #fff;"><bold>Delete</bold></a><i class="icon-play3 position-right"></i></button>
-                                    </td>
-                                    <td style="display: none; visibility: hidden;"></td>
-                                    <td style="display: none; visibility: hidden;"></td>
-                                 </tr>
-                            {% endfor %}
-						</tbody>
-						<tfoot>
-							<tr>
-				                <td></td>
-				                <td></td>
-				                <td></td>
-                                <td></td>
-				                <td style="display: none;"></td>
-                                <td style="display: none;"></td>
-				            </tr>
-						</tfoot>
-					</table>
-				</div>
-				<!-- /style combinations -->
-			</div>
-			<!-- /main content -->
+                	<form class="form-validation" enctype='application/json' method="POST" action="" id="form1">
+						<fieldset class="step" id="validation-step1">
+							<h6 class="form-wizard-title text-semibold">
+								<span class="form-wizard-count"><i class="icon-pencil5"></i></span>
+								Edit Institute Admin- {{ institute_admin.username|title }}
+								<small class="display-block">All feilds are required</small>
+							</h6>
+
+							<div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-bold">Username: <span class="text-danger">*</span></label>
+                                        <input type="text" readonly name="username" class="form-control required" placeholder="Institute Admin" value="{{ institute_admin.username }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-bold">Email: <span class="text-danger">*</span></label>
+                                        <input type="text" name="email" class="form-control required" placeholder="Email@gmail.com" value="{{ institute_admin.email }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                            	<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-bold">First Name: <span class="text-danger">*</span></label>
+                                        <input type="text" name="firstname" class="form-control required" placeholder="First Name" value="{{ institute_admin.firstname }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+	                                <div class="form-group">
+	                                    <label class="text-bold">Last Name: <span class="text-danger">*</span></label>
+	                                    <input type="text" name="lastname" class="form-control required" placeholder="Last Name" value="{{ institute_admin.lastname }}">
+	                                </div>
+	                            </div>
+							</div>
+                            <div class="row">
+                                <div class="col-md-6">
+									<div class="form-group">
+										<label class="text-bold">Select Institutes: <span class="text-danger">*</span></label>
+										<select onchange="myfunc()" data-placeholder="Select position" multiple="multiple" class="select required" name="institute_list">
+											<option></option>
+                                            {% for institute_id, institute_name in institute_admin.institute_complement_list %}
+                                                <option value="{{ institute_id }}">{{ institute_name }}</option>
+                                            {%  endfor %}
+                                            {% for institute_id, institute_name in institute_admin.institute_list %}
+                                                <option value="{{ institute_id }}" selected="selected">{{ institute_name }}</option>
+                                            {%  endfor %}
+										</select>
+									</div>
+								</div>
+								<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="text-bold">Moblie Number: <span class="text-danger">*</span></label>
+                                        <input type="text" name="mobile" class="form-control required" placeholder="+91-9876543210" data-mask="+99-9999999999" value="{{ institute_admin.mobile }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                            	<div class="col-md-6">
+									<div class="form-group">
+										<label class="text-bold">Date of Birth: <span class="text-danger">*</span></label>
+										<div class="input-group">
+										<span class="input-group-addon"><i class="icon-calendar3"></i></span>
+										<input type="text" name="dob" class="form-control required" id="anytime-month-numeric" value="{{ institute_admin.dob }}">
+										</div>
+									</div>
+								</div>
+                            	<div class="col-md-6">
+									<div class="form-group">
+										<label class="text-bold">Gender: <span class="text-danger">*</span></label>
+										<div class="radio">
+											<label class="text-bold">
+												<input id="gender_male" value="0" type="radio" name="gender" class="styled required">
+												Male
+											</label>
+										</div>
+
+										<div class="radio">
+											<label class="text-bold">
+												<input id="gender_female" value="1" type="radio" name="gender" class="styled">
+												Female
+											</label>
+										</div>
+
+										<div class="radio">
+											<label class="text-bold">
+												<input id="gender_other" value="2" type="radio" name="gender" class="styled">
+												Other
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<div class="form-wizard-actions">
+{#							<button class="btn btn-default" id="validation-back" type="reset">Back</button>#}
+							<button class="btn btn-info" id="validation-next" type="submit">Submit <i class="icon-paperplane"></i></button>
+						</div>
+					</form>
+	            </div>
+                </div>
+	            <!-- /wizard with validation -->
+
+            </div>
 		</div>
 		<!-- /page content -->
 	</div>
 	<!-- /page container -->
     {%  include 'footer_html.html' %}
+    <script>
+        function myfunc() {
+            $('#form1').validate().checkForm();
+        }
+        $('#form1').submit(function(e)
+	    {
+	    	e.preventDefault();
+	    	if($("#form1").validate().form()) {
+		        $.ajax({
+		            type: 'POST',
+		            url: '/user/admin/update-institute/',
+		            data: $("#form1").serialize(),
+		            success: function(response) {
+			            if(response.status === true)
+		                {
+                            $("#validation-next").addClass('btn-success').removeClass('btn-info').removeClass('btn-danger');
+                            $("#validation-next").html('Saved <i class="icon-check"></i>');
+		                	new PNotify({
+					            title: 'Success!',
+					            text: response.msg,
+					            addclass: 'alert alert-success alert-styled-right',
+					            type: 'success'
+					        });
+		                	setTimeout( function(){
+                                $("#validation-next").html('Submit <i class="icon-paperplane"></i>');
+                                $("#validation-next").removeClass('btn-success').addClass('btn-info').removeClass('btn-danger');
+                            }, 3000 );
+		                }
+		                else{
+                            $("#validation-next").addClass('btn-danger').removeClass('btn-info').removeClass('btn-success');
+                            $("#validation-next").html('Not Saved, Try again <i class="icon-alert"></i>');
+		                	new PNotify({
+					            title: 'Registration Unsuccessful',
+					            text: response.msg,
+					            addclass: 'alert alert-danger alert-styled-right',
+					            type: 'error'
+					        });
+		                	setTimeout( function(){
+                                $("#validation-next").html('Submit <i class="icon-paperplane"></i>');
+                                $("#validation-next").removeClass('btn-danger').addClass('btn-info').removeClass('btn-success');
+                            }, 3000 );
+		                }
+		            }
+		        });
+		    }
+		    else{
+		    	new PNotify({
+		            title: 'Save Unsuccessful',
+		            text: 'Validation error!',
+		            addclass: 'alert alert-danger alert-styled-right',
+		            type: 'error'
+		        });
+		    }
+	    });
+
+    </script>
 
 </body>
 </html>

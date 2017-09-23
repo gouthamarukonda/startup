@@ -4,3 +4,4 @@
 migrations/
 localsettings.py
 localfiles/
+_data_/resetdatabase.sh

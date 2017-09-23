@@ -21,6 +21,8 @@ admin_urlpatterns = [
 	url(r'^delete-institute/$', views_admin.template_delete_institute),
 	url(r'^delete-institute-admin/$', views_admin.template_delete_institute_admin),
 	url(r'^add-program/$', views_admin.template_add_program),
+	url(r'^add-subject/$', views_admin.template_add_subject),
+	url(r'^add-institute/$', views_admin.template_add_institute),
 ]
 
 urlpatterns = [

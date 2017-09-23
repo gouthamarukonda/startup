@@ -21,37 +21,37 @@ from program.models import Program
 def institute_register(request):
 	if request.method == 'POST':
 
+		# try:
+		if not request.POST.get("institute_name"):
+			return JsonResponse({"status": False, "msg": "Institute Name shouldn't be empty"})
+		if not request.POST.get("address"):
+			return JsonResponse({"status": False, "msg": "Address cannot be empty"})
+		if not request.POST.get("city"):
+			return JsonResponse({"status": False, "msg": "City can't be empty"})
+		if not request.POST.get("state"):
+			return JsonResponse({"status": False, "msg": "State can't be empty"})
+
+		program_ids = request.POST.getlist("program_list")
+		if not len(program_ids)==len(Program.objects.filter(pk__in = program_ids)):
+			return JsonResponse({"status": False, "msg": "Some of the Program IDs are invalid or appear more than once"})
+
+		institute = Institute()
+		institute.institute_name = request.POST.get("institute_name")
+		institute.address = request.POST.get("address")
+		institute.city = request.POST.get("city")
+		institute.state = request.POST.get("state")
+		institute.phone_no = request.POST.get("phone_no")
+		institute.manager_name = request.POST.get("manager_name")
+
 		try:
-			if not request.POST.get("institute_name"):
-				return JsonResponse({"status": False, "msg": "Institute Name shouldn't be empty"})
-			if not request.POST.get("address"):
-				return JsonResponse({"status": False, "msg": "Address cannot be empty"})
-			if not request.POST.get("city"):
-				return JsonResponse({"status": False, "msg": "City can't be empty"})
-			if not request.POST.get("state"):
-				return JsonResponse({"status": False, "msg": "State can't be empty"})
-
-			program_ids = json.loads(request.POST.get("program_list"))["program_list"]
-			if not len(program_ids)==len(Program.objects.filter(pk__in = program_ids)):
-				return JsonResponse({"status": False, "msg": "Some of the Program IDs are invalid or appear more than once"})
-
-			institute = Institute()
-			institute.institute_name = request.POST.get("institute_name")
-			institute.address = request.POST.get("address")
-			institute.city = request.POST.get("city")
-			institute.state = request.POST.get("state")
-			institute.phone_no = request.POST.get("phone_no")
-			institute.manager_name = request.POST.get("manager_name")
-
-			try:
-				institute.save()
-				institute.programs.add(*map(int, program_ids))
-				return JsonResponse({"status": True, "msg": "Institute Registered Successfully"})
-			except:
-				return JsonResponse({"status": False, "msg": "Internal Server Error"})
-
+			institute.save()
+			institute.programs.add(*map(int, program_ids))
+			return JsonResponse({"status": True, "msg": "Institute Registered Successfully"})
 		except:
 			return JsonResponse({"status": False, "msg": "Internal Server Error"})
+
+		# except:
+		# 	return JsonResponse({"status": False, "msg": "Internal Server Error"})
 
 @csrf_exempt
 @admin_required

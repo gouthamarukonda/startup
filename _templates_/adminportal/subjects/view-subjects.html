@@ -10,68 +10,31 @@
     <script type="text/javascript" src="{% static 'assets/js/plugins/tables/datatables/datatables.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/plugins/forms/selects/select2.min.js' %}"></script>
 
-	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/datatables_advanced.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/pages/datatables_api.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/plugins/notifications/pnotify.min.js' %}"></script>
+
+	<script type="text/javascript" src="{% static 'assets/js/core/app.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/pages/components_notifications_pnotify.js' %}"></script>
 {#	<script type="text/javascript" src="{% static 'assets/js/pages/dashboard.js' %}"></script>#}
 	<!-- /theme JS files -->
 
 </head>
 
 <body class="navbar-bottom navbar-top">
-
-	<!-- Main navbar -->
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="../index.html"><img src="{% static 'assets/images/logo_light.png' %}" alt=""></a>
-
-			<ul class="nav navbar-nav visible-xs-block">
-				<li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-				<li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
-			</ul>
-		</div>
-
-		<div class="navbar-collapse collapse" id="navbar-mobile">
-			<ul class="nav navbar-nav">
-				<li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
-			</ul>
-
-			<p class="navbar-text"><span class="label bg-success-400">Online</span></p>
-
-
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown dropdown-user">
-					<a class="dropdown-toggle" data-toggle="dropdown">
-						<img src="{% static 'assets/images/demo/users/face11.jpg' %}" alt="">
-						<span>{{ user.first_name }} {{ user.last_name }}</span>
-						<i class="caret"></i>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><i class="icon-coins"></i> Change Password</a></li>
-						<li class="divider"></li>
-						<li><a href="/logout/"><i class="icon-switch2"></i> Logout</a></li>
-					</ul>
-				</li>
-			</ul>
-			<p class="nav navbar-nav navbar-right navbar-text"><i class="icon-comment-discussion position-left"></i>Support</p>
-		</div>
-	</div>
-	<!-- /main navbar -->
-
-
+    {%  include "main_navbar.html" %}
 	<!-- Page header -->
 	<div class="page-header">
 		<div class="page-header-content">
 			<div class="page-title">
-				<h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Home</span> - Dashboard <small>Hello, {{ user.username }}!</small></h4>
+                <h4 class="text-uppercase"><i class="icon-arrow-left52 position-left"></i><a href="/user/home/" style="color: #26a69a;">Home </a><span class="text-semibold small">/ View Subjects</span></h4>
 			</div>
 
+
 			<div class="heading-elements">
+
 				<div class="heading-btn-group">
-					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-bars-alt text-primary"></i><span>Statistics</span></a>
-					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calculator text-primary"></i> <span>Invoices</span></a>
-					<a href="#" class="btn btn-link btn-float has-text"><i class="icon-calendar5 text-primary"></i> <span>Schedule</span></a>
+                    <a onclick="window.history.back();" style="color: #fff;"><button type="button" class="btn btn-info btn-sm"><i class="icon-circle-left2 position-left"></i><bold>Back</bold></button></a>
 				</div>
 			</div>
 		</div>
@@ -81,14 +44,11 @@
 
 	<!-- Page container -->
 	<div class="page-container">
-
 		<!-- Page content -->
 		<div class="page-content">
-
 			<!-- Main sidebar -->
 			<div class="sidebar sidebar-main">
 				<div class="sidebar-content">
-
 					<!-- User menu -->
 					<div class="sidebar-user">
 						<div class="category-content">
@@ -111,25 +71,43 @@
 					</div>
 					<!-- /user menu -->
 
-
 					<!-- Main navigation -->
 					<div class="sidebar-category sidebar-category-visible">
 						<div class="category-content no-padding">
 							<ul class="navigation navigation-main navigation-accordion">
 								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
 								    <li><a href="/user/home/"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
-                                <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="Forms"></i></li>
-                                    <li><a href="/user/admin/view-subjects/"><i class="icon-copy"></i> <span>All Sujects</span></a></li>
-                                <li class="navigation-header"><span>Programs</span> <i class="icon-menu" title="Forms"></i></li>
-                                    <li class="active"><a href="/user/admin/view-programs/"><i class="icon-stack2"></i> <span>All Programs</span></a></li>
-                                <li class="navigation-header"><span>Institues</span> <i class="icon-menu" title="Forms"></i></li>
-                                     <li><a href="/user/admin/view-institutes/"><i class="icon-stack2"></i> <span>All Institutes</span></a></li>
-                                     <li><a href="/user/admin/view-institute-admins/"><i class="icon-stack2"></i> <span>Register Institute Admin</span></a></li>
+                                <li class="navigation-header"><span>Subjects</span> <i class="icon-menu" title="Subjects"></i></li>
+                                    <li class="active"><a><i class="icon-book3"></i> <span>Subjects</span></a>
+                                    <ul>
+                                        <li class="active"><a href="/user/admin/view-subjects/"><i class="icon-eye2"></i>View All Subjects</a></li>
+                                        <li><a href="/user/admin/add-subject/"><i class="icon-plus-circle2"></i>Add Subject</a></li>
+                                    </ul>
+                                    </li>
+                                <li class="navigation-header"><span>Programs</span> <i class="icon-menu" title="Programs"></i></li>
+                                    <li><a><i class="icon-menu6"></i> <span>Programs</span></a>
+                                        <ul>
+                                            <li><a href="/user/admin/view-programs/"><i class="icon-eye2"></i>View All Programs</a></li>
+                                            <li><a href="/user/admin/add-program/"><i class="icon-plus-circle2"></i>Add Program</a></li>
+                                        </ul>
+                                    </li>
+                                <li class="navigation-header"><span>Institutes</span> <i class="icon-menu" title="Institutes"></i></li>
+                                    <li><a><i class="icon-stack2"></i> <span>Institutes</span></a>
+                                        <ul>
+                                            <li><a href="/user/admin/view-institutes/"><i class="icon-eye2"></i>View All Institutes</a></li>
+                                            <li><a href="/user/admin/add-institute/"><i class="icon-plus-circle2"></i>Add Institute</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a><i class="icon-users2"></i> <span>Institute Admin</span></a>
+                                        <ul>
+                                            <li><a href="/user/admin/view-institute-admins/"><i class="icon-eye2"></i>View All Institute Admins</a></li>
+                                            <li><a href="/user/admin/add-institute-admin/"><i class="icon-plus-circle2"></i>Add Institute Admin</a></li>
+                                        </ul>
+                                    </li>
 							</ul>
 						</div>
 					</div>
 					<!-- /main navigation -->
-
 				</div>
 			</div>
 			<!-- /main sidebar -->
@@ -137,11 +115,11 @@
 
 			<!-- Main content -->
 			<div class="content-wrapper">
-
 				<!-- Style combinations -->
 				<div class="panel panel-flat">
 					<div class="panel-heading">
-						<h5 class="panel-title text-center">All Programs</h5>
+						<h2 class="panel-title text-center">All Subjects</h2>
+
 						<div class="heading-elements">
 							<ul class="icons-list">
 		                		<li><a data-action="collapse"></a></li>
@@ -149,37 +127,36 @@
 		                		<li><a data-action="close"></a></li>
 		                	</ul>
 	                	</div>
-					</div>
+                    </div>
+                     <div class="text-right" style="margin-right: 30px;">
+                         <button onclick="location.href = '/user/admin/add-subject/';" type="button" class="btn btn-success btn-sm"><bold>Add New Subject</bold><i class="icon-plus-circle2 position-right"></i></button>
+                     </div>
 
 {#					<div class="panel-body">#}
 {#						The <code>DataTables</code> is a highly flexible tool, based upon the foundations of progressive enhancement, and will add advanced interaction controls to any HTML table. DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function. Searching, ordering, paging etc goodness will be immediately added to the table, as shown in this example. <strong>Datatables support all available table styling.</strong>#}
 {#					</div>#}
 
-                    <table class="table datatable-show-all datatable-column-search-inputs table-bordered table-striped table-hover datatable-complex-header">
+                    <table class="table datatable-button-init-basic datatable-show-all datatable-column-search-inputs table-bordered table-striped table-hover datatable-complex-header">
 						<thead>
 	                        <tr>
                                 <th>ID</th>
-	                            <th>Program Name</th>
-	                            <th>Subjects</th>
+	                            <th>Subject Name</th>
 	                            <th>Edit/ Delete</th>
+	                            <th style="display: none;"></th>
                                 <th style="display: none;"></th>
 							    <th style="display: none;"></th>
                             </tr>
 						</thead>
 						<tbody>
 							{%  for i in resp %}
-                                <tr>
-                                    <td>{{ i.program_id }}</td>
-                                    <td>{{ i.program_name }}</td>
+                                <tr id="{{ i.subject_id }}">
+                                    <td>{{ i.subject_id }}</td>
+                                    <td>{{ i.subject_name }}</td>
                                     <td>
-                                        {% for j in i.subject_list %}
-                                            {{ j }} <br>
-                                        {% endfor %}
+                                        <a href="/user/admin/edit-subject/{{ i.subject_id }}/" style="color: #fff;"><button type="button" class="btn btn-info btn-sm"><bold>Edit</bold><i class="icon-pencil7 position-right"></i></button></a>
+                                        <button type="button" onclick="myfunc({{ i.subject_id }})" class="btn btn-danger btn-sm pnotify-confirm-delete"><bold>Delete</bold><i class="icon-cross position-right"></i></button>
                                     </td>
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-sm"><a href="/user/admin/edit-program/{{ i.program_id }}/" style="color: #fff;"><bold>Edit</bold></a><i class="icon-play3 position-right"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm"><a href="/user/admin/edit-program/{{ i.program_id }}/" style="color: #fff;"><bold>Delete</bold></a><i class="icon-play3 position-right"></i></button>
-                                    </td>
+                                    <td style="display: none; visibility: hidden;"></td>
                                     <td style="display: none; visibility: hidden;"></td>
                                     <td style="display: none; visibility: hidden;"></td>
                                  </tr>
@@ -190,7 +167,7 @@
 				                <td></td>
 				                <td></td>
 				                <td></td>
-                                <td></td>
+                                <td style="display: none;"></td>
 				                <td style="display: none;"></td>
                                 <td style="display: none;"></td>
 				            </tr>
@@ -205,6 +182,78 @@
 	</div>
 	<!-- /page container -->
     {%  include 'footer_html.html' %}
+    <script>
+        function myfunc(e) {
+            // Setup
+            var notice = new PNotify({
+                title: 'Confirmation',
+                text: '<p>Are you sure you want to delete the subject?</p>',
+                hide: false,
+                type: 'warning',
+                confirm: {
+                    confirm: true,
+                    buttons: [
+                        {
+                            text: 'Yes',
+                            addClass: 'btn btn-sm btn-success'
+                        },
+                        {
+                            addClass: 'btn btn-sm btn-danger'
+                        }
+                    ]
+                },
+                buttons: {
+                    closer: false,
+                    sticker: false
+                },
+                history: {
+                    history: false
+                }
+            })
 
+            // On confirm
+            notice.get().on('pnotify.confirm', function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/admin/delete-subject/',
+                    data:{
+                        subject_id : e
+                    },
+                    success: function(response) {
+                      // alert(response.status);
+                        if(response.status){
+                            new PNotify({
+                                title: 'Confirmation',
+                                text: response.msg,
+                                addclass: 'alert alert-success alert-styled-right',
+                                type: 'success'
+                            });
+                            setTimeout( function(){
+                                location.reload();
+                            }, 1500 );
+                        }
+                        else{
+                            new PNotify({
+                                title: 'Some Issue!',
+                                text: response.msg,
+                                addclass: 'alert alert-danger alert-styled-right',
+                                type: 'error'
+                            });
+                        }
+                    }
+                });
+            })
+
+            // On cancel
+            notice.get().on('pnotify.cancel', function() {
+                new PNotify({
+                    title: 'Changed your mind ?',
+                    text: 'Delete Aborted',
+                    addclass: 'alert alert-danger alert-styled-right',
+                    type: 'error'
+                });
+            });
+        }
+    </script>
 </body>
 </html>
