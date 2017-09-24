@@ -1,11 +1,18 @@
 import os
+
+import numpy as np
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "portal.settings.localsettings")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
-import numpy as np
 
+from question.subtypes.integertype.models import IntegerTypeQuestion, IntegerTypeAnswer
+from question.subtypes.integertype.tools import evaluate_integer_type_answer
+from question.subtypes.multiplechoice.models import MultipleChoiceQuestion, MultipleChoiceAnswer
+from question.subtypes.multiplechoice.tools import evaluate_multiple_choice_answer
+from question.subtypes.subjective.models import SubjectiveAnswer
 from datetime import datetime
 from datetime import timedelta
 from django.contrib.auth.models import User
@@ -305,11 +312,11 @@ for name in Paper_name:
 
 # create question
 
-Q_type = ['0', '1', '2', '3']
+Q_type = ['0', '1', '2']
 complexity = ['0', '1', '2', '3', '4']
 sample_question = ['if A=90 deg , then sinA= ?', 'if A=90 deg , then cosA= ?', 'if A=90 deg , then tanA= ?', 'if A=90 deg , then cotA= ?', 'if A=90 deg , then secA= ?']
-sample_solution = [0,1,2,3,4]
-count = 1
+sample_solution = [0,1,2,3,69]
+count = 0
 
 for i in sample_question:
 	for j in range(6):
@@ -326,26 +333,23 @@ for i in sample_question:
 			temp = sample_chapter_GK
 		question = Question()
 		question.chapter = Chapter.objects.get(chapter_name = temp[count % 5])
-		question.question_type = Q_type[count % 4]
+		question.question_type = Q_type[count % 3]
 		question.question = sample_question[count % 5]
-		question.solution = sample_solution[count % 4]
+		question.solution = sample_solution[count % 5]
 		question.complexity = complexity[count % 5]
 		question.teacher = TeacherProfile.objects.get(user__user__username = sample_teacher_ids[count % 5])
 		question.marks_positive = 4
 		question.marks_negative = -1
-		if question.question_type == '3':
-			question.int_answer = sample_solution[count % 5]
-		elif question.question_type == '0':
-			question.options =  [["A", "0", "0"], ["B", "1", "1"], ["C", "1", "2"], ["D", "0", "3"]]
-		else:
-			question.options =  [["A", "0", "0"], ["B", "0", "1"], ["C", "1", "2"], ["D", "0", "3"]]
 		question.save()
+		if question.question_type == '1':
+			question.integertypequestion = IntegerTypeQuestion()
+			question.integertypequestion.int_answer = sample_solution[count % 5]
+			question.integertypequestion.save()
+		elif question.question_type == '0':
+			question.multiplechoicequestion = MultipleChoiceQuestion()
+			question.multiplechoicequestion.options =  [["A", "0", "0"], ["B", "1", "1"], ["C", "1", "2"], ["D", "0", "3"]]
+			question.multiplechoicequestion.save()
 		count = count + 1
-		# mapping = Mapping()
-		# mapping.paper = Paper.objects.get(paper_name = Paper_name[count % 5])
-		# mapping.question = question
-		# mapping.save()
-
 
 # create attempt
 
@@ -373,15 +377,21 @@ for i in range(1,31):
 		answer = Answer.objects.get(question = question, attempt = attempt)
 	else:
 		answer = Answer(question = question, attempt = attempt)
-
-	if question.question_type == '3':
-		answer.int_answer = sample_solution[count % 5]
-	elif question.question_type == '0':
-		answer.answer_array = ['C']
-	else:
-		answer.answer_array = ['C']
 	answer.time_taken += int(count)
 	answer.status = count % 3
-	# answer.marks_obtained = evaluate_answer(attempt.paper, question, answer)
 	answer.save()
+	if question.question_type == '1':
+		answer.integertypeanswer = IntegerTypeAnswer()
+		answer.integertypeanswer.int_answer = sample_solution[count % 5]
+		answer.integertypeanswer.save()
+		evaluate_integer_type_answer(answer)
+	elif question.question_type == '0':
+		answer.multiplechoiceanswer = MultipleChoiceAnswer()
+		answer.multiplechoiceanswer.answer_array = ['C']
+		answer.multiplechoiceanswer.save()
+		evaluate_multiple_choice_answer(answer)
+	elif question.question_type == '2':
+		answer.subjectiveanswer = SubjectiveAnswer()
+		answer.subjectiveanswer.subjective_answer = "Andromeda"
+		answer.subjectiveanswer.save()
 	count = count + 1
